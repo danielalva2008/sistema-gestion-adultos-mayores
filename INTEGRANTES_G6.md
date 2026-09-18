@@ -1,12 +1,12 @@
-# Grupo 06 — Actividades
+Módulo de Actividades - Grupo 6
 
-## Rama de trabajo
+Desarrollo del CRUD para la gestión de Actividades del Sistema de Residencia para Adultos Mayores (Curso: Desarrollo de Plataformas).
 
-`dev/grupo6`
+👥 Integrantes
 
 Abarca Melendez Luis Marcelo
 
-Farroñan Quiñones Alex Josué
+Farroñan Quiñones Alex Josue
 
 Lopez Lopez Jheremy Llair
 
