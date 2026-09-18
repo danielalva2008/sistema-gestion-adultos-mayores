@@ -1,17 +1,18 @@
-Módulo de Actividades - Grupo 6
+## Módulo de Actividades - Grupo 6
 
 Desarrollo del CRUD para la gestión de Actividades del Sistema de Residencia para Adultos Mayores (Curso: Desarrollo de Plataformas).
 
-👥 Integrantes
+## 👥 Integrantes:
 
-Abarca Melendez Luis Marcelo
 
-Farroñan Quiñones Alex Josue
+-Abarca Melendez Luis Marcelo
 
-Lopez Lopez Jheremy Llair
+-Farroñan Quiñones Alex Josue
 
-Lopez Tuesta Julio Cesar
+-Lopez Lopez Jheremy Llair
 
-Meza Villacorta Jhohan Lizandro
+-Lopez Tuesta Julio Cesar
 
-Vargas Cordova Diego Arnold
+-Meza Villacorta Jhohan Lizandro
+
+-Vargas Cordova Diego Arnold
