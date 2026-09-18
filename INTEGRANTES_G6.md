@@ -1,3 +1,9 @@
+# Grupo 06 — Actividades
+
+## Rama de trabajo
+
+`dev/grupo6`
+
 Abarca Melendez Luis Marcelo
 
 Farroñan Quiñones Alex Josué
