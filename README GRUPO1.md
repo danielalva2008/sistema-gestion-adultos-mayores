@@ -1,13 +1,6 @@
 # Grupo 1
 
-## Integrantes
 
-- Roberto Ynga Vargas
-- Leydi Puerta Culqui
-- Lilian Janet Huaman Huaman
-- Frank Salon Trigoso
-- Valentín Fernández Campos
-- Jheison Ramos Becerra
 
 ## Proyecto
 
@@ -26,4 +19,3 @@ Repositorio desarrollado por el **Grupo 1** como parte de las actividades acadé
 
 ---
 
-**Grupo 1**
