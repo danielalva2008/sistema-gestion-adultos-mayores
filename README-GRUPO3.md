@@ -10,9 +10,9 @@ CRUD de habitaciones, basado principalmente en la tabla `habitaciones` de la bas
 
 ## Integrantes
 
-- Dangelo Emanuel
-- Chichipe Jhenuar
-- Loja Rayan
-- Marreros Miguel
-- Bustamante Jean
-- Perez Johan
+- Salon Ynga Dangelo Emanuel
+- Chichipe Huaman Jhenuar
+- Loja Alvarado Rayan Emilio
+- Marreros Cortegana Miguel Angel
+- Bustamante Vela Jean Frank
+- Perez Silva Jhohan
