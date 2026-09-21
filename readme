@@ -1,144 +1,17 @@
+Módulo de Habitaciones – Grupo 03
 Sistema de Gestión de Residencia para Adultos Mayores
-Desarrollo de un módulo CRUD en PHP + MySQL (XAMPP) por grupo
-Curso	Desarrollo de Plataformas
-Modalidad	Trabajo grupal (6 grupos de 6 integrantes)
-Tecnología	PHP 8.x + MySQL 8.x + XAMPP
-Repositorio	github.com/danielalva2008/sistema-gestion-adultos-mayores
-Base de datos	database.sql (sistema_residencia)
- 
-1. Introducción
-El presente documento formula la actividad grupal del curso Desarrollo de Plataformas, orientada a construir un sistema web de gestión para una residencia de adultos mayores (Centro Integral de Atención al Adulto Mayor, CIAM). El sistema se apoya en una base de datos relacional (database.sql) ya diseñada para MySQL/XAMPP, con datos completamente sintéticos, de modo que ningún estudiante trabaje con información personal real.
-La estructura de tablas toma como referencia campos típicos de datasets públicos peruanos de CIAM (por ejemplo, el dataset de beneficiarios CIAM de la Municipalidad de Pueblo Libre, publicado bajo licencia Open Data Commons Attribution) y se inspira en el catálogo de actividades del CIAM de San Isidro para modelar la tabla de actividades. Estas fuentes se usan únicamente como referencia conceptual del dominio; todos los registros de prueba incluidos en el script SQL son ficticios.
-A partir de este modelo, cada grupo desarrollará el módulo CRUD (Crear, Leer, Actualizar, Eliminar) correspondiente a una parte del sistema, trabajando de manera colaborativa mediante Git y GitHub sobre un repositorio común.
-2. Objetivos
-2.1 Objetivo general
-Diseñar e implementar, en equipo, un sistema web modular de gestión para una residencia de adultos mayores, aplicando el ciclo completo de un CRUD sobre una base de datos relacional y un flujo de trabajo colaborativo con control de versiones.
-2.2 Objetivos específicos
-•	Interpretar un modelo entidad-relación ya construido e identificar las tablas relevantes para el módulo asignado.
-•	Redactar y validar historias de usuario como insumo para el desarrollo funcional.
-•	Implementar formularios y consultas SQL parametrizadas para las operaciones Crear, Leer, Actualizar y Eliminar.
-•	Aplicar buenas prácticas de trabajo colaborativo en Git (branches, commits, Pull Requests).
-•	Sustentar las decisiones técnicas y de diseño tomadas por el grupo.
-3. Descripción general del sistema
-El sistema sistema_residencia contiene 10 tablas relacionadas: roles, usuarios, habitaciones, residentes, personal, tipos_incidente, incidentes, actividades y participaciones, además de dos vistas de consulta (vw_incidentes_residentes y vw_participacion_actividades). El script database.sql entregado por el docente incluye la definición completa de tablas, llaves primarias y foráneas, índices, restricciones (UNIQUE, CHECK) y datos sintéticos de prueba: 20 residentes, 15 trabajadores, 15 habitaciones, 12 actividades, 30 participaciones, 12 incidentes y sus catálogos asociados.
-Cada grupo trabajará sobre una porción específica del modelo (un módulo), pero debe considerar las relaciones (llaves foráneas) con las demás tablas para que el sistema final, al integrarse, sea consistente.
-4. Organización de grupos y ramas de trabajo
-La clase se organiza en 6 grupos de 6 integrantes. Cada grupo trabaja exclusivamente sobre su branch (rama) dentro del repositorio compartido, y desarrolla el CRUD del módulo indicado:
-Grupo	Branch de Git	Módulo (CRUD)	Tabla(s) principal(es)
-Grupo 1	feature/grupo-1-usuarios	Usuarios y Roles	usuarios, roles
-Grupo 2	feature/grupo-2-residentes	Residentes	residentes
-Grupo 3	feature/grupo-3-habitaciones	Habitaciones	habitaciones
-Grupo 4	feature/grupo-4-personal	Personal	personal
-Grupo 5	feature/grupo-5-incidentes	Incidentes	incidentes, tipos_incidente
-Grupo 6	feature/grupo-6-actividades	Actividades	actividades, participaciones
+Módulo CRUD para la gestión de habitaciones de la residencia de adultos mayores.
+Rama de trabajo
+dev/grupo3
+Integrantes
 
-5. Flujo de trabajo con Git y GitHub
-Repositorio base: github.com/danielalva2008/sistema-gestion-adultos-mayores (compartido por el docente). Cada grupo deberá seguir el siguiente flujo:
-1.	Realizar un fork o clonar el repositorio principal, según indique el docente.
-2.	Ubicarse en su branch asignado (por ejemplo: git checkout feature/grupo-2-residentes) o crearlo a partir de main si aún no existe.
-3.	Importar database.sql en su entorno local de XAMPP (phpMyAdmin o consola MySQL) antes de empezar a programar.
-4.	Desarrollar el CRUD del módulo dentro de su branch, realizando commits frecuentes y descriptivos (por ejemplo: feat: formulario de registro de residentes).
-5.	Hacer push de su branch al repositorio remoto de manera periódica (no dejarlo solo para el último día).
-6.	Al finalizar, abrir un Pull Request de su branch hacia main, describiendo qué implementaron y adjuntando capturas de pantalla.
-7.	Participar en la revisión cruzada de al menos un Pull Request de otro grupo, dejando comentarios constructivos.
-No está permitido que un grupo modifique directamente el branch de otro grupo ni la rama main sin autorización del docente.
-6. Historias de usuario y requerimientos por módulo
-A continuación se presenta, para cada grupo, una introducción del módulo, un conjunto de historias de usuario en formato "Como [rol], quiero [acción], para [beneficio]" y la regla de negocio principal que debe respetar el CRUD. Cada grupo puede ampliar estas historias con otras que considere pertinentes, siempre que las valide con el docente.
-Grupo 1 — Usuarios y Roles
-Branch asignado: feature/grupo-1-usuarios
-Este módulo administra las cuentas de acceso al sistema (administradores, supervisores y personal) y su vínculo con la tabla roles.
-Historias de usuario:
-Rol	Quiero...	Para...
-Como administrador,	quiero registrar nuevos usuarios del sistema indicando su rol,	para controlar quién puede ingresar y qué permisos tiene.
-Como administrador,	quiero listar y buscar usuarios por nombre, username o estado,	para ubicarlos rápidamente.
-Como administrador,	quiero editar los datos de un usuario y cambiar su rol o estado,	para mantener la información actualizada.
-Como administrador,	quiero inactivar (baja lógica) un usuario en lugar de eliminarlo,	para conservar la trazabilidad de incidentes y actividades asociadas.
-Regla de negocio clave: Debe validar que el username y el email sean únicos, y que el password se almacene con hash (nunca en texto plano).
-Grupo 2 — Residentes
-Branch asignado: feature/grupo-2-residentes
-Este módulo administra la ficha del adulto mayor residente, incluyendo su asignación a una habitación y su contacto de emergencia.
-Historias de usuario:
-Rol	Quiero...	Para...
-Como personal,	quiero registrar a un nuevo residente con sus datos personales, de contacto y de emergencia,	para iniciar su expediente en el sistema.
-Como personal,	quiero asignar o cambiar la habitación de un residente,	para reflejar su ubicación real dentro de la residencia.
-Como supervisor,	quiero listar los residentes filtrando por estado (ACTIVO, INACTIVO, EGRESADO) o por habitación,	para monitorear la ocupación.
-Como personal,	quiero editar y dar de baja (marcar como EGRESADO) a un residente,	para mantener el historial sin borrar sus datos.
-Regla de negocio clave: Debe validar unicidad de codigo_residente, coherencia de fecha_nacimiento/fecha_ingreso y respetar la relación con habitaciones (ON DELETE SET NULL).
-Grupo 3 — Habitaciones
-Branch asignado: feature/grupo-3-habitaciones
-Este módulo administra el inventario de habitaciones y su disponibilidad.
-Historias de usuario:
-Rol	Quiero...	Para...
-Como personal,	quiero registrar una nueva habitación con número, piso y capacidad,	para ampliar el inventario disponible.
-Como supervisor,	quiero ver el listado de habitaciones con su estado (DISPONIBLE, OCUPADA, MANTENIMIENTO),	para planificar el ingreso de nuevos residentes.
-Como personal,	quiero actualizar el estado de una habitación,	para reflejar trabajos de mantenimiento u ocupación.
-Como administrador,	quiero eliminar una habitación solo si no tiene residentes activos asignados,	para evitar inconsistencias en los datos.
-Regla de negocio clave: Debe validar capacidad > 0 y piso > 0 (CHECK), y bloquear la eliminación de habitaciones ocupadas.
-Grupo 4 — Personal
-Branch asignado: feature/grupo-4-personal
-Este módulo administra al personal de la residencia (cuidadores, enfermería, terapeutas, etc.), responsables de actividades e incidentes.
-Historias de usuario:
-Rol	Quiero...	Para...
-Como administrador,	quiero registrar al personal con su cargo y especialidad,	para poder asignarlo luego a actividades o incidentes.
-Como supervisor,	quiero buscar personal por cargo o especialidad,	para ubicar rápidamente a un responsable disponible.
-Como administrador,	quiero editar los datos de contacto y estado del personal,	para mantener actualizado el directorio.
-Como administrador,	quiero inactivar a un colaborador que ya no labora en la residencia,	para conservar el historial de actividades e incidentes que reportó.
-Regla de negocio clave: Debe validar unicidad de codigo_personal y controlar el impacto de la baja sobre actividades e incidentes (FK con ON DELETE SET NULL).
-Grupo 5 — Incidentes
-Branch asignado: feature/grupo-5-incidentes
-Este módulo registra eventos relevantes de salud o seguridad de un residente (caídas, malestares, etc.) y su seguimiento.
-Historias de usuario:
-Rol	Quiero...	Para...
-Como personal,	quiero registrar un incidente indicando residente, tipo de incidente, fecha/hora, lugar y descripción,	para dejar constancia de lo ocurrido.
-Como supervisor,	quiero listar los incidentes filtrando por residente, tipo o nivel de riesgo,	para priorizar el seguimiento.
-Como personal,	quiero actualizar el estado de un incidente (REGISTRADO, EN_SEGUIMIENTO, CERRADO) y registrar la acción realizada,	para documentar su resolución.
-Como supervisor,	quiero consultar los tipos de incidente y su nivel de riesgo (BAJO, MEDIO, ALTO, CRITICO),	para mantener catalogado el riesgo institucional.
-Regla de negocio clave: Debe validar que fecha_cierre solo se registre cuando el estado sea CERRADO y mantener el CRUD de tipos_incidente como catálogo de apoyo.
-Grupo 6 — Actividades
-Branch asignado: feature/grupo-6-actividades
-Este módulo administra las actividades recreativas o terapéuticas programadas y el registro de participación de los residentes.
-Historias de usuario:
-Rol	Quiero...	Para...
-Como personal,	quiero programar una actividad indicando fecha, horario, lugar, cupo y responsable,	para organizar la agenda de la residencia.
-Como personal,	quiero inscribir residentes en una actividad respetando el cupo disponible,	para controlar la participación.
-Como personal,	quiero registrar la asistencia (ASISTIO, NO_ASISTIO) de cada residente inscrito,	para llevar estadísticas de participación.
-Como supervisor,	quiero consultar la vista de participación por actividad,	para evaluar el nivel de involucramiento de los residentes.
-Regla de negocio clave: Debe validar hora_fin > hora_inicio, cupo > 0, y evitar inscripciones duplicadas (UNIQUE id_actividad + id_residente).
-7. Requerimientos funcionales comunes a todos los CRUD
-•	Listar los registros del módulo en una tabla HTML, con al menos un criterio de búsqueda o filtro.
-•	Formulario de creación (Create) con validación de campos obligatorios y de formato (fechas, correos, teléfonos, etc.).
-•	Vista de detalle o edición (Update) que precargue los datos actuales del registro.
-•	Eliminación (Delete) o baja lógica, según corresponda a la tabla (usar estado ACTIVO/INACTIVO cuando la tabla lo permita, en vez de borrar físicamente).
-•	Mensajes claros de éxito o error ante cada operación (registro guardado, error de validación, restricción de llave foránea, etc.).
-•	Respeto de las restricciones definidas en database.sql: llaves foráneas, UNIQUE, CHECK y valores permitidos en los campos ENUM.
-8. Requerimientos técnicos
-•	Backend en PHP 8.x, usando PDO o mysqli con consultas preparadas (prohibido concatenar variables directamente en el SQL).
-•	Base de datos MySQL 8.x ejecutándose en XAMPP, a partir del script database.sql entregado.
-•	Uso del usuario de aplicación residencia_app (no root) para las conexiones del CRUD, respetando los privilegios otorgados en el script.
-•	Código organizado por carpetas (por ejemplo: /config, /includes, /modulo-nombre), evitando mezclar HTML, PHP y SQL en un solo archivo extenso.
-•	Interfaz sencilla y responsiva (puede usarse Bootstrap u otra librería CSS ligera).
-9. Estructura de entrega del módulo
-Dentro de su branch, cada grupo debe entregar al menos la siguiente estructura:
-•	Carpeta con el código fuente del módulo (formularios, conexión, lógica CRUD).
-•	Archivo README.md del módulo, indicando: integrantes del grupo, tablas utilizadas, cómo importar la base de datos, cómo configurar la conexión y capturas de pantalla del CRUD funcionando.
-•	Evidencia de al menos un Pull Request abierto hacia la rama main.
-10. Cronograma sugerido
-Etapa	Actividad
-Semana 1	Formación de grupos, fork/clone del repositorio, exploración de database.sql y creación del branch asignado.
-Semana 2	Diseño de formularios y validaciones. Conexión a base de datos (PDO/mysqli). Operación Create + Read funcionando.
-Semana 3	Implementación de Update y Delete (baja lógica cuando aplique). Manejo de errores y mensajes al usuario.
-Semana 4	Pruebas integrales, control de duplicados, control de llaves foráneas, capturas de pantalla y README del módulo.
-Semana 5	Pull Request al repositorio principal, revisión cruzada entre grupos y sustentación en clase.
-11. Rúbrica de evaluación
-Criterio	Peso	Descripción
-Funcionalidad CRUD completa	30%	Create, Read, Update y Delete (o baja lógica) funcionan correctamente sobre las tablas asignadas.
-Validaciones y reglas de negocio	20%	Se respetan las restricciones del modelo (UNIQUE, CHECK, FK) y las reglas descritas en cada módulo.
-Uso correcto de Git/GitHub	15%	Trabajo realizado en el branch correspondiente, commits descriptivos y Pull Request ordenado.
-Interfaz y experiencia de usuario	15%	Formularios claros, mensajes de confirmación/error, listados con búsqueda o filtros.
-Calidad de código	10%	Código organizado, separación de conexión/lógica/vista, nombres consistentes.
-Documentación (README) y sustentación	10%	README del módulo y exposición grupal explicando decisiones técnicas.
-12. Entregables finales
-1.	Pull Request del branch del grupo hacia main, con el código del CRUD completo.
-2.	README.md del módulo dentro de la carpeta del grupo.
-3.	Documento breve (o sección del README) con las historias de usuario finales trabajadas por el grupo.
+Robinson Cubas
+Jheral Lopez
+Jose Llatas
+Andire Chamba
+Deivy Bacalla
+Welly Vin
+
+Descripción
+Este módulo permite registrar, listar, editar y eliminar habitaciones, controlando su estado (Disponible, Ocupada o en Mantenimiento) y respetando las reglas de negocio de la base de datos. grupo.
 4.	Sustentación grupal en clase (todos los integrantes deben participar).
