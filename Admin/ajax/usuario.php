@@ -38,65 +38,6 @@ $accionRaw = $metodo === 'GET'
     : ($_POST['accion'] ?? '');
 
 if (!is_string($accionRaw)) {
-
-    if ($metodo === 'POST' && $accion === 'cambiar_estado') {
-        $idRaw = $_POST['id_usuario'] ?? null;
-        $estadoRaw = $_POST['estado'] ?? '';
-
-        if (!is_string($idRaw) || !is_string($estadoRaw)) {
-            responderJson(400, [
-                'ok' => false,
-                'mensaje' => 'Solicitud no válida.'
-            ]);
-        }
-
-        $idUsuario = filter_var($idRaw, FILTER_VALIDATE_INT);
-        $estado = strtoupper(trim($estadoRaw));
-
-        if ($idUsuario === false || $idUsuario <= 0) {
-            responderJson(404, [
-                'ok' => false,
-                'mensaje' => 'No se encontró el usuario solicitado.'
-            ]);
-        }
-
-        if (!in_array($estado, ['ACTIVO', 'INACTIVO'], true)) {
-            responderJson(400, [
-                'ok' => false,
-                'mensaje' => 'Seleccione un estado válido.'
-            ]);
-        }
-
-        $modelo = new Usuario();
-
-        if (!$modelo->existeUsuario($idUsuario)) {
-            responderJson(404, [
-                'ok' => false,
-                'mensaje' => 'No se encontró el usuario solicitado.'
-            ]);
-        }
-
-        $actualizado = $modelo->cambiarEstado($idUsuario, $estado);
-
-        if (!$actualizado) {
-            responderJson(500, [
-                'ok' => false,
-                'mensaje' => 'No se pudo completar la operación. Intente nuevamente.'
-            ]);
-        }
-
-        responderJson(200, [
-            'ok' => true,
-            'mensaje' => $estado === 'INACTIVO'
-                ? 'Usuario inactivado correctamente.'
-                : 'Usuario reactivado correctamente.',
-            'datos' => [
-                'id_usuario' => $idUsuario,
-                'estado' => $estado
-            ]
-        ]);
-    }
-
     responderJson(400, [
         'ok' => false,
         'mensaje' => 'Acción no válida.'
@@ -407,6 +348,65 @@ try {
         responderJson(200, [
             'ok' => true,
             'mensaje' => 'Usuario actualizado correctamente.'
+        ]);
+    }
+
+
+    if ($metodo === 'POST' && $accion === 'cambiar_estado') {
+        $idRaw = $_POST['id_usuario'] ?? null;
+        $estadoRaw = $_POST['estado'] ?? '';
+
+        if (!is_string($idRaw) || !is_string($estadoRaw)) {
+            responderJson(400, [
+                'ok' => false,
+                'mensaje' => 'Solicitud no válida.'
+            ]);
+        }
+
+        $idUsuario = filter_var($idRaw, FILTER_VALIDATE_INT);
+        $estado = strtoupper(trim($estadoRaw));
+
+        if ($idUsuario === false || $idUsuario <= 0) {
+            responderJson(404, [
+                'ok' => false,
+                'mensaje' => 'No se encontró el usuario solicitado.'
+            ]);
+        }
+
+        if (!in_array($estado, ['ACTIVO', 'INACTIVO'], true)) {
+            responderJson(400, [
+                'ok' => false,
+                'mensaje' => 'Seleccione un estado válido.'
+            ]);
+        }
+
+        $modelo = new Usuario();
+
+        if (!$modelo->existeUsuario($idUsuario)) {
+            responderJson(404, [
+                'ok' => false,
+                'mensaje' => 'No se encontró el usuario solicitado.'
+            ]);
+        }
+
+        $actualizado = $modelo->cambiarEstado($idUsuario, $estado);
+
+        if (!$actualizado) {
+            responderJson(500, [
+                'ok' => false,
+                'mensaje' => 'No se pudo completar la operación. Intente nuevamente.'
+            ]);
+        }
+
+        responderJson(200, [
+            'ok' => true,
+            'mensaje' => $estado === 'INACTIVO'
+                ? 'Usuario inactivado correctamente.'
+                : 'Usuario reactivado correctamente.',
+            'datos' => [
+                'id_usuario' => $idUsuario,
+                'estado' => $estado
+            ]
         ]);
     }
 
