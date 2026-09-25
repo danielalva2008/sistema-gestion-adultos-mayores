@@ -4,7 +4,19 @@ Módulo del Sistema de Gestión de Residencia para Adultos Mayores, curso Desarr
 
 ## Integrantes
 
-Completar antes de entregar: 1. __________ · 2. __________ · 3. __________ · 4. __________ · 5. __________ · 6. __________.
+- Miguel Angel Marreros Cortegana
+- Salon Ynga Dangelo Emanuel
+- Jhenuar Chichipe Huaman
+- Rayan Emilio Loja Alvarado
+- Jean Frank Bustamante Vela
+- Johan Perez Silva
+- Edgar Heiner Jauregui Epiquien
+
+**Curso:** Desarrollo de Plataformas
+
+**Equipo:** Grupo 3
+
+**Entrega:** Módulo de Habitaciones
 
 ## Abrir en este equipo
 
@@ -144,18 +156,4 @@ tests/          Pruebas de integración del modelo
 index.php       Entrada a la aplicación
 ```
 
-## Integrantes
 
-- Miguel Angel Marreros Cortegana
-- Salon Ynga Dangelo Emanuel
-- Jhenuar Chichipe Huaman
-- Rayan Emilio Loja Alvarado
-- Jean Frank Bustamante Vela
-- Johan Perez Silva
-- Edgar Heiner Jauregui Epiquien
-
-**Curso:** Desarrollo de Plataformas
-
-**Equipo:** Grupo 3
-
-**Entrega:** Módulo de Habitaciones
