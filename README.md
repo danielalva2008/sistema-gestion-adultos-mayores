@@ -9,6 +9,7 @@ Módulo del Sistema de Gestión de Residencia para Adultos Mayores, curso Desarr
 - Jhenuar Chichipe Huaman
 - Rayan Emilio Loja Alvarado
 - Jean Frank Bustamante Vela
+- Perez Silva Johan 
 - Edgar Heiner Jauregui Epiquien
 
 **Curso:** Desarrollo de Plataformas
