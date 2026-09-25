@@ -2,9 +2,6 @@
 
 require_once __DIR__ . '/../Config/ConexionPDO.php';
 
-/**
- * Modelo compartido del módulo Usuarios.
- */
 class Usuario
 {
     private PDO $conexion;
@@ -14,19 +11,85 @@ class Usuario
         $this->conexion = obtenerConexionPDO();
     }
 
+    public function obtenerRolesActivos(): array
+    {
+        $sql = "SELECT id_rol, nombre
+                FROM roles
+                WHERE estado = 'ACTIVO'
+                ORDER BY nombre";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute();
+
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function usernameExiste(string $username): bool
+    {
+        $sql = "SELECT 1 FROM usuarios
+                WHERE username = :username
+                LIMIT 1";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute(['username' => $username]);
+
+        return $consulta->fetchColumn() !== false;
+    }
+
+    public function emailExiste(string $email): bool
+    {
+        $sql = "SELECT 1 FROM usuarios
+                WHERE email = :email
+                LIMIT 1";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute(['email' => $email]);
+
+        return $consulta->fetchColumn() !== false;
+    }
+
+    public function rolActivo(int $idRol): bool
+    {
+        $sql = "SELECT 1 FROM roles
+                WHERE id_rol = :id_rol
+                  AND estado = 'ACTIVO'
+                LIMIT 1";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute(['id_rol' => $idRol]);
+
+        return $consulta->fetchColumn() !== false;
+    }
+
+    public function registrar(array $datos): bool
+    {
+        $sql = "INSERT INTO usuarios
+                    (id_rol, username, password_hash, nombres, apellidos, email)
+                VALUES
+                    (:id_rol, :username, :password_hash, :nombres, :apellidos, :email)";
+
+        $consulta = $this->conexion->prepare($sql);
+        $email = trim((string) ($datos['email'] ?? ''));
+
+        return $consulta->execute([
+            'id_rol' => $datos['id_rol'],
+            'username' => $datos['username'],
+            'password_hash' => password_hash($datos['password'], PASSWORD_DEFAULT),
+            'nombres' => $datos['nombres'],
+            'apellidos' => $datos['apellidos'],
+            'email' => $email === '' ? null : $email
+        ]);
+    }
+
     /**
-     * Lista usuarios y permite aplicar búsqueda por texto
-     * y filtro por estado.
+     * Lista usuarios y permite búsqueda y filtro por estado.
      */
     public function listar(string $texto = '', string $estado = 'TODOS'): array
     {
         $texto = trim($texto);
         $estado = strtoupper(trim($estado));
 
-        // Estados permitidos para el filtro.
-        $estadosPermitidos = ['TODOS', 'ACTIVO', 'INACTIVO'];
-
-        if (!in_array($estado, $estadosPermitidos, true)) {
+        if (!in_array($estado, ['TODOS', 'ACTIVO', 'INACTIVO'], true)) {
             throw new InvalidArgumentException('Estado de filtro no válido.');
         }
 
@@ -41,14 +104,12 @@ class Usuario
                 u.estado,
                 u.fecha_creacion
             FROM usuarios u
-            INNER JOIN roles r
-                ON u.id_rol = r.id_rol
+            INNER JOIN roles r ON u.id_rol = r.id_rol
             WHERE 1 = 1
         ";
 
         $parametros = [];
 
-        // Búsqueda por nombres, apellidos o username.
         if ($texto !== '') {
             $sql .= "
                 AND (
@@ -59,13 +120,11 @@ class Usuario
             ";
 
             $patron = '%' . $texto . '%';
-
             $parametros[':texto_nombres'] = $patron;
             $parametros[':texto_apellidos'] = $patron;
             $parametros[':texto_username'] = $patron;
         }
 
-        // Filtro por estado.
         if ($estado !== 'TODOS') {
             $sql .= " AND u.estado = :estado";
             $parametros[':estado'] = $estado;
@@ -74,6 +133,7 @@ class Usuario
         $consulta = $this->conexion->prepare($sql);
         $consulta->execute($parametros);
 
-        return $consulta->fetchAll();
+        return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }

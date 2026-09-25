@@ -194,6 +194,9 @@
         <header class="cabecera">
             <h1>Gestión de Usuarios</h1>
             <p>Listado y búsqueda de usuarios registrados en el sistema.</p>
+            <p style="margin-top:15px;">
+            <a href="usuario_registro.php">Registrar nuevo usuario</a>
+        </p>
         </header>
 
         <section class="panel">
