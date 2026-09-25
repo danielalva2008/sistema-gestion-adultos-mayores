@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Personal: iniciar entorno local",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/personal/dev.sh"],
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated"}
+    },
+    {
+      "label": "Personal: ejecutar pruebas",
+      "type": "process",
+      "command": "bash",
+      "args": ["${workspaceFolder}/personal/dev.sh", "test"],
+      "problemMatcher": [],
+      "presentation": {"reveal": "always", "panel": "dedicated"}
+    }
+  ]
+}
