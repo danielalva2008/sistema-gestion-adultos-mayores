@@ -1,18 +1,38 @@
-# Sistema de Gestión de Residencia para Adultos Mayores
+# Grupo 3 · CRUD de habitaciones
 
-## Módulo de Habitaciones · Grupo 3
+Módulo del Sistema de Gestión de Residencia para Adultos Mayores, curso Desarrollo de Plataformas. Permite crear, consultar, actualizar y eliminar habitaciones con las validaciones del documento del docente.
 
-**Proyecto académico del curso Desarrollo de Plataformas.**
+## Integrantes
 
-Una aplicación web para organizar las habitaciones de una residencia para adultos mayores. Permite registrar espacios, consultar su disponibilidad, actualizar sus datos y controlar su eliminación según la ocupación registrada.
+Completar antes de entregar: 1. __________ · 2. __________ · 3. __________ · 4. __________ · 5. __________ · 6. __________.
 
-## Objetivo del proyecto
+## Abrir en este equipo
 
-Facilitar la consulta y el mantenimiento del inventario de habitaciones, reuniendo en una sola pantalla su número, piso, capacidad, estado y cantidad de residentes activos asignados. Esta información ayuda al personal a identificar los espacios disponibles y las habitaciones que requieren atención.
+La copia revisada está en la carpeta actual de este repositorio. Inicia Apache y MySQL de XAMPP y publica **esta copia** en `htdocs/grupo-3-habitaciones` para abrir http://localhost/grupo-3-habitaciones/. Si ya existe otra copia en XAMPP, comprueba que contiene estos cambios: las carpetas no se sincronizan automáticamente.
 
-## ¿Qué permite hacer?
+No uses Live Server: PHP necesita ejecutarse mediante PHP/Apache. La configuración privada está en `config/database.local.php` y no debe entregarse.
 
-| Función | Descripción |
+## Instalar en otro equipo
+
+1. Instalar/iniciar XAMPP con Apache y MySQL/MariaDB, PHP 8.x y extensiones PDO MySQL y mbstring.
+2. Copiar la carpeta `grupo-3-habitaciones` completa a `htdocs` (Windows: `C:\xampp\htdocs`; Linux: `/opt/lampp/htdocs`).
+3. En phpMyAdmin, importar la base oficial corregida `database/sistema_residencia.sql` **solo en una instalación nueva**. Ese archivo contiene `DROP DATABASE IF EXISTS sistema_residencia`: reimportarlo borra la base anterior. El módulo no ejecuta importaciones ni necesita cambiar el esquema. Se usa el archivo suministrado por el curso, no una base alternativa.
+4. Copiar `config/database.example.php` como `config/database.local.php`. Completar la contraseña indicada en el SQL del docente para el usuario `residencia_app`, host, puerto y nombre de base. No usar `root` en el CRUD. La configuración local se excluye de Git y del ZIP para entregar.
+5. Abrir http://localhost/grupo-3-habitaciones/.
+
+Probado con el XAMPP de este equipo: PHP 8.2.12 y MariaDB 10.4.32. El documento menciona MySQL 8.x; no se ha ejecutado una prueba en un servidor MySQL 8 independiente. XAMPP instalado utiliza MariaDB y el esquema existente es compatible con este módulo.
+
+## Alcance y tablas
+
+- `habitaciones`: CRUD completo sobre `id_habitacion`, `numero`, `piso`, `capacidad`, `estado`, `observaciones`.
+- `residentes`: consulta de cantidad y estado para calcular ocupación y proteger la eliminación. No hay formularios de residentes.
+- Al eliminar una habitación sin residentes activos, la FK original aplica `ON DELETE SET NULL` a las asignaciones de residentes inactivos o egresados. Sus fichas se conservan.
+
+El alcance es exclusivamente el grupo 3. No incluye autenticación ni administración de usuarios del grupo 1. Las historias mencionan personal, supervisor y administrador como roles del sistema integrado; esta demostración local todavía no impone permisos por rol. `.htaccess` limita el acceso a localhost. Al integrar, conectar las rutas con la autenticación y los permisos acordados con el grupo 1.
+
+## Historias de usuario implementadas
+
+| Historia | Función |
 | --- | --- |
 | Registrar habitaciones | Agregar número o código, piso, capacidad, estado y observaciones. |
 | Consultar el inventario | Visualizar las habitaciones y la cantidad de residentes activos asignados. |
