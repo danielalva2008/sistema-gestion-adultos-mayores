@@ -4,7 +4,15 @@ Módulo del Sistema de Gestión de Residencia para Adultos Mayores, curso Desarr
 
 ## Integrantes
 
-Completar antes de entregar: 1. __________ · 2. __________ · 3. __________ · 4. __________ · 5. __________ · 6. __________.
+Completar antes de entregar: 
+
+- Miguel Angel Marreros Cortegana
+- Salon Ynga Dangelo Emanuel
+- Jhenuar Chichipe Huaman
+- Rayan Emilio Loja Alvarado
+- Jean Frank Bustamante Vela
+- Johan Perez Silva
+- Edgar Heiner Jauregui Epiquien
 
 ## Abrir en este equipo
 
