@@ -24,26 +24,40 @@ class Usuario
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function usernameExiste(string $username): bool
+    public function usernameExiste(string $username, ?int $idUsuario = null): bool
     {
         $sql = "SELECT 1 FROM usuarios
-                WHERE username = :username
-                LIMIT 1";
+                WHERE username = :username";
+        $parametros = ['username' => $username];
+
+        if ($idUsuario !== null) {
+            $sql .= " AND id_usuario <> :id_usuario";
+            $parametros['id_usuario'] = $idUsuario;
+        }
+
+        $sql .= " LIMIT 1";
 
         $consulta = $this->conexion->prepare($sql);
-        $consulta->execute(['username' => $username]);
+        $consulta->execute($parametros);
 
         return $consulta->fetchColumn() !== false;
     }
 
-    public function emailExiste(string $email): bool
+    public function emailExiste(string $email, ?int $idUsuario = null): bool
     {
         $sql = "SELECT 1 FROM usuarios
-                WHERE email = :email
-                LIMIT 1";
+                WHERE email = :email";
+        $parametros = ['email' => $email];
+
+        if ($idUsuario !== null) {
+            $sql .= " AND id_usuario <> :id_usuario";
+            $parametros['id_usuario'] = $idUsuario;
+        }
+
+        $sql .= " LIMIT 1";
 
         $consulta = $this->conexion->prepare($sql);
-        $consulta->execute(['email' => $email]);
+        $consulta->execute($parametros);
 
         return $consulta->fetchColumn() !== false;
     }
@@ -81,9 +95,6 @@ class Usuario
         ]);
     }
 
-    /**
-     * Lista usuarios y permite búsqueda y filtro por estado.
-     */
     public function listar(string $texto = '', string $estado = 'TODOS'): array
     {
         $texto = trim($texto);
@@ -136,4 +147,81 @@ class Usuario
         return $consulta->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function buscarPorId(int $idUsuario): ?array
+    {
+        $sql = "
+            SELECT
+                id_usuario,
+                id_rol,
+                username,
+                nombres,
+                apellidos,
+                email,
+                estado,
+                fecha_creacion
+            FROM usuarios
+            WHERE id_usuario = :id_usuario
+            LIMIT 1
+        ";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute(['id_usuario' => $idUsuario]);
+
+        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        return $usuario ?: null;
+    }
+
+    public function actualizar(
+        int $idUsuario,
+        int $idRol,
+        string $username,
+        string $nombres,
+        string $apellidos,
+        ?string $email,
+        string $estado,
+        string $nuevaPassword = ''
+    ): bool {
+        $parametros = [
+            'id_usuario' => $idUsuario,
+            'id_rol' => $idRol,
+            'username' => $username,
+            'nombres' => $nombres,
+            'apellidos' => $apellidos,
+            'email' => $email,
+            'estado' => $estado
+        ];
+
+        if ($nuevaPassword !== '') {
+            $sql = "
+                UPDATE usuarios
+                SET id_rol = :id_rol,
+                    username = :username,
+                    nombres = :nombres,
+                    apellidos = :apellidos,
+                    email = :email,
+                    estado = :estado,
+                    password_hash = :password_hash
+                WHERE id_usuario = :id_usuario
+            ";
+
+            $parametros['password_hash'] =
+                password_hash($nuevaPassword, PASSWORD_DEFAULT);
+        } else {
+            $sql = "
+                UPDATE usuarios
+                SET id_rol = :id_rol,
+                    username = :username,
+                    nombres = :nombres,
+                    apellidos = :apellidos,
+                    email = :email,
+                    estado = :estado
+                WHERE id_usuario = :id_usuario
+            ";
+        }
+
+        $consulta = $this->conexion->prepare($sql);
+
+        return $consulta->execute($parametros);
+    }
 }

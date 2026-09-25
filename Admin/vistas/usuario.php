@@ -247,6 +247,7 @@
                             <th>Rol</th>
                             <th>Estado</th>
                             <th>Fecha de creación</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
@@ -351,6 +352,15 @@
                 fila.appendChild(
                     crearCelda(usuario.fecha_creacion)
                 );
+
+                const celdaAcciones = document.createElement('td');
+                const enlaceEditar = document.createElement('a');
+                enlaceEditar.href =
+                    'usuario_editar.php?id_usuario='
+                    + encodeURIComponent(usuario.id_usuario);
+                enlaceEditar.textContent = 'Editar';
+                celdaAcciones.appendChild(enlaceEditar);
+                fila.appendChild(celdaAcciones);
 
                 tablaUsuarios.appendChild(fila);
             });
