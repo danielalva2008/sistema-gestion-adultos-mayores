@@ -141,6 +141,71 @@ Esta entrega corresponde al **módulo de gestión de habitaciones desarrollado p
 
 La demostración está configurada para acceso local mediante `.htaccess`. La autenticación y los permisos por rol deben integrarse con el módulo correspondiente antes de habilitar el acceso público a la aplicación.
 
+## Flujo del proyecto: desde la idea hasta la entrega final
+
+El proyecto se desarrolló en varias etapas para llegar a una solución funcional, organizada y documentada:
+
+```mermaid
+flowchart TD
+    A[1. Definir el módulo y el equipo] --> B[2. Revisar requisitos del sistema]
+    B --> C[3. Preparar el entorno local]
+    C --> D[4. Crear la estructura del proyecto]
+    D --> E[5. Diseñar el CRUD de habitaciones]
+    E --> F[6. Implementar reglas de negocio]
+    F --> G[7. Validar seguridad y base de datos]
+    G --> H[8. Documentar y entregar la versión final]
+```
+
+### 1) Definir el módulo y el equipo
+- Se identificó que el grupo trabajaría en el módulo de habitaciones.
+- Se organizó la rama de trabajo y se estableció el alcance del proyecto.
+
+### 2) Revisar requisitos del sistema
+- Se analizó la base de datos y la tabla principal `habitaciones`.
+- Se definieron las funciones necesarias: crear, consultar, actualizar y eliminar habitaciones.
+- Se establecieron los requisitos del docente y las validaciones del negocio.
+
+### 3) Preparar el entorno local
+- Se instaló XAMPP con Apache y MySQL/MariaDB.
+- Se importó la base `sistema_residencia` desde el script SQL del curso.
+- Se configuró la conexión local en `config/database.local.php`.
+- Se dejó el proyecto listo para ser ejecutado desde `htdocs`.
+
+### 4) Crear la estructura del proyecto
+- Se separó la aplicación en carpetas por responsabilidad:
+  - `config/` para la conexión.
+  - `modelos/` para la lógica del negocio.
+  - `controladores/` para la coordinación.
+  - `vistas/` para la interfaz.
+  - `includes/` para utilidades comunes.
+  - `public/` para estilos y recursos.
+  - `database/` para la base SQL.
+
+### 5) Diseñar el CRUD de habitaciones
+- Se desarrolló la lista de habitaciones.
+- Se implementó la búsqueda y filtrado por piso y estado.
+- Se creó el registro de nuevas habitaciones.
+- Se agregó la edición y actualización de datos.
+- Se configuró la eliminación con validaciones.
+
+### 6) Implementar reglas de negocio
+- Se validaron campos obligatorios y datos numéricos.
+- Se evitaron números duplicados.
+- Se impidió reducir la capacidad por debajo de los residentes activos.
+- Se bloqueó la eliminación de habitaciones ocupadas o con residentes activos.
+
+### 7) Validar seguridad y consistencia
+- Se utilizó PDO para la conexión a la base de datos.
+- Se aplicaron consultas preparadas para evitar SQL injection.
+- Se incorporó protección CSRF en formularios.
+- Se usaron transacciones para operaciones críticas.
+- Se agregaron mensajes de confirmación y error al usuario.
+
+### 8) Documentar y entregar la versión final
+- Se redactó la documentación del proyecto en este README.
+- Se describió la instalación, requisitos y alcance del módulo.
+- Se dejó listo para uso local y para su entrega final al curso.
+
 ## Estructura del proyecto
 
 ```text
