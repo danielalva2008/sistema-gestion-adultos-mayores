@@ -360,6 +360,29 @@
                     + encodeURIComponent(usuario.id_usuario);
                 enlaceEditar.textContent = 'Editar';
                 celdaAcciones.appendChild(enlaceEditar);
+
+                celdaAcciones.appendChild(
+                    document.createTextNode(' · ')
+                );
+
+                const botonEstado = document.createElement('button');
+                botonEstado.type = 'button';
+
+                const nuevoEstado =
+                    usuario.estado === 'ACTIVO'
+                        ? 'INACTIVO'
+                        : 'ACTIVO';
+
+                botonEstado.textContent =
+                    nuevoEstado === 'INACTIVO'
+                        ? 'Inactivar'
+                        : 'Reactivar';
+
+                botonEstado.addEventListener('click', function () {
+                    cambiarEstado(usuario.id_usuario, nuevoEstado);
+                });
+
+                celdaAcciones.appendChild(botonEstado);
                 fila.appendChild(celdaAcciones);
 
                 tablaUsuarios.appendChild(fila);
@@ -462,6 +485,54 @@
             cargarUsuarios();
         });
 
+    </script>
+
+    <script>
+        async function cambiarEstado(idUsuario, estado) {
+
+            const accionTexto = estado === 'INACTIVO'
+                ? 'inactivar'
+                : 'reactivar';
+
+            const confirmar = confirm(
+                '¿Está seguro de ' + accionTexto + ' este usuario?'
+            );
+
+            if (!confirmar) {
+                return;
+            }
+
+            const datos = new URLSearchParams();
+
+            datos.append('accion', 'cambiar_estado');
+            datos.append('id_usuario', idUsuario);
+            datos.append('estado', estado);
+
+            try {
+
+                const respuesta = await fetch('../ajax/usuario.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: datos.toString()
+                });
+
+                const resultado = await respuesta.json();
+
+                alert(resultado.mensaje);
+
+                if (resultado.ok) {
+                    location.reload();
+                }
+
+            } catch (error) {
+
+                alert(
+                    'No se pudo completar la operación. Intente nuevamente.'
+                );
+            }
+        }
     </script>
 
 </body>

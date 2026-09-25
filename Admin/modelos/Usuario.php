@@ -224,4 +224,34 @@ class Usuario
 
         return $consulta->execute($parametros);
     }
+    public function existeUsuario(int $idUsuario): bool
+    {
+        $sql = "SELECT 1
+                FROM usuarios
+                WHERE id_usuario = :id_usuario
+                LIMIT 1";
+
+        $consulta = $this->conexion->prepare($sql);
+        $consulta->execute([
+            'id_usuario' => $idUsuario
+        ]);
+
+        return $consulta->fetchColumn() !== false;
+    }
+
+    public function cambiarEstado(int $idUsuario, string $estado): bool
+    {
+        $sql = "UPDATE usuarios
+                SET estado = :estado
+                WHERE id_usuario = :id_usuario";
+
+        $consulta = $this->conexion->prepare($sql);
+
+        return $consulta->execute([
+            'estado' => $estado,
+            'id_usuario' => $idUsuario
+        ]);
+    }
+
+
 }
