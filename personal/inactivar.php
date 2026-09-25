@@ -1,20 +1,10 @@
 <?php
-
-require_once __DIR__ . '/../config/conexion.php';
-
-$id = $_GET['id'] ?? 0;
-
-$stmt = $conexion->prepare(
-    "UPDATE personal
-     SET estado = 'INACTIVO'
-     WHERE id_personal = ?"
-);
-
-$stmt->bind_param("i", $id);
-
-if ($stmt->execute()) {
-    header("Location: index.php");
-    exit;
+// Compatibilidad con los enlaces del aporte inicial del Grupo 4.
+declare(strict_types=1);
+if ($_SERVER['REQUEST_METHOD'] !== 'GET') {
+    http_response_code(405);
+    header('Allow: GET');
+    exit('Abre el formulario desde el directorio de Personal.');
 }
-
-echo "Error al inactivar: " . $conexion->error;
+$_GET['accion'] = 'baja';
+require __DIR__ . '/index.php';
