@@ -15,5 +15,5 @@ CRUD de habitaciones, basado principalmente en la tabla `habitaciones` de la bas
 - Jhenuar Chichipe Huaman
 - Rayan Emilio Loja Alvarado
 - Jean Frank Bustamante Vela
-- Johan Perez Silva
+- Perez Silva Johan 
 - Edgar Heiner Jauregui Epiquien
