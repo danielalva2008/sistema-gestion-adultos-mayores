@@ -1,0 +1,11 @@
+# Presentación del Grupo 6 (se conserva local, no se versiona)
+PRESENTACION_G6.pptx
+
+# Basura del sistema operativo
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporales de editores
+*.tmp
+*~
