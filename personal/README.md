@@ -1,143 +1,215 @@
-# Módulo Personal — Grupo 4
+# Sistema de Gestión para Residencia de Adultos Mayores
 
-Registra, consulta, edita e inactiva al personal de la residencia. La baja cambia el estado a INACTIVO y conserva las referencias de actividades e incidentes.
+## Módulo de Gestión de Personal — Grupo 4
 
-Rama de trabajo: `feature/grupo-4-personal`, conforme al documento de la actividad. Grupo 4: Personal.
+**Curso:** Desarrollo de Plataformas Web  
+**Proyecto:** Sistema de Gestión para Residencia de Adultos Mayores  
+**Módulo asignado:** Gestión de Personal  
+**Rama de desarrollo:** `feature/grupo-4-personal`
 
-## Integrantes
+### Integrantes
 
-- Santillan Valle Jhon Kelvin
+- Santillán Valle Jhon Kelvin
 - Salazar Salazar Luis Grimaldo
-- Maria Carmen Tuesta Chuquizuta
+- María Carmen Tuesta Chuquizuta
 - Ramos Ocampo Kevin
 
-## Historias implementadas
+---
 
-- Como administrador, registrar personal con código, nombres, apellidos, cargo, especialidad y contacto.
-- Como supervisor, buscar por cargo o especialidad y filtrar por estado.
-- Como administrador, editar los datos del directorio.
-- Como administrador, inactivar colaboradores conservando su historial.
+## 1. Resumen ejecutivo
 
-Estas historias describen los actores previstos. Esta versión es una demostración local independiente: la autenticación y los permisos por rol deben integrarse con el módulo Usuarios del Grupo 1 cuando se acuerde su interfaz de sesión.
+El presente trabajo desarrolla el módulo de Gestión de Personal del Sistema de Gestión para una Residencia de Adultos Mayores. Su finalidad es centralizar la información laboral y de contacto de los colaboradores, facilitar su consulta y actualización, y conservar el historial institucional cuando un trabajador deja de prestar servicios.
 
-## Organización
+La solución implementa las operaciones de registro, listado, búsqueda, edición e inactivación de personal. La inactivación se realiza mediante una baja lógica: el registro cambia al estado INACTIVO y permanece en la base de datos. Esta decisión protege la trazabilidad de las actividades e incidencias asociadas al trabajador y evita la pérdida de información histórica.
 
-- `config.php`: conexión PDO mediante el usuario de aplicación.
-- `model.php`: consultas preparadas y validaciones.
-- `index.php`: gestión de solicitudes, sesión, token CSRF y mensajes.
-- `view.php` y `style.css`: formularios y listado adaptable.
-- `database-inicial.sql`: base académica para una instalación nueva.
-- `test.php`: pruebas de integración por terminal, con reversión de cambios.
+El módulo fue desarrollado con PHP 8, PDO, MySQL/MariaDB, HTML5 y CSS3. También incorpora validaciones en el servidor, consultas preparadas, protección CSRF, control de códigos duplicados y una interfaz adaptable a computadoras y dispositivos móviles.
 
-## Abrir en Visual Studio Code y GitHub Desktop
+## 2. Problemática
 
-La carpeta del repositorio es la misma para ambas herramientas. En GitHub Desktop, `Current Branch` debe mostrar `feature/grupo-4-personal`. En `History` aparecen los commits; `Changes` muestra únicamente modificaciones aún no guardadas en un commit.
+La residencia necesita mantener información confiable sobre las personas que participan en su operación diaria. Un registro manual o disperso dificulta localizar a un colaborador, conocer su cargo y especialidad, actualizar sus datos o determinar si continúa activo.
 
-En Visual Studio Code, abrir la carpeta completa `sistema-gestion-adultos-mayores`. Elegir **Terminal → Run Task → Personal: iniciar entorno local**. La tarea abre la demostración en http://127.0.0.1:8084. También puede iniciarse desde la terminal del proyecto:
+Además, eliminar físicamente a un trabajador podría dejar sin referencia las actividades que tuvo asignadas y los incidentes que reportó. Por ello, el sistema requiere una solución que permita administrar el directorio del personal sin comprometer la integridad del historial institucional.
 
-```bash
-bash personal/dev.sh
-```
+## 3. Objetivos
 
-El iniciador utiliza PHP y MariaDB de XAMPP en Linux, prepara una instancia separada con datos ficticios la primera vez y conserva sus datos en `personal/.local/`, excluida de Git. No modifica las bases del servicio principal de XAMPP. `Ctrl+C` detiene el entorno. Para ejecutar las pruebas, detener primero la demostración y elegir la tarea **Personal: ejecutar pruebas**, o ejecutar:
+### 3.1 Objetivo general
 
-```bash
-bash personal/dev.sh test
-```
+Desarrollar un módulo web seguro y funcional para administrar la información del personal de la residencia, garantizando la integridad de los datos y la conservación de sus relaciones históricas.
 
-Esta modalidad facilita la demostración en la laptop sin permisos de administrador. Para la instalación común del curso, usar las instrucciones siguientes y el servicio de base de datos acordado por el docente.
+### 3.2 Objetivos específicos
 
-## Base de datos
+- Registrar colaboradores con código, nombres, apellidos, cargo, especialidad y datos de contacto.
+- Consultar el directorio mediante búsqueda y filtrado por estado.
+- Actualizar la información de un trabajador existente.
+- Inactivar personal mediante baja lógica, sin eliminar registros relacionados.
+- Prevenir códigos duplicados y datos con formato inválido.
+- Proteger las operaciones mediante consultas preparadas y token CSRF.
+- Verificar el funcionamiento mediante pruebas integrales del flujo CRUD.
 
-Tabla principal: `personal`. Se conservan las relaciones con `actividades.id_personal_responsable` e `incidentes.id_personal_reporta` porque nunca se elimina físicamente al trabajador. La reasignación de actividades pendientes corresponde al módulo Actividades.
+## 4. Alcance del módulo
 
-El SQL procede del commit `6a94b63` de `feature/grupo-5-incidentes`. Se eliminó `DROP DATABASE` y se completó con NULL el responsable ausente del octavo incidente. El script crea una base nueva y debe ejecutarse sin la opción `--force`, para detenerse si ya existe. No importarlo sobre una instalación con información existente. Si el docente facilita una versión definitiva, utilizar esa versión.
+La solución cubre el ciclo de administración del personal:
 
-Con MySQL de XAMPP iniciado, desde la raíz del repositorio:
+1. Registro de un nuevo colaborador.
+2. Visualización del directorio completo.
+3. Búsqueda por código, nombre, cargo o especialidad.
+4. Filtrado de colaboradores activos e inactivos.
+5. Edición de información personal, laboral y de contacto.
+6. Consulta del impacto de una baja sobre actividades e incidentes.
+7. Inactivación del registro con conservación del historial.
 
-```bash
-/opt/lampp/bin/mysql -u root -p < personal/database-inicial.sql
-```
+La autenticación general del sistema y la administración global de permisos corresponden al módulo de Usuarios. El módulo de Personal queda preparado para integrarse con ese mecanismo común.
 
-La cuenta administrativa se usa solo para preparar el esquema. El módulo usa `residencia_app`.
+## 5. Requisitos funcionales implementados
 
-## Ejecutar
+| Código | Requisito | Resultado |
+| --- | --- | --- |
+| RF-01 | Registrar personal con información laboral y de contacto | Implementado |
+| RF-02 | Listar los registros del personal | Implementado |
+| RF-03 | Buscar por código, nombre, cargo o especialidad | Implementado |
+| RF-04 | Filtrar por estado ACTIVO o INACTIVO | Implementado |
+| RF-05 | Editar los datos del colaborador | Implementado |
+| RF-06 | Evitar el registro de códigos duplicados | Implementado |
+| RF-07 | Inactivar personal sin eliminarlo de la base de datos | Implementado |
+| RF-08 | Mostrar las relaciones afectadas antes de la baja | Implementado |
+| RF-09 | Conservar actividades e incidentes relacionados | Implementado |
+| RF-10 | Presentar una interfaz adaptable | Implementado |
 
-Se requiere PHP 8.x con `pdo_mysql` y `mbstring`. El valor inicial de conexión corresponde al usuario académico del SQL: `residencia_app`, clave `Residencia2026*`, base `sistema_residencia`, host `127.0.0.1`, puerto `3306`.
+## 6. Historias de usuario atendidas
 
-Las variables `PERSONAL_DB_HOST`, `PERSONAL_DB_PORT`, `PERSONAL_DB_NAME`, `PERSONAL_DB_USER`, `PERSONAL_DB_PASSWORD` y `PERSONAL_DB_SOCKET` permiten cambiar la configuración sin editar archivos compartidos. No agregar credenciales reales al repositorio.
+- **HU-01 — Registro:** Como administrador, quiero registrar los datos de un colaborador para mantener actualizado el directorio institucional.
+- **HU-02 — Consulta:** Como supervisor, quiero buscar personal por cargo o especialidad para identificar rápidamente al responsable adecuado.
+- **HU-03 — Actualización:** Como administrador, quiero editar la información de un trabajador para corregir o actualizar sus datos.
+- **HU-04 — Baja lógica:** Como administrador, quiero inactivar a un colaborador para reflejar que ya no labora en la residencia sin perder su historial.
 
-```bash
-/opt/lampp/bin/php -S 127.0.0.1:8084 -t personal personal/router.php
-```
+## 7. Diseño técnico
 
-Abrir http://127.0.0.1:8084. El servidor se limita a la laptop para esta demostración académica.
+El módulo separa la conexión, la lógica de negocio, el control de solicitudes y la presentación visual para facilitar su mantenimiento.
 
-## Pruebas
+| Componente | Responsabilidad |
+| --- | --- |
+| `config.php` | Establece la conexión PDO con la base de datos |
+| `model.php` | Contiene consultas preparadas, reglas y validaciones |
+| `index.php` | Gestiona solicitudes, sesión, mensajes y token CSRF |
+| `view.php` | Construye formularios, filtros y listado de personal |
+| `style.css` | Define la presentación y el diseño adaptable |
+| `database-inicial.sql` | Prepara el esquema y los datos académicos |
+| `test.php` | Ejecuta pruebas integrales con reversión de cambios |
 
-En una base académica con el SQL importado:
+### 7.1 Modelo de datos
 
-```bash
-/opt/lampp/bin/php personal/test.php
-```
+La entidad principal es la tabla `personal`. Cada trabajador se identifica mediante un código único y conserva sus datos personales, cargo, especialidad, teléfono, correo, fecha de ingreso y estado.
 
-El test revierte sus escrituras mediante una transacción. Comprueba creación, lectura, edición, búsqueda, duplicados, validación de fecha/correo/teléfono/estado/longitud y conservación de las referencias al inactivar. Debe ejecutarse sobre datos de prueba, ya que utiliza los catálogos académicos de residentes y tipos de incidente.
+El registro se relaciona con `actividades.id_personal_responsable` e `incidentes.id_personal_reporta`. Debido a estas relaciones, la baja se implementó como un cambio de estado a INACTIVO. No se utiliza eliminación física, con lo cual las actividades y los incidentes mantienen su referencia original.
 
-Validación realizada con PHP 8.2.12 y MariaDB 10.4.32 incluida en XAMPP. MySQL 8 no está instalado en este entorno: queda pendiente comprobarlo si el docente lo exige específicamente.
+### 7.2 Seguridad e integridad
 
-## Recorrido para la sustentación
+- Uso de PDO con consultas parametrizadas para reducir el riesgo de inyección SQL.
+- Validación de campos obligatorios y longitudes permitidas.
+- Verificación del formato de correo y teléfono.
+- Control de fecha de ingreso y valores permitidos para el estado.
+- Verificación previa y restricción única para el código del trabajador.
+- Token CSRF en las operaciones que modifican información.
+- Escape de contenido al presentar datos en la interfaz.
+- Cuenta de aplicación separada para las operaciones ordinarias de la base de datos.
 
-1. Mostrar el listado y buscar una especialidad.
-2. Registrar un trabajador ficticio con un código nuevo.
-3. Intentar repetir el código para demostrar la validación.
-4. Editar teléfono, cargo o especialidad.
-5. Abrir Inactivar, revisar la confirmación y confirmar.
-6. Filtrar INACTIVO y comprobar que el registro se conserva.
-7. Explicar las consultas preparadas, la baja lógica y el token de formulario.
+## 8. Resultados obtenidos
 
-## Capturas del CRUD funcionando
+El módulo permite completar el flujo CRUD previsto para la entidad Personal. El usuario puede registrar trabajadores, consultar y filtrar el directorio, modificar datos existentes e inactivar colaboradores. Antes de confirmar una baja, el sistema informa la cantidad de actividades e incidentes asociados. Después de la operación, el trabajador continúa visible bajo el estado INACTIVO y sus relaciones permanecen intactas.
 
-Capturas obtenidas en la demostración local con información ficticia. `DEMO-G4` es un registro creado para este recorrido y no forma parte del SQL inicial.
+La interfaz presenta mensajes claros para operaciones exitosas y errores de validación. El diseño se adapta a pantallas pequeñas y conserva el acceso a la información mediante desplazamiento horizontal controlado en la tabla.
 
-### Listado y búsqueda
+## 9. Verificación y pruebas
 
-![Listado de personal](capturas/01-listado.png)
+Las pruebas se ejecutaron con PHP 8.2.12 y MariaDB 10.4.32, utilizando datos académicos en un entorno local aislado.
 
-### Registro
+| Prueba | Resultado esperado | Estado |
+| --- | --- | --- |
+| Registro válido | El colaborador aparece en el listado | Conforme |
+| Código duplicado | El sistema rechaza el registro | Conforme |
+| Búsqueda y filtrado | Solo se muestran coincidencias | Conforme |
+| Edición | Los cambios quedan almacenados | Conforme |
+| Correo o teléfono inválido | Se muestra un mensaje de validación | Conforme |
+| Consulta de impacto | Se informan las relaciones existentes | Conforme |
+| Baja lógica | El estado cambia a INACTIVO | Conforme |
+| Conservación de relaciones | Actividades e incidentes mantienen su referencia | Conforme |
+| Consultas parametrizadas | Los valores se procesan mediante PDO | Conforme |
+
+El archivo `test.php` automatiza las verificaciones de creación, lectura, actualización, búsqueda, duplicados, formatos, longitudes, estados y conservación de referencias. Las escrituras de prueba se revierten mediante una transacción.
+
+## 10. Evidencias del funcionamiento
+
+Las siguientes capturas corresponden a una demostración local con información ficticia.
+
+### 10.1 Directorio y búsqueda
+
+![Listado y búsqueda de personal](capturas/01-listado.png)
+
+### 10.2 Registro de personal
 
 ![Formulario de registro](capturas/02-registro.png)
 
-### Edición
+### 10.3 Actualización de información
 
-![Edición de un trabajador ficticio](capturas/03-edicion.png)
+![Edición de un trabajador](capturas/03-edicion.png)
 
-### Confirmación y efecto de la baja
+### 10.4 Evaluación del impacto de la baja
 
-![Confirmación de baja con resumen de relaciones](capturas/04-confirmacion-baja.png)
+![Confirmación de baja y relaciones](capturas/04-confirmacion-baja.png)
 
-![Trabajador conservado con estado INACTIVO](capturas/05-baja-realizada.png)
+### 10.5 Conservación del registro inactivo
 
-### Pantalla pequeña
+![Trabajador conservado como inactivo](capturas/05-baja-realizada.png)
 
-![Vista móvil con tabla desplazable](capturas/06-movil.png)
+### 10.6 Interfaz adaptable
 
-## Correspondencia con la actividad
+![Vista del módulo en pantalla pequeña](capturas/06-movil.png)
 
-| Requisito | Implementación o evidencia |
-| --- | --- |
-| Registrar personal con cargo y especialidad | Formulario y consulta INSERT preparada |
-| Listar y buscar por cargo o especialidad | Tabla HTML, búsqueda y filtro por estado |
-| Editar contacto y estado | Formulario precargado y consulta UPDATE preparada |
-| Baja lógica e historial | Cambio a INACTIVO sin DELETE; pruebas de referencias |
-| Código único | Validación previa y restricción UNIQUE de la base |
-| PHP 8 y PDO | Probado con PHP 8.2.12 y pdo_mysql |
-| Usuario de aplicación | residencia_app para las operaciones del módulo |
-| MySQL 8 | Pendiente de validación en ese motor; XAMPP local incluye MariaDB 10.4.32 |
-| Organización y presentación | Conexión, modelo, controlador, vista y CSS separados |
-| Documentación e historias | Este README, integrantes y capturas |
-| Trabajo con Git | Rama asignada y commits descriptivos |
-| Pull Request | Enlace de entrega registrado al crear la solicitud |
+## 11. Conclusiones
 
-## Pendientes de entrega
+- Se completó el módulo de Gestión de Personal de acuerdo con las funciones asignadas al Grupo 4.
+- La baja lógica conserva el historial y evita romper las relaciones con actividades e incidentes.
+- Las reglas de validación y las consultas preparadas mejoran la calidad y seguridad de la información.
+- La separación de componentes facilita el mantenimiento y la integración con el resto del sistema.
+- Las pruebas realizadas confirman el funcionamiento de las operaciones principales y de los casos de validación.
 
-La autenticación común depende del módulo Usuarios. El Pull Request debe apuntar a `main`; su aprobación e integración corresponden al responsable del repositorio. La sustentación y la revisión cruzada de otro grupo se realizan con participación del equipo.
+## 12. Anexo técnico: ejecución local
+
+### Requisitos
+
+- PHP 8.x con las extensiones PDO MySQL y mbstring.
+- MySQL 8 o MariaDB compatible.
+- Navegador web actualizado.
+
+### Ejecución rápida para demostración
+
+Desde la raíz del repositorio:
+
+~~~bash
+bash personal/dev.sh
+~~~
+
+Luego abrir [http://127.0.0.1:8084](http://127.0.0.1:8084). El entorno local se guarda en `personal/.local/`, carpeta excluida de Git.
+
+También puede iniciarse desde Visual Studio Code mediante **Terminal → Run Task → Personal: iniciar entorno local**.
+
+### Ejecución de pruebas
+
+Con la demostración detenida:
+
+~~~bash
+bash personal/dev.sh test
+~~~
+
+También puede usarse la tarea **Personal: ejecutar pruebas** de Visual Studio Code.
+
+### Instalación con la base académica
+
+El archivo `personal/database-inicial.sql` prepara una instalación nueva. No debe importarse sobre una base que contenga información que se necesite conservar.
+
+~~~bash
+/opt/lampp/bin/mysql -u root -p < personal/database-inicial.sql
+/opt/lampp/bin/php -S 127.0.0.1:8084 -t personal personal/router.php
+~~~
+
+La configuración admite las variables `PERSONAL_DB_HOST`, `PERSONAL_DB_PORT`, `PERSONAL_DB_NAME`, `PERSONAL_DB_USER`, `PERSONAL_DB_PASSWORD` y `PERSONAL_DB_SOCKET`, de modo que la conexión pueda ajustarse sin modificar el código compartido.
