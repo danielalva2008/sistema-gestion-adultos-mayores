@@ -16,17 +16,10 @@ USE sistema_residencia;
 
 -- ============================================================
 -- USUARIO DE APLICACIÓN
--- En XAMPP normalmente root no tiene contraseña.
--- Este usuario NO es el usuario administrador de la aplicación.
+-- El script dev.sh crea residencia_app con una clave local aleatoria.
+-- Para una instalación manual, crear ese usuario y otorgarle permisos
+-- SELECT, INSERT, UPDATE y DELETE sobre sistema_residencia.*.
 -- ============================================================
-CREATE USER IF NOT EXISTS 'residencia_app'@'localhost'
-IDENTIFIED BY 'Residencia2026*';
-
-GRANT SELECT, INSERT, UPDATE, DELETE
-ON sistema_residencia.*
-TO 'residencia_app'@'localhost';
-
-FLUSH PRIVILEGES;
 
 -- ============================================================
 -- TABLAS
