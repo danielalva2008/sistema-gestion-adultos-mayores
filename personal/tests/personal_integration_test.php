@@ -1,8 +1,8 @@
 <?php
 // Solo CLI; todas las escrituras de prueba se revierten.
 if (PHP_SAPI!=='cli') {http_response_code(404);exit;}
-require __DIR__.'/config.php';
-require __DIR__.'/model.php';
+require dirname(__DIR__).'/config/database.php';
+require dirname(__DIR__).'/models/personal_model.php';
 function check(bool $ok,string $label): void {if (!$ok) throw new RuntimeException($label);echo "OK: $label\n";}
 $db=database(); $db->beginTransaction();
 try {
