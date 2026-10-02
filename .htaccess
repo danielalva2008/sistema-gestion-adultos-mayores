@@ -1,0 +1,6 @@
+# Demostración académica local. Integrar autenticación antes de publicar.
+Require local
+Options -Indexes
+<FilesMatch "^(README|database|.*\.sql|.*\.zip)">
+Require all denied
+</FilesMatch>
