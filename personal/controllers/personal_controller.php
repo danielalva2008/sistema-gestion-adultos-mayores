@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 session_start(['cookie_httponly' => true, 'cookie_samesite' => 'Lax']);
-require __DIR__ . '/config.php';
-require __DIR__ . '/model.php';
+require dirname(__DIR__) . '/config/database.php';
+require dirname(__DIR__) . '/models/personal_model.php';
 
 function h(mixed $value): string
 {
@@ -103,4 +103,4 @@ if ($db && !$fatal) {
     }
 }
 
-require __DIR__ . '/view.php';
+require dirname(__DIR__) . '/views/personal_view.php';
