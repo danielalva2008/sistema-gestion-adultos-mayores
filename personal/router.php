@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-if ($path === '/style.css') {
+if (in_array($path, ['/style.css', '/public/css/style.css'], true)) {
     header('Content-Type: text/css; charset=utf-8');
-    readfile(__DIR__ . '/style.css');
+    readfile(__DIR__ . '/public/css/style.css');
     return;
 }
 $routes = [

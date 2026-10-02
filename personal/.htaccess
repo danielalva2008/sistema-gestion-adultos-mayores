@@ -1,4 +1,10 @@
 Options -Indexes
+
 <FilesMatch "^(?!(index|crear|editar|guardar|actualizar|inactivar)\.php$|style\.css$).+">
     Require all denied
 </FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^public/css/style\.css$ - [L]
+</IfModule>
