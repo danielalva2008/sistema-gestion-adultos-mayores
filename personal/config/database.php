@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 function database(): PDO
 {
+    $password = getenv('PERSONAL_DB_PASSWORD');
+    if ($password === false || $password === '') {
+        throw new RuntimeException('Configura PERSONAL_DB_PASSWORD para conectar con la base de datos.');
+    }
+
     $socket = getenv('PERSONAL_DB_SOCKET');
     $name = getenv('PERSONAL_DB_NAME') ?: 'sistema_residencia';
     $host = getenv('PERSONAL_DB_HOST') ?: '127.0.0.1';
@@ -16,7 +21,7 @@ function database(): PDO
     return new PDO(
         $dsn,
         getenv('PERSONAL_DB_USER') ?: 'residencia_app',
-        getenv('PERSONAL_DB_PASSWORD') ?: 'Residencia2026*',
+        $password,
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
