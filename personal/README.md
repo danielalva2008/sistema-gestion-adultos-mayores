@@ -173,7 +173,7 @@ También puede ejecutarse directamente sobre una base académica configurada:
 
 Las pruebas verifican registro, lectura, edición, búsqueda, duplicados, formatos, longitudes, estados, impacto de la baja, conservación de relaciones y consultas parametrizadas. Las escrituras se revierten mediante una transacción.
 
-La validación se realizó con PHP 8.2.12 y MariaDB 10.4.32 de XAMPP.
+La validación se realizó con PHP 8.2.12 y MariaDB 10.4.32 de XAMPP. También se importó el esquema en MySQL Community Server 8.0.46, se superaron las 17 pruebas de integración y se comprobó el listado web con los 15 registros de prueba.
 
 ## 11. Evidencias
 
