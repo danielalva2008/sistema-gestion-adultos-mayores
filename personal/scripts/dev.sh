@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 # Entorno académico aislado: usa los ejecutables instalados de XAMPP.
 set -euo pipefail
-module_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+module_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 xampp_dir="${XAMPP_DIR:-/opt/lampp}"
 runtime_dir="$module_dir/.local"
 mode="${1:-serve}"
 if [[ "$mode" != serve && "$mode" != test ]]; then
-    echo 'Uso: bash personal/dev.sh [serve|test]' >&2
+    echo 'Uso: bash personal/scripts/dev.sh [serve|test]' >&2
     exit 1
 fi
 for executable in bin/php bin/mysql bin/mysql_install_db sbin/mysqld; do
@@ -48,11 +48,20 @@ fi
 exists="$("$xampp_dir/bin/mysql" "${mysql_args[@]}" -Nse "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name='sistema_residencia'")"
 if [[ "$exists" == 0 ]]; then
     echo 'Preparando los datos ficticios para la primera ejecución...'
-    "$xampp_dir/bin/mysql" "${mysql_args[@]}" < "$module_dir/database-inicial.sql"
+    "$xampp_dir/bin/mysql" "${mysql_args[@]}" < "$module_dir/database/database.sql"
 fi
+password_file="$runtime_dir/db_password"
+if [[ ! -s "$password_file" ]]; then
+    umask 077
+    od -An -N24 -tx1 /dev/urandom | tr -d ' \n' > "$password_file"
+fi
+db_password="$(cat "$password_file")"
+[[ "$db_password" =~ ^[0-9a-f]{48}$ ]] || { echo 'La clave local de la base de datos no es válida.' >&2; exit 1; }
+"$xampp_dir/bin/mysql" "${mysql_args[@]}" -e "CREATE USER IF NOT EXISTS 'residencia_app'@'localhost' IDENTIFIED BY '$db_password'; ALTER USER 'residencia_app'@'localhost' IDENTIFIED BY '$db_password'; GRANT SELECT, INSERT, UPDATE, DELETE ON sistema_residencia.* TO 'residencia_app'@'localhost';"
 export PERSONAL_DB_SOCKET="$socket_dir/mysql.sock"
+export PERSONAL_DB_PASSWORD="$db_password"
 if [[ "$mode" == test ]]; then
-    "$xampp_dir/bin/php" "$module_dir/test.php"
+    "$xampp_dir/bin/php" "$module_dir/tests/personal_integration_test.php"
 else
     echo 'Personal listo en http://127.0.0.1:8084'
     echo 'Deja esta terminal abierta. Ctrl+C detiene el entorno y conserva los datos.'
