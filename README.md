@@ -316,25 +316,35 @@ Admin/
 
 # Evidencias de funcionamiento
 
+Las siguientes capturas muestran las principales operaciones implementadas
+en el CRUD de usuarios.
+
 ## Listado y búsqueda
 
-<!-- Pendiente: captura del listado y búsqueda -->
+La interfaz permite visualizar los usuarios registrados y utilizar los
+criterios de búsqueda y filtrado disponibles.
+
+![Listado y búsqueda de usuarios](docs/grupo1/evidencias/01_listado_busqueda.png)
 
 ## Registro de usuario
 
-<!-- Pendiente: captura del registro -->
+Evidencia del proceso de registro de un nuevo usuario en el sistema.
+
+![Registro de usuario](docs/grupo1/evidencias/02_registro.png)
 
 ## Edición de usuario
 
-<!-- Pendiente: captura de edición -->
+Evidencia de la actualización de los datos de un usuario registrado.
+
+![Edición de usuario](docs/grupo1/evidencias/03_edicion.png)
 
 ## Inactivación y reactivación
 
-<!-- Pendiente: captura del cambio de estado -->
+Evidencia del manejo del estado del usuario mediante baja lógica,
+manteniendo el registro almacenado en la base de datos.
 
-## Hash de contraseña
+![Cambio de estado del usuario](docs/grupo1/evidencias/04_estado.png)
 
-<!-- Pendiente: captura de phpMyAdmin mostrando password_hash -->
 
 ---
 
