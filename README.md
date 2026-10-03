@@ -395,7 +395,9 @@ hacia:
 main
 ```
 
-El enlace al Pull Request final se añadirá en esta sección cuando se encuentre preparado para revisión.
+Pull Request final:
+
+https://github.com/danielalva2008/sistema-gestion-adultos-mayores/pull/11
 
 ---
 
