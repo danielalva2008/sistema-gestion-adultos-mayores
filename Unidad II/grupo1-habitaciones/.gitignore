@@ -1,0 +1,8 @@
+# Credenciales reales: NUNCA se suben a Git
+.env
+
+# Entornos virtuales y caché de Python
+venv/
+.venv/
+__pycache__/
+*.pyc
