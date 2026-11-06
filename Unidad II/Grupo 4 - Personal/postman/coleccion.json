@@ -1,0 +1,475 @@
+{
+  "info": {
+    "name": "Grupo 4 · Personal · Unidad II",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5004"
+    },
+    {
+      "key": "id_prueba",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "KPIs y gráfica",
+      "item": [
+        {
+          "name": "KPIs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/kpis"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Gráfica comparativa",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/grafico"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "KPIs por fecha",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/kpis?fecha_desde=2025-01-01&fecha_hasta=2025-12-31"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Listado y filtros",
+      "item": [
+        {
+          "name": "Listado completo",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Cargo y estado",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal?cargo=Enfermera&estado=ACTIVO"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Tres filtros y fechas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal?cargo=Enfermera&estado=ACTIVO&especialidad=Geriatr%C3%ADa&fecha_desde=2020-01-01&fecha_hasta=2025-12-31"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Catálogos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/catalogos"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Rango inválido",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal?fecha_desde=2025-12-31&fecha_hasta=2025-01-01"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "CRUD",
+      "item": [
+        {
+          "name": "Crear registro de prueba",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/personal",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo_personal\": \"U2-{{$timestamp}}\",\n  \"nombres\": \"Prueba\",\n  \"apellidos\": \"Postman\",\n  \"cargo\": \"Analista\",\n  \"especialidad\": \"Sistemas\",\n  \"telefono\": \"999111222\",\n  \"email\": \"prueba@example.test\",\n  \"fecha_ingreso\": \"2025-01-01\",\n  \"estado\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.collectionVariables.set(\"id_prueba\", pm.response.json().data.id_personal);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Consultar registro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/{{id_prueba}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Actualizar registro",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/personal/{{id_prueba}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo_personal\": \"EDIT-{{id_prueba}}\",\n  \"nombres\": \"Prueba\",\n  \"apellidos\": \"Postman\",\n  \"cargo\": \"Analista\",\n  \"especialidad\": \"Sistemas\",\n  \"telefono\": \"999111222\",\n  \"email\": \"prueba@example.test\",\n  \"fecha_ingreso\": \"2025-01-01\",\n  \"estado\": \"INACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Validar correo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/personal",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo_personal\": \"U2-{{$timestamp}}\",\n  \"nombres\": \"Prueba\",\n  \"apellidos\": \"Postman\",\n  \"cargo\": \"Analista\",\n  \"especialidad\": \"Sistemas\",\n  \"telefono\": \"999111222\",\n  \"email\": \"sin-arroba\",\n  \"fecha_ingreso\": \"2025-01-01\",\n  \"estado\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Código duplicado",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{base_url}}/api/personal",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"codigo_personal\": \"PER001\",\n  \"nombres\": \"Prueba\",\n  \"apellidos\": \"Postman\",\n  \"cargo\": \"Analista\",\n  \"especialidad\": \"Sistemas\",\n  \"telefono\": \"999111222\",\n  \"email\": \"prueba@example.test\",\n  \"fecha_ingreso\": \"2025-01-01\",\n  \"estado\": \"ACTIVO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Proteger historial",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}/api/personal/1"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Eliminar registro de prueba",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{base_url}}/api/personal/{{id_prueba}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Registro inexistente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/{{id_prueba}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(false));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Transferencia",
+      "item": [
+        {
+          "name": "Primera transferencia",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{base_url}}/api/personal/transferir"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Segunda transferencia sin duplicados",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": "{{base_url}}/api/personal/transferir"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"Sin nuevas inserciones\",()=>pm.expect(pm.response.json().insertados).to.eql(0));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resumen",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{base_url}}/api/personal/transferencia/resumen"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"Respuesta JSON\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
