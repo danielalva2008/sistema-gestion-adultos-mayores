@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{{ title }} · Personal</title>
+<link rel="stylesheet" href="{{ url_for('static',filename='vendor/adminlte.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static',filename='css/personal.css') }}">
+</head><body class="layout-fixed sidebar-expand-lg bg-body-tertiary" data-page="{{ active }}">
+<div class="app-wrapper">
+<nav class="app-header navbar navbar-expand bg-body"><div class="container-fluid"><button class="btn btn-light me-3" data-lte-toggle="sidebar" aria-label="Abrir menú">☰</button><span class="navbar-text">Residencia de adultos mayores</span><span class="ms-auto badge text-bg-light">Unidad II · Grupo 4</span></div></nav>
+<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark"><div class="sidebar-brand"><a href="/" class="brand-link"><span class="brand-text fw-semibold">Residencia <span class="brand-dot">●</span></span></a></div>
+<div class="sidebar-wrapper"><div class="sidebar-label">GESTIÓN DE PERSONAL</div><nav aria-label="Menú principal"><ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview">
+<li class="nav-item"><a class="nav-link {{ 'active' if active=='dashboard' }}" href="/index3.html"><span class="nav-icon">◫</span><p>Dashboard</p></a></li>
+<li class="nav-item"><a class="nav-link {{ 'active' if active=='listado' }}" href="/tables/data.html"><span class="nav-icon">▤</span><p>Listado de personal</p></a></li>
+<li class="nav-item"><a class="nav-link {{ 'active' if active=='crud' }}" href="/crud.html"><span class="nav-icon">＋</span><p>Mantenimiento</p></a></li>
+<li class="nav-item"><a class="nav-link" href="/index3.html#transferencia"><span class="nav-icon">⇄</span><p>Transferencia a SQL Server</p></a></li>
+</ul></nav><div class="sidebar-note">Directorio, indicadores<br>y seguimiento del equipo.</div></div></aside>
+<main class="app-main"><div class="app-content-header"><div class="container-fluid"><div class="eyebrow">PERSONAL / UNIDAD II</div><h1>{{ title }}</h1><p class="text-secondary mb-0">{% block subtitle %}{% endblock %}</p></div></div>
+<div class="app-content"><div class="container-fluid"><div id="notice" role="status" class="alert d-none"></div>{% block content %}{% endblock %}</div></div></main>
+<footer class="app-footer"><strong>Grupo 4 · Personal</strong><span class="float-end d-none d-sm-inline">Sistema de Gestión de Residencia</span></footer></div>
+<script src="{{ url_for('static',filename='vendor/bootstrap.bundle.min.js') }}"></script><script src="{{ url_for('static',filename='vendor/adminlte.min.js') }}"></script><script src="{{ url_for('static',filename='vendor/chart.umd.js') }}"></script><script src="{{ url_for('static',filename='js/personal.js') }}"></script>
+</body></html>

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block subtitle %}Consulta el directorio y combina filtros para encontrar al personal.{% endblock %}
+{% block content %}
+<form id="list-filters" class="card mb-4"><div class="card-header"><h2 class="card-title">Filtros del directorio</h2></div><div class="card-body"><div class="row g-3">
+<div class="col-md-4"><label for="cargo" class="form-label">Cargo</label><select id="cargo" name="cargo" class="form-select"><option value="">Todos los cargos</option></select></div>
+<div class="col-md-4"><label for="estado" class="form-label">Estado</label><select id="estado" name="estado" class="form-select"><option value="">Todos</option><option>ACTIVO</option><option>INACTIVO</option></select></div>
+<div class="col-md-4"><label for="especialidad" class="form-label">Especialidad</label><select id="especialidad" name="especialidad" class="form-select"><option value="">Todas las especialidades</option></select></div>
+<div class="col-md-3"><label for="fecha_desde" class="form-label">Ingreso desde</label><input id="fecha_desde" name="fecha_desde" type="date" class="form-control"></div><div class="col-md-3"><label for="fecha_hasta" class="form-label">Ingreso hasta</label><input id="fecha_hasta" name="fecha_hasta" type="date" class="form-control"></div><div class="col-md-6"><label for="q" class="form-label">Buscar por nombre, apellido o código</label><input id="q" name="q" type="search" maxlength="100" class="form-control" placeholder="Escribe un nombre o código"></div>
+</div><div class="d-flex gap-2 mt-3"><button class="btn btn-primary">Filtrar</button><button type="reset" class="btn btn-outline-secondary">Limpiar</button></div></div></form>
+<section class="card"><div class="card-header d-flex align-items-center"><h2 class="card-title">Personal <span id="row-count" class="badge text-bg-light ms-2">—</span></h2><a class="btn btn-primary btn-sm ms-auto" href="/crud.html">Registrar personal</a></div><div class="card-body p-0"><div class="table-responsive"><table class="table table-hover align-middle mb-0"><thead><tr><th>Código</th><th>Personal</th><th>Cargo / especialidad</th><th>Ingreso</th><th>Estado</th><th>Acciones</th></tr></thead><tbody id="staff-rows"><tr><td colspan="6" class="text-center p-4">Cargando directorio…</td></tr></tbody></table></div></div></section>
+{% endblock %}
