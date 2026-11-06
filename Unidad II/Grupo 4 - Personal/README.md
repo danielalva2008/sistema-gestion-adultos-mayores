@@ -18,6 +18,46 @@ Aplicación de la Unidad II del Sistema de Gestión de Residencia para Adultos M
 - Transferencia transaccional a SQL Server con MERGE por llave primaria, conteos y resumen.
 - Colección Postman y pruebas de integración.
 
+## Evidencias de funcionamiento
+
+Capturas reales de la aplicación en ejecución con datos académicos sintéticos.
+
+### Dashboard de indicadores
+
+El dashboard muestra 15 trabajadores activos y los indicadores calculados por la API. Cada tarjeta permite consultar la fórmula correspondiente.
+
+![Dashboard con los indicadores del módulo Personal](capturas/indicadores.png)
+
+### Gráfica y distribución por cargo
+
+La gráfica compara las actividades a cargo y los incidentes reportados. El panel lateral muestra la distribución del personal por cargo.
+
+![Gráfica comparativa y distribución del personal por cargo](capturas/grafica.png)
+
+### Listado con filtros combinados
+
+La combinación del cargo Enfermera y el estado ACTIVO devuelve cuatro registros. La pantalla también incluye filtros por especialidad, fecha de ingreso y búsqueda textual.
+
+![Listado de cuatro enfermeras activas con los filtros aplicados](capturas/filtros.png)
+
+### Mantenimiento y baja lógica
+
+La captura muestra la actualización del registro ficticio UI-U2 al estado INACTIVO y la confirmación de que los cambios se guardaron correctamente.
+
+![Formulario de personal con el estado INACTIVO y confirmación de cambios guardados](capturas/mantenimiento.png)
+
+### Protección del historial
+
+Cuando el trabajador tiene actividades o incidentes asociados, la aplicación rechaza su eliminación e indica que debe cambiarse su estado a INACTIVO.
+
+![Mensaje que impide eliminar a un trabajador con relaciones históricas](capturas/proteccion.png)
+
+### Transferencia a SQL Server
+
+El resumen muestra 15 registros en MySQL y 15 en SQL Server, junto con la fecha de la última transferencia. En la primera ejecución se insertaron 15 registros. Al repetirla, se insertaron 0 y se actualizaron 15.
+
+![Resumen de la transferencia con 15 registros en ambas bases de datos](capturas/transferencia.png)
+
 ## Arquitectura
 
 | Componente | Tecnología |
