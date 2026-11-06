@@ -1,0 +1,422 @@
+{
+  "info": {
+    "name": "Grupo 1 | Habitaciones",
+    "description": "Ejecutar las carpetas en orden con los datos oficiales de MySQL. Para validar las dos transferencias, ejecutar previamente TRUNCATE TABLE dbo.habitaciones; únicamente en el SQL Server de pruebas. Las dos peticiones de transferencia deben correrse seguidas, sin volver a vaciar la tabla entre ellas.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5000",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "KPIs",
+      "item": [
+        {
+          "name": "KPIs oficiales",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Ocupación y camas libres\", () => {",
+                  "  const kpis = pm.response.json().data;",
+                  "  pm.expect(kpis.tasa_ocupacion).to.equal(78.3);",
+                  "  pm.expect(kpis.camas_libres).to.equal(5);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/habitaciones/kpis"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Listado con filtros",
+      "item": [
+        {
+          "name": "Disponibles en el piso 1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Habitaciones 103 y 105\", () => {",
+                  "  const listado = pm.response.json();",
+                  "  pm.expect(listado.total).to.equal(2);",
+                  "  pm.expect(listado.data.map(habitacion => habitacion.numero)).to.have.members([\"103\", \"105\"]);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/habitaciones?estado=DISPONIBLE&piso=1"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CRUD",
+      "item": [
+        {
+          "name": "Crear habitación temporal 999",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.unset(\"habitacion_temporal_id\");"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Devuelve el ID de la habitación temporal\", () => {",
+                  "  pm.expect(pm.response.json().data.id_habitacion).to.be.a(\"number\").and.to.be.above(0);",
+                  "});",
+                  "if (pm.response.code === 201) {",
+                  "  const id = pm.response.json().data?.id_habitacion;",
+                  "  if (Number.isSafeInteger(id) && id > 0) pm.collectionVariables.set(\"habitacion_temporal_id\", id);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/habitaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero\": \"999\",\n  \"piso\": 9,\n  \"capacidad\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Consultar habitación temporal",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"habitacion_temporal_id\")) {",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Número de la habitación temporal\", () => {",
+                  "  pm.expect(pm.response.json().data.numero).to.equal(\"999\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/habitaciones/{{habitacion_temporal_id}}"
+          }
+        },
+        {
+          "name": "Editar habitación temporal",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"habitacion_temporal_id\")) {",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Observaciones actualizadas\", () => {",
+                  "  pm.expect(pm.response.json().data.observaciones).to.equal(\"Prueba Postman\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/habitaciones/{{habitacion_temporal_id}}",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero\": \"999\",\n  \"piso\": 9,\n  \"capacidad\": 1,\n  \"estado\": \"DISPONIBLE\",\n  \"observaciones\": \"Prueba Postman\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Rechazar habitación 101 duplicada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"ok es false\", () => pm.expect(pm.response.json().ok).to.equal(false));",
+                  "pm.test(\"Mensaje de duplicado\", () => {",
+                  "  pm.expect(pm.response.json().error).to.include(\"Ya existe la habitación 101\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/habitaciones",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero\": \"101\",\n  \"piso\": 1,\n  \"capacidad\": 2,\n  \"estado\": \"DISPONIBLE\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Eliminar habitación temporal",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"habitacion_temporal_id\")) {",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", () => pm.response.to.have.status(204));",
+                  "pm.test(\"Respuesta sin cuerpo\", () => pm.expect(pm.response.text()).to.equal(\"\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/habitaciones/{{habitacion_temporal_id}}"
+          }
+        },
+        {
+          "name": "Comprobar que la habitación temporal fue eliminada",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get(\"habitacion_temporal_id\")) {",
+                  "  pm.execution.skipRequest();",
+                  "}"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"ok es false\", () => pm.expect(pm.response.json().ok).to.equal(false));",
+                  "if (pm.response.code === 404) pm.collectionVariables.unset(\"habitacion_temporal_id\");"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "url": "{{base_url}}/api/habitaciones/{{habitacion_temporal_id}}"
+          }
+        },
+        {
+          "name": "Bloquear borrado de habitación 101 con residentes",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"ok es false\", () => pm.expect(pm.response.json().ok).to.equal(false));",
+                  "pm.test(\"Motivo del bloqueo\", () => {",
+                  "  pm.expect(pm.response.json().error).to.include(\"residentes asignados\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "url": "{{base_url}}/api/habitaciones/1"
+          }
+        },
+        {
+          "name": "Permitir editar habitación 303 sin reducir capacidad",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Conserva la capacidad\", () => {",
+                  "  pm.expect(pm.response.json().data.capacidad).to.equal(1);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "url": "{{base_url}}/api/habitaciones/13",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"numero\": \"303\",\n  \"piso\": 3,\n  \"capacidad\": 1,\n  \"estado\": \"OCUPADA\",\n  \"observaciones\": \"Habitación individual\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transferencia",
+      "item": [
+        {
+          "name": "Primera transferencia (inserción)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Conteos de transferencia\", () => {",
+                  "  const resultado = pm.response.json();",
+                  "  pm.expect(resultado.leidos).to.equal(15);",
+                  "  pm.expect(resultado.insertados).to.equal(15);",
+                  "  pm.expect(resultado.actualizados).to.equal(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/habitaciones/transferir"
+          }
+        },
+        {
+          "name": "Segunda transferencia (actualización)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.equal(true));",
+                  "pm.test(\"Conteos de transferencia\", () => {",
+                  "  const resultado = pm.response.json();",
+                  "  pm.expect(resultado.leidos).to.equal(15);",
+                  "  pm.expect(resultado.insertados).to.equal(0);",
+                  "  pm.expect(resultado.actualizados).to.equal(15);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": "{{base_url}}/api/habitaciones/transferir"
+          }
+        }
+      ]
+    }
+  ]
+}

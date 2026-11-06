@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Panel de indicadores de habitaciones del Sistema de Gestión de Residencia para Adultos Mayores, Grupo 1.">
+  <title>Dashboard de habitaciones | Residencia · Grupo 1</title>
+  <link rel="icon" href="/static/dist/assets/img/AdminLTELogo.png">
+  <!-- Rutas absolutas: funcionan tanto en /index3.html como en /tables/data.html. -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+  <style>
+    :root { --res-acento: #0f766e; --res-azul: #2456a6; --res-tinta: #172739; --lte-sidebar-width: 265px; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .sidebar-brand { height: auto; min-height: 70px; padding: 0; }
+    .brand-link { min-height: 70px; display: flex; align-items: center; gap: .6rem; padding: .75rem .9rem; }
+    .brand-image { width: 38px; height: 38px; object-fit: contain; }
+    .brand-copy { display: grid; line-height: 1.15; min-width: 0; }
+    .brand-copy strong { font-size: .92rem; color: #fff; }
+    .brand-copy small { color: #ced8e4; font-size: .73rem; margin-top: .25rem; }
+    .sidebar-wrapper { padding-top: .75rem; }
+    .sidebar-menu .nav-link { margin-bottom: .3rem; border-radius: .6rem; }
+    .sidebar-menu .nav-link.active { background: #166f87; color: #fff; }
+    .sidebar-menu .nav-icon { margin-right: .65rem; }
+    .sidebar-menu .nav-link p { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.4; }
+    .sidebar-menu .nav-link { align-items: center; }
+    .sidebar-menu .nav-icon { flex-shrink: 0; }
+    .sidebar-caption { font-size: .7rem; letter-spacing: .09em; text-transform: uppercase; color: #bdcbd8; margin: 1.1rem 1rem .4rem; }
+    .app-header { min-height: 70px; box-shadow: 0 1px 0 rgba(15, 23, 42, .07); }
+    .header-label { font-size: .84rem; color: #64748b; }
+    .dashboard-heading { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem; }
+    .eyebrow { color: var(--res-acento); font-size: .73rem; text-transform: uppercase; letter-spacing: .12em; font-weight: 750; }
+    .dashboard-title { font-weight: 760; color: var(--res-tinta); letter-spacing: -.035em; margin: .15rem 0 .2rem; }
+    .muted { color: #6c7789; }
+    .page-intro { max-width: 760px; }
+    .status-line { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem; padding: .75rem 1rem; background: #fff; border: 1px solid #e6ebf1; border-radius: .8rem; }
+    .status-pill { display: inline-flex; gap: .35rem; align-items: center; border-radius: 99px; padding: .2rem .65rem; font-size: .75rem; font-weight: 700; }
+    .status-loading { background: #eaf2fa; color: #215995; }
+    .status-live { background: #def7ed; color: #146c43; }
+    .status-demo { background: #fff1d6; color: #865600; }
+    .status-error { background: #fee8e8; color: #9b2531; }
+    .status-warning { background: #fff2da; color: #8e650c; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+    .kpi-card { position: relative; overflow: hidden; border: 1px solid #e4eaf1; border-radius: .9rem; padding: 1.2rem 1.25rem 1rem; background: #fff; box-shadow: 0 3px 18px rgba(30, 50, 85, .035); min-height: 164px; }
+    .kpi-card::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--kpi-color, #0f766e); }
+    .kpi-top { display: flex; justify-content: space-between; gap: .8rem; }
+    .kpi-title { font-size: .85rem; font-weight: 650; color: #536276; margin: 0; }
+    .kpi-symbol { display: grid; place-items: center; width: 38px; height: 38px; border-radius: .65rem; background: var(--kpi-pale, #e8f6f3); color: var(--kpi-color, #0f766e); font-size: 1.1rem; flex: none; }
+    .kpi-value { margin: .42rem 0 .5rem; font-size: clamp(1.7rem, 2.2vw, 2.35rem); font-weight: 780; line-height: 1.05; color: #16283d; font-variant-numeric: tabular-nums; }
+    .kpi-formula { font-size: .74rem; line-height: 1.45; color: #697689; padding-top: .6rem; border-top: 1px solid #eff2f6; min-height: 2.6rem; }
+    .kpi-state-list { display: flex; gap: .4rem; flex-wrap: wrap; margin: .52rem 0 .62rem; }
+    .kpi-state-list span { font-size: .73rem; padding: .26rem .44rem; background: #edf4fb; color: #25466a; border-radius: .35rem; font-weight: 650; }
+    .module-card { background: #fff; border: 1px solid #e3eaf2; border-radius: .9rem; box-shadow: 0 3px 18px rgba(30, 50, 85, .035); height: 100%; }
+    .module-card-header { padding: 1.05rem 1.2rem; display: flex; flex-wrap: wrap; gap: .5rem; align-items: flex-start; justify-content: space-between; border-bottom: 1px solid #eef1f5; }
+    .module-card-header h2 { font-size: 1rem; font-weight: 740; margin: 0 0 .18rem; color: #25364a; }
+    .module-card-body { padding: 1.1rem 1.2rem; }
+    .graph-region { min-height: 300px; }
+    .graph-region-small { min-height: 280px; }
+    .helper { font-size: .78rem; color: #6b7585; line-height: 1.5; }
+    .transfer-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .85rem; }
+    .transfer-stat { padding: 1rem; background: #f5f8fc; border: 1px solid #e9eff5; border-radius: .65rem; }
+    .transfer-stat .caption-label { display: block; color: #627186; font-size: .77rem; font-weight: 600; margin-bottom: .45rem; }
+    .transfer-stat strong { display: block; color: #203650; font-size: 1.16rem; overflow-wrap: anywhere; }
+    .transfer-result { margin-top: 1rem; border: 1px solid #d3e9dc; background: #f2faf5; border-radius: .65rem; padding: 1rem; }
+    .transfer-result h3 { font-size: .88rem; font-weight: 700; color: #195d3c; }
+    .transfer-result-grid { display: flex; flex-wrap: wrap; gap: 1rem; font-size: .85rem; }
+    #card-transferencia { scroll-margin-top: 1rem; }
+    .demo-banner { border-radius: .75rem; border: 1px solid #edce82; background: #fffae8; padding: .7rem 1rem; color: #785108; }
+    .inline-message { font-size: .82rem; border-radius: .5rem; padding: .7rem .8rem; margin: .4rem 0; }
+    .inline-message.error { background: #fff0f0; color: #96343b; }
+    .inline-message.warning { background: #fff7e9; color: #885f1a; }
+    .inline-message.info { background: #eaf5ff; color: #295d87; }
+    .fallback-row { display: grid; grid-template-columns: 80px 1fr; gap: .65rem; margin: 1rem 0; font-size: .78rem; }
+    .fallback-bars { display: grid; gap: .35rem; }
+    .fallback-bar { border-radius: .25rem; color: #fff; min-width: 22px; padding: .1rem .35rem; white-space: nowrap; }
+    .graph-legend { display: flex; flex-wrap: wrap; gap: 1.1rem; font-size: .76rem; color: #526273; }
+    .graph-legend i { display: inline-block; width: .65rem; height: .65rem; border-radius: .2rem; margin-right: .4rem; }
+    .small-icon { font-size: .9rem; }
+    .btn-primary { background-color: #166c83; border-color: #166c83; }
+    .btn-primary:hover { background-color: #0d566d; border-color: #0d566d; }
+    .app-footer { font-size: .78rem; color: #748093; }
+    [hidden] { display: none !important; }
+    @media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+    @media (max-width: 680px) { .kpi-grid { grid-template-columns: 1fr; } .transfer-stats { grid-template-columns: 1fr; } .dashboard-title { font-size: 1.7rem; } }
+  </style>
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
+  <nav class="app-header navbar navbar-expand bg-body" aria-label="Barra superior">
+    <div class="container-fluid">
+      <ul class="navbar-nav align-items-center">
+        <li class="nav-item"><a class="nav-link" href="#" data-lte-toggle="sidebar" role="button" aria-label="Abrir o cerrar menú"><i class="bi bi-list fs-5" aria-hidden="true"></i></a></li>
+        <li class="nav-item d-none d-sm-block"><span class="header-label ms-2">Sistema de Gestión de Residencia para Adultos Mayores</span></li>
+      </ul>
+      <ul class="navbar-nav ms-auto align-items-center"><li class="nav-item"><span class="badge rounded-pill text-bg-light border px-3 py-2">Grupo 1 · Habitaciones</span></li></ul>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR COMPARTIDO: el integrante 6 debe copiar este bloque en sus páginas. -->
+  <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark" aria-label="Menú principal">
+    <div class="sidebar-brand">
+      <a href="/index3.html" class="brand-link" aria-label="Residencia · Grupo 1 (Habitaciones)">
+        <img src="/static/dist/assets/img/AdminLTELogo.png" alt="Emblema de la aplicación" class="brand-image opacity-75 shadow">
+        <span class="brand-copy"><strong>Residencia · Grupo 1</strong><small>(Habitaciones)</small></span>
+      </a>
+    </div>
+    <div class="sidebar-wrapper">
+      <div class="sidebar-caption">Navegación</div>
+      <nav id="navigation" aria-label="Secciones del módulo">
+        <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+          <li class="nav-item"><a href="/index3.html" class="nav-link active" aria-current="page"><i class="nav-icon bi bi-speedometer2" aria-hidden="true"></i><p>Dashboard</p></a></li>
+          <li class="nav-item"><a href="/tables/data.html" class="nav-link"><i class="nav-icon bi bi-table" aria-hidden="true"></i><p>Listado de habitaciones</p></a></li>
+          <li class="nav-item"><a href="/crud.html" class="nav-link"><i class="nav-icon bi bi-pencil-square" aria-hidden="true"></i><p>Mantenimiento de habitaciones</p></a></li>
+          <li class="nav-item"><a href="/index3.html#card-transferencia" class="nav-link"><i class="nav-icon bi bi-database-up" aria-hidden="true"></i><p>Transferencia a SQL Server</p></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-caption mt-4">Proyecto académico</div>
+      <p class="px-3 text-light-emphasis small">Flask · MySQL · SQL Server<br>Unidad II · Desarrollo de aplicaciones</p>
+    </div>
+  </aside>
+
+  <main class="app-main" id="main">
+    <div class="app-content-header pb-1">
+      <div class="container-fluid dashboard-heading">
+        <div class="page-intro">
+          <div class="eyebrow">Panel de administración</div>
+          <h1 class="dashboard-title">Gestión de habitaciones</h1>
+          <p class="muted mb-0">Indicadores de capacidad y ocupación, comparación por piso y sincronización de registros.</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <button type="button" id="btn-refrescar" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-clockwise me-1" aria-hidden="true"></i>Actualizar datos</button>
+          <button type="button" id="btn-demo" class="btn btn-outline-primary btn-sm">Ver demostración</button>
+          <button type="button" id="btn-real" class="btn btn-outline-primary btn-sm" hidden>Volver a datos reales</button>
+        </div>
+      </div>
+    </div>
+    <div class="app-content pb-4">
+      <div class="container-fluid">
+        <noscript><div class="alert alert-warning">Activa JavaScript para cargar los indicadores y las gráficas. La transferencia permanece deshabilitada.</div></noscript>
+        <div id="aviso-demo" class="demo-banner mb-3" hidden role="note"><i class="bi bi-info-circle me-1" aria-hidden="true"></i><strong>Modo demostración:</strong> los números son referencias de la guía del docente, no resultados de la base de datos. La transferencia real está deshabilitada.</div>
+        <div class="status-line mb-4" aria-live="polite">
+          <span id="estado-etiqueta" class="status-pill status-loading">Conectando…</span>
+          <span id="estado-descripcion" class="helper">Consultando las APIs de habitaciones.</span>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+          <div><h2 class="h5 fw-bold mb-1">Indicadores de habitaciones</h2><p class="helper mb-0">Seis indicadores calculados en SQL y presentados a través de la API de Flask.</p></div>
+          <span class="badge text-bg-light border">KPIs · Grupo 1</span>
+        </div>
+        <div id="error-kpis" class="inline-message error mb-3" hidden role="alert"></div>
+        <section class="kpi-grid mb-4" aria-label="Seis indicadores de habitaciones">
+          <article class="kpi-card" style="--kpi-color:#166c83;--kpi-pale:#e7f5f8"><div class="kpi-top"><h3 class="kpi-title">Total de habitaciones</h3><span class="kpi-symbol"><i class="bi bi-door-closed" aria-hidden="true"></i></span></div><div class="kpi-value" id="kpi-total">—</div><div class="kpi-formula">Fórmula: COUNT(*) de habitaciones</div></article>
+          <article class="kpi-card" style="--kpi-color:#3455ad;--kpi-pale:#ebeffb"><div class="kpi-top"><h3 class="kpi-title">Capacidad instalada (camas)</h3><span class="kpi-symbol"><i class="bi bi-grid-3x3-gap" aria-hidden="true"></i></span></div><div class="kpi-value" id="kpi-capacidad">—</div><div class="kpi-formula">Fórmula: SUM(capacidad)</div></article>
+          <article class="kpi-card" style="--kpi-color:#13866d;--kpi-pale:#e3f8ef"><div class="kpi-top"><h3 class="kpi-title">Camas operativas</h3><span class="kpi-symbol"><i class="bi bi-check2-circle" aria-hidden="true"></i></span></div><div class="kpi-value" id="kpi-operativas">—</div><div class="kpi-formula">Fórmula: SUM(capacidad) de habitaciones con estado ≠ MANTENIMIENTO</div></article>
+          <article class="kpi-card" style="--kpi-color:#c17a24;--kpi-pale:#fff4e0"><div class="kpi-top"><h3 class="kpi-title">Tasa de ocupación</h3><span class="kpi-symbol"><i class="bi bi-percent" aria-hidden="true"></i></span></div><div class="kpi-value" id="kpi-ocupacion">—</div><div class="kpi-formula">Fórmula: residentes ACTIVOS con habitación ÷ camas operativas × 100</div></article>
+          <article class="kpi-card" style="--kpi-color:#7952b3;--kpi-pale:#f0eafa"><div class="kpi-top"><h3 class="kpi-title">Camas libres</h3><span class="kpi-symbol"><i class="bi bi-house-check" aria-hidden="true"></i></span></div><div class="kpi-value" id="kpi-libres">—</div><div class="kpi-formula">Fórmula: camas operativas − residentes ACTIVOS con habitación</div></article>
+          <article class="kpi-card" style="--kpi-color:#af4778;--kpi-pale:#f9eaf1"><div class="kpi-top"><h3 class="kpi-title">Habitaciones por estado</h3><span class="kpi-symbol"><i class="bi bi-bar-chart-steps" aria-hidden="true"></i></span></div><div class="kpi-state-list" id="kpi-estados" aria-live="polite"><span>Sin datos</span></div><div class="kpi-formula">Fórmula: COUNT(*) agrupado por estado</div></article>
+        </section>
+
+        <section class="row g-3 mb-4" aria-label="Gráficos de ocupación">
+          <div class="col-xl-8"><div class="module-card"><div class="module-card-header"><div><h2>Capacidad vs. residentes por piso</h2><p class="helper mb-0">Gráfica comparativa de barras agrupadas (camas y residentes).</p></div><span class="badge text-bg-light border">Por piso</span></div><div class="module-card-body"><div id="error-grafico" class="inline-message error" hidden role="alert"></div><div id="grafica-pisos" class="graph-region" role="img" aria-label="Capacidad de camas y residentes asignados agrupados por piso"></div><div id="fuente-grafico" class="helper mt-2">Fuente: API de habitaciones; datos pendientes de consulta.</div></div></div></div>
+          <div class="col-xl-4"><div class="module-card"><div class="module-card-header"><div><h2>Distribución por estado</h2><p class="helper mb-0">Habitaciones disponibles, ocupadas y en mantenimiento.</p></div></div><div class="module-card-body"><div id="grafica-estados" class="graph-region-small" role="img" aria-label="Distribución de habitaciones por estado"></div><p class="helper mb-0 text-center">Indicador complementario del dashboard.</p></div></div></div>
+        </section>
+
+        <section class="module-card" id="card-transferencia" aria-labelledby="titulo-transferencia">
+          <div class="module-card-header"><div><h2 id="titulo-transferencia"><i class="bi bi-arrow-left-right me-2" aria-hidden="true"></i>Transferencia a SQL Server</h2><p class="helper mb-0">Replica los registros de habitaciones desde MySQL y evita duplicados mediante la API.</p></div><span class="badge text-bg-light border">Sincronización</span></div>
+          <div class="module-card-body">
+            <div id="error-transferencia" class="inline-message warning mb-3" hidden role="alert"></div>
+            <div class="transfer-stats mb-3">
+              <div class="transfer-stat"><span class="caption-label"><i class="bi bi-database me-1" aria-hidden="true"></i>Registros en MySQL</span><strong id="mysql-total">—</strong></div>
+              <div class="transfer-stat"><span class="caption-label"><i class="bi bi-server me-1" aria-hidden="true"></i>Registros en SQL Server</span><strong id="sqlserver-total">—</strong></div>
+              <div class="transfer-stat"><span class="caption-label"><i class="bi bi-clock-history me-1" aria-hidden="true"></i>Última transferencia</span><strong id="ultima-transferencia" class="fs-6">—</strong></div>
+            </div>
+            <div class="d-flex flex-wrap gap-3 align-items-center">
+              <button type="button" id="btn-transferir" class="btn btn-primary px-4" aria-describedby="texto-estado-transferencia" disabled>
+                <span id="spinner-transferencia" class="spinner-border spinner-border-sm me-2" aria-hidden="true" hidden></span>
+                <i class="bi bi-database-up me-1" aria-hidden="true"></i><span id="texto-transferir">Transferir a SQL Server</span>
+              </button>
+              <span id="texto-estado-transferencia" class="helper" aria-live="polite">Se habilitará cuando el endpoint de transferencia esté disponible.</span>
+            </div>
+            <div id="resultado-transferencia" class="transfer-result" hidden role="status" aria-live="polite">
+              <h3><i class="bi bi-check-circle me-1" aria-hidden="true"></i>Resultado de la transferencia</h3>
+              <div class="transfer-result-grid"><span>Leídos: <strong id="res-leidos">—</strong></span><span>Insertados: <strong id="res-insertados">—</strong></span><span>Actualizados: <strong id="res-actualizados">—</strong></span><span>Duración: <strong id="res-duracion">—</strong></span><span>Fecha: <strong id="res-fecha">—</strong></span></div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  <footer class="app-footer"><div class="float-end d-none d-sm-inline">Unidad II · Grupo 1</div><strong>Sistema de Gestión de Residencia para Adultos Mayores</strong> · Panel de habitaciones</footer>
+</div>
+<!-- AdminLTE 4 local; bibliotecas de terceros usadas por la plantilla. -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts@4.7.0/dist/apexcharts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+<script src="/static/dist/js/adminlte.min.js"></script>
+<script src="/static/js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Listado de habitaciones | Grupo 1</title>
+  <link rel="stylesheet" href="/static/dist/css/adminlte.min.css">
+  <script src="/static/dist/js/adminlte.min.js" defer></script>
+  <script src="/static/js/listado.js" type="module"></script>
+  <style>
+    :root { --lte-sidebar-width: 265px; }
+    .sidebar-brand { height: auto; min-height: 70px; padding: 0; }
+    .brand-link { min-height: 70px; display: flex; align-items: center; gap: .6rem; padding: .75rem .9rem; }
+    .brand-image { width: 38px; height: 38px; object-fit: contain; }
+    .brand-copy { display: grid; line-height: 1.15; min-width: 0; }
+    .brand-copy strong { font-size: .92rem; color: #fff; }
+    .brand-copy small { color: #ced8e4; font-size: .73rem; margin-top: .25rem; }
+    .sidebar-wrapper { padding-top: .75rem; }
+    .sidebar-menu .nav-link { margin-bottom: .3rem; border-radius: .6rem; }
+    .sidebar-menu .nav-link.active { background: #166f87; color: #fff; }
+    .sidebar-menu .nav-icon { margin-right: .65rem; }
+    .sidebar-menu .nav-link p { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.4; }
+    .sidebar-menu .nav-link { align-items: center; }
+    .sidebar-menu .nav-icon { flex-shrink: 0; }
+    .sidebar-caption { font-size: .7rem; letter-spacing: .09em; text-transform: uppercase; color: #bdcbd8; margin: 1.1rem 1rem .4rem; }
+  </style>
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+  <div class="app-wrapper">
+    <header class="app-header navbar bg-body">
+      <div class="container-fluid">
+        <button class="btn btn-outline-secondary" type="button" data-lte-toggle="sidebar">Menú</button>
+      </div>
+    </header>
+    <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark" aria-label="Menú principal">
+      <div class="sidebar-brand">
+        <a href="/index3.html" class="brand-link" aria-label="Residencia · Grupo 1 (Habitaciones)">
+          <img src="/static/dist/assets/img/AdminLTELogo.png" alt="Emblema de la aplicación" class="brand-image opacity-75 shadow">
+          <span class="brand-copy"><strong>Residencia · Grupo 1</strong><small>(Habitaciones)</small></span>
+        </a>
+      </div>
+      <div class="sidebar-wrapper">
+        <div class="sidebar-caption">Navegación</div>
+        <nav id="navigation" aria-label="Secciones del módulo">
+          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+            <li class="nav-item"><a href="/index3.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-icon" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M8 4a.5.5 0 0 1 .5.5V6a.5.5 0 0 1-1 0V4.5A.5.5 0 0 1 8 4M3.732 5.732a.5.5 0 0 1 .707 0l.915.914a.5.5 0 1 1-.708.708l-.914-.915a.5.5 0 0 1 0-.707M2 10a.5.5 0 0 1 .5-.5h1.586a.5.5 0 0 1 0 1H2.5A.5.5 0 0 1 2 10m9.5 0a.5.5 0 0 1 .5-.5h1.5a.5.5 0 0 1 0 1H12a.5.5 0 0 1-.5-.5m.754-4.246a.39.39 0 0 0-.527-.02L7.547 9.31a.91.91 0 1 0 1.302 1.258l3.434-4.297a.39.39 0 0 0-.029-.518z"/>
+    <path fill-rule="evenodd" d="M0 10a8 8 0 1 1 15.547 2.661c-.442 1.253-1.845 1.602-2.932 1.25C11.309 13.488 9.475 13 8 13c-1.474 0-3.31.488-4.615.911-1.087.352-2.49.003-2.932-1.25A8 8 0 0 1 0 10m8-7a7 7 0 0 0-6.603 9.329c.203.575.923.876 1.68.63C4.397 12.533 6.358 12 8 12s3.604.532 4.923.96c.757.245 1.477-.056 1.68-.631A7 7 0 0 0 8 3"/>
+  </svg><p>Dashboard</p></a></li>
+            <li class="nav-item"><a href="/tables/data.html" class="nav-link active" aria-current="page"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-icon" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm15 2h-4v3h4zm0 4h-4v3h4zm0 4h-4v3h3a1 1 0 0 0 1-1zm-5 3v-3H6v3zm-5 0v-3H1v2a1 1 0 0 0 1 1zm-4-4h4V8H1zm0-4h4V4H1zm5-3v3h4V4zm4 4H6v3h4z"/>
+  </svg><p>Listado de habitaciones</p></a></li>
+            <li class="nav-item"><a href="/crud.html" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-icon" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"/>
+  </svg><p>Mantenimiento de habitaciones</p></a></li>
+            <li class="nav-item"><a href="/index3.html#card-transferencia" class="nav-link"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="nav-icon" aria-hidden="true" viewBox="0 0 16 16">
+    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7m.354-5.854 1.5 1.5a.5.5 0 0 1-.708.708L13 11.707V14.5a.5.5 0 0 1-1 0v-2.793l-.646.647a.5.5 0 0 1-.708-.708l1.5-1.5a.5.5 0 0 1 .708 0"/>
+    <path d="M12.096 6.223A5 5 0 0 0 13 5.698V7c0 .289-.213.654-.753 1.007a4.5 4.5 0 0 1 1.753.25V4c0-1.007-.875-1.755-1.904-2.223C11.022 1.289 9.573 1 8 1s-3.022.289-4.096.777C2.875 2.245 2 2.993 2 4v9c0 1.007.875 1.755 1.904 2.223C4.978 15.71 6.427 16 8 16c.536 0 1.058-.034 1.555-.097a4.5 4.5 0 0 1-.813-.927Q8.378 15 8 15c-1.464 0-2.766-.27-3.682-.687C3.356 13.875 3 13.373 3 13v-1.302c.271.202.58.378.904.525C4.978 12.71 6.427 13 8 13h.027a4.6 4.6 0 0 1 0-1H8c-1.464 0-2.766-.27-3.682-.687C3.356 10.875 3 10.373 3 10V8.698c.271.202.58.378.904.525C4.978 9.71 6.427 10 8 10q.393 0 .774-.024a4.5 4.5 0 0 1 1.102-1.132C9.298 8.944 8.666 9 8 9c-1.464 0-2.766-.27-3.682-.687C3.356 7.875 3 7.373 3 7V5.698c.271.202.58.378.904.525C4.978 6.711 6.427 7 8 7s3.022-.289 4.096-.777M3 4c0-.374.356-.875 1.318-1.313C5.234 2.271 6.536 2 8 2s2.766.27 3.682.687C12.644 3.125 13 3.627 13 4c0 .374-.356.875-1.318 1.313C10.766 5.729 9.464 6 8 6s-2.766-.27-3.682-.687C3.356 4.875 3 4.373 3 4"/>
+  </svg><p>Transferencia a SQL Server</p></a></li>
+          </ul>
+        </nav>
+        <div class="sidebar-caption mt-4">Proyecto académico</div>
+        <p class="px-3 text-light-emphasis small">Flask · MySQL · SQL Server<br>Unidad II · Desarrollo de aplicaciones</p>
+      </div>
+    </aside>
+    <main class="app-main">
+      <div class="app-content-header">
+        <div class="container-fluid"><h1 class="h3">Listado de habitaciones</h1></div>
+      </div>
+      <div class="app-content">
+        <div class="container-fluid">
+          <section class="card mb-3">
+            <div class="card-header"><h2 class="card-title" id="titulo-formulario">Filtros</h2></div>
+            <form id="filtros" class="card-body" aria-labelledby="titulo-formulario">
+              <div class="row g-3">
+              <div class="col-sm-6 col-lg-3">
+                <label for="estado" class="form-label">Estado</label>
+                <select id="estado" name="estado" class="form-select">
+                  <option value="">Todos</option>
+                  <option value="DISPONIBLE">Disponible</option>
+                  <option value="OCUPADA">Ocupada</option>
+                  <option value="MANTENIMIENTO">Mantenimiento</option>
+                </select>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <label for="piso" class="form-label">Piso</label>
+                <select id="piso" name="piso" class="form-select">
+                  <option value="">Todos</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                </select>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <label for="capacidad" class="form-label">Capacidad</label>
+                <select id="capacidad" name="capacidad" class="form-select">
+                  <option value="">Todas</option>
+                  <option value="1">1 cama</option>
+                  <option value="2">2 camas</option>
+                </select>
+              </div>
+              <div class="col-sm-6 col-lg-3">
+                <label for="q" class="form-label">Búsqueda</label>
+                <input id="q" name="q" class="form-control" type="search" placeholder="Número u observaciones">
+              </div>
+              </div>
+              <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-primary" type="submit">Filtrar</button>
+                <button class="btn btn-outline-secondary" type="reset">Limpiar</button>
+              </div>
+            </form>
+          </section>
+          <p id="mensaje" role="status"></p>
+          <div class="card table-responsive">
+            <table class="table table-striped align-middle mb-0">
+              <caption class="visually-hidden">Habitaciones registradas</caption>
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Número</th>
+                  <th scope="col">Piso</th>
+                  <th scope="col">Capacidad</th>
+                  <th scope="col">Residentes asignados</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Observaciones</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="habitaciones"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
