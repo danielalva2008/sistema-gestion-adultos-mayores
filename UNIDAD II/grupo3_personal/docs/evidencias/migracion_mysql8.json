@@ -1,0 +1,17 @@
+{
+  "motor_destino": "8.4.13",
+  "verificacion_todos_los_campos": true,
+  "conteos": {
+    "roles": 3,
+    "usuarios": 1,
+    "habitaciones": 15,
+    "personal": 16,
+    "tipos_incidente": 5,
+    "residentes": 20,
+    "actividades": 12,
+    "incidentes": 12,
+    "participaciones": 31
+  },
+  "origen_anterior_conservado": true,
+  "sqlserver_configuracion_sin_cambios": true
+}

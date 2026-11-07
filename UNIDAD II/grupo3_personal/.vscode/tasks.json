@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Iniciar Personal (Linux y Windows)",
+      "type": "shell",
+      "command": "bash ./iniciar.sh",
+      "windows": {
+        "command": ".\\iniciar.bat"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Diagnosticar conexiones",
+      "type": "shell",
+      "command": "bash ./iniciar.sh --diagnostico",
+      "windows": {
+        "command": ".\\iniciar.bat --diagnostico"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Pruebas de integración",
+      "type": "shell",
+      "command": ".venv/bin/python -m unittest discover -s tests -v",
+      "windows": {
+        "command": ".venv\\Scripts\\python.exe -m unittest discover -s tests -v"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

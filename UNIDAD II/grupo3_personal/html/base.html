@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es" data-bs-theme="light">
+
+{# Recursos comunes: fuentes, iconos, CSS de AdminLTE y estilo Bootstrap de Tabulator. #}
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ title }} | Grupo 3</title>
+  <link rel="stylesheet" href="{{ url_for('static',filename='vendor/fonts/source-sans-3.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='vendor/bootstrap-icons/bootstrap-icons.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/adminlte.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static',filename='vendor/tabulator/tabulator_bootstrap5.min.css') }}">
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary" data-page="{{ page }}">
+<div class="app-wrapper">
+
+{# Barra superior: acceso al menú lateral, nombre del módulo, grupo y cambio de tema. #}
+  <nav class="app-header navbar navbar-expand bg-body border-bottom">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item"><a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="Mostrar u ocultar menú"><i class="bi bi-list"></i></a></li>
+        <li class="nav-item d-none d-md-block"><a href="/" class="nav-link">Inicio</a></li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item d-none d-sm-block"><span class="nav-link">Residencia de adultos mayores</span></li>
+        <li class="nav-item"><button class="nav-link" id="theme-toggle" aria-label="Cambiar tema"><i class="bi bi-moon-stars"></i></button></li>
+        <li class="nav-item"><span class="nav-link"><span class="badge text-bg-primary rounded-pill px-3 py-2">Grupo 3 · Personal</span></span></li>
+      </ul>
+    </div>
+  </nav>
+
+{# Menú lateral compartido. Jinja marca como activa la página que Flask está mostrando. #}
+  <aside class="app-sidebar bg-dark shadow" data-bs-theme="dark">
+    <div class="sidebar-brand"><a href="/" class="brand-link">
+      <i class="bi bi-people-fill fs-3 text-info me-2" aria-hidden="true"></i>
+      <span class="brand-text fw-semibold">Gestión de Personal</span>
+    </a></div>
+    <div class="sidebar-wrapper">
+      <nav class="mt-2" id="navigation" aria-label="Menú principal">
+        <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="menu" data-accordion="false">
+          <li class="nav-header text-info">RESIDENCIA · GRUPO 3</li>
+          <li class="nav-item"><a href="/index3.html" class="nav-link rounded-2 {{ 'active bg-primary text-white' if page=='dashboard' else '' }}"><i class="nav-icon bi bi-speedometer"></i><p>Dashboard</p></a></li>
+          <li class="nav-item"><a href="/tables/data.html" class="nav-link rounded-2 {{ 'active bg-primary text-white' if page=='listado' else '' }}"><i class="nav-icon bi bi-table"></i><p>Listado de personal</p></a></li>
+          <li class="nav-item"><a href="/crud.html" class="nav-link rounded-2 {{ 'active bg-primary text-white' if page=='crud' else '' }}"><i class="nav-icon bi bi-person-vcard"></i><p class="text-wrap">Mantenimiento de personal</p></a></li>
+          <li class="nav-item"><a href="/index3.html#transferencia" class="nav-link"><i class="nav-icon bi bi-database-up"></i><p class="text-wrap">Transferencia a SQL Server</p></a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+{# Contenido variable de cada página. El bloque content se completa desde las vistas hijas. #}
+  <main class="app-main" id="main">
+    <div class="app-content-header"><div class="container-fluid"><div class="row">
+      <div class="col-sm-7"><p class="text-primary text-uppercase small fw-semibold mb-1">Residencia de adultos mayores</p><h3 class="mb-1 fw-semibold">{{ title }}</h3><p class="text-body-secondary mb-0">{% if page=='dashboard' %}Dotación del equipo y seguimiento de la carga laboral.{% elif page=='listado' %}Consulta el equipo por cargo, especialidad y fecha de ingreso.{% else %}Registra y actualiza la información de los trabajadores.{% endif %}</p></div>
+      <div class="col-sm-5"><ol class="breadcrumb float-sm-end"><li class="breadcrumb-item"><a href="/">Inicio</a></li><li class="breadcrumb-item active">Personal</li></ol></div>
+    </div></div></div>
+    <div class="app-content"><div class="container-fluid">
+      <div id="message" class="alert d-none" role="status" aria-live="polite"></div>
+      {% block content %}{% endblock %}
+    </div></div>
+  </main>
+  <footer class="app-footer"><div class="float-end d-none d-sm-inline">Unidad II · Grupo 3</div><strong>Gestión de Personal</strong> · Residencia de adultos mayores</footer>
+</div>
+
+{# Modal Bootstrap reutilizable: JavaScript cambia el texto y espera confirmación del usuario. #}
+<div class="modal fade" id="confirm-modal" tabindex="-1" aria-labelledby="confirm-title" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered"><div class="modal-content">
+    <div class="modal-header"><h5 class="modal-title" id="confirm-title">Confirmar operación</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+    <div class="modal-body" id="confirm-text"></div>
+    <div class="modal-footer"><button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button type="button" class="btn btn-primary" id="confirm-accept">Confirmar</button></div>
+  </div></div>
+</div>
+
+{# Scripts locales de las mismas herramientas de la plantilla. personal.js contiene la lógica del módulo. #}
+<script src="{{ url_for('static',filename='vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
+<script src="{{ url_for('static',filename='js/adminlte.js') }}"></script>
+<script src="{{ url_for('static',filename='vendor/chart/chart.umd.min.js') }}"></script>
+<script src="{{ url_for('static',filename='vendor/tabulator/tabulator.min.js') }}"></script>
+<script src="{{ url_for('static',filename='js/personal.js') }}" defer></script>
+</body></html>

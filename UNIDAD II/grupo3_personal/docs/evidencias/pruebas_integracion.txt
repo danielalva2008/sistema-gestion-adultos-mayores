@@ -1,0 +1,19 @@
+test_01_kpis_del_script (test_integracion.Integracion.test_01_kpis_del_script) ... ok
+test_02_grafico_sin_multiplicar_joins (test_integracion.Integracion.test_02_grafico_sin_multiplicar_joins) ... ok
+test_03_filtros_y_limites_inclusivos (test_integracion.Integracion.test_03_filtros_y_limites_inclusivos) ... ok
+test_04_fecha_invalida_y_cero_denominador (test_integracion.Integracion.test_04_fecha_invalida_y_cero_denominador) ... ok
+test_05_crud_y_codigo_unico (test_integracion.Integracion.test_05_crud_y_codigo_unico) ... ok
+test_06_no_eliminar_personal_con_referencias (test_integracion.Integracion.test_06_no_eliminar_personal_con_referencias) ... ok
+test_07_validaciones_formulario (test_integracion.Integracion.test_07_validaciones_formulario) ... ok
+test_08_catalogos_y_paginas (test_integracion.Integracion.test_08_catalogos_y_paginas) ... ok
+test_09_transferencia_repetida (test_integracion.Integracion.test_09_transferencia_repetida) ... ok
+test_10_rollback_ante_error_de_destino (test_integracion.Integracion.test_10_rollback_ante_error_de_destino) ... [2026-11-02 11:53:06,261] WARNING in transferencia: Transferencia cancelada: rollback aplicado.
+ok
+test_11_destino_no_disponible (test_integracion.Integracion.test_11_destino_no_disponible) ... [2026-11-02 11:53:06,281] WARNING in app: SQL Server no disponible (OperationalError).
+ok
+test_12_contrato_json (test_integracion.Integracion.test_12_contrato_json) ... ok
+
+----------------------------------------------------------------------
+Ran 12 tests in 5.141s
+
+OK
