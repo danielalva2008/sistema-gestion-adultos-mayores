@@ -1,0 +1,533 @@
+{
+  "fecha": "2026-11-06T18:33:31.055353-05:00",
+  "total": 104,
+  "correctos": 104,
+  "personal_antes": 15,
+  "personal_despues": 15,
+  "datos_conservados": true,
+  "filas_destino": 15,
+  "ids_solo_en_destino": [],
+  "nota": "MERGE conserva filas históricas del destino; no sincroniza borrados.",
+  "casos": [
+    {
+      "caso": "Origen MySQL 8 real",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima codigo_personal",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima codigo_personal JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima nombres",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima nombres JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima apellidos",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima apellidos JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima cargo",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima cargo JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima especialidad",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima especialidad JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima telefono",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima telefono JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima email",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima email JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Longitud máxima estado",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Longitud máxima estado JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Obligatorio codigo_personal",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Obligatorio codigo_personal JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Obligatorio nombres",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Obligatorio nombres JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Obligatorio apellidos",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Obligatorio apellidos JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Obligatorio cargo",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Obligatorio cargo JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato telefono 99A1",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato telefono 99A1 JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato email sin-arroba",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato email sin-arroba JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato fecha_ingreso 9999-01-01",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato fecha_ingreso 9999-01-01 JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato fecha_ingreso 2025-02-30",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato fecha_ingreso 2025-02-30 JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato fecha_ingreso 2025-2-01",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato fecha_ingreso 2025-2-01 JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato estado OTRO",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato estado OTRO JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato estado None",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato estado None JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Tipo o formato nombres 123",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Tipo o formato nombres 123 JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Campo desconocido",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Campo desconocido JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Objeto JSON obligatorio",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Objeto JSON obligatorio JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "JSON mal formado",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "JSON mal formado JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "PUT inexistente",
+      "correcto": true,
+      "detalle": "HTTP 404, esperado 404"
+    },
+    {
+      "caso": "PUT inexistente JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "GET inexistente",
+      "correcto": true,
+      "detalle": "HTTP 404, esperado 404"
+    },
+    {
+      "caso": "GET inexistente JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "DELETE inexistente",
+      "correcto": true,
+      "detalle": "HTTP 404, esperado 404"
+    },
+    {
+      "caso": "DELETE inexistente JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Método no permitido",
+      "correcto": true,
+      "detalle": "HTTP 405, esperado 405"
+    },
+    {
+      "caso": "Método no permitido JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Filtro inválido ?q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Filtro inválido ?q=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Filtro inválido ?cargo=aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Filtro inválido ?cargo=aaaaaaaaaaaaaaaaaaaaaaaaaaaa JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Filtro inválido ?estado=OTRO",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Filtro inválido ?estado=OTRO JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Filtro inválido ?fecha_desde=2025-12-31&fecha_hasta",
+      "correcto": true,
+      "detalle": "HTTP 400, esperado 400"
+    },
+    {
+      "caso": "Filtro inválido ?fecha_desde=2025-12-31&fecha_hasta JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Búsqueda con SQL como texto",
+      "correcto": true,
+      "detalle": "HTTP 200, esperado 200"
+    },
+    {
+      "caso": "Sin inyección SQL",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Filtros vacíos no limitan",
+      "correcto": true,
+      "detalle": "HTTP 200, esperado 200"
+    },
+    {
+      "caso": "Total sin filtros",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Filtros combinados exactos",
+      "correcto": true,
+      "detalle": "HTTP 200, esperado 200"
+    },
+    {
+      "caso": "Cuatro enfermeras activas",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Fechas inclusivas",
+      "correcto": true,
+      "detalle": "HTTP 200, esperado 200"
+    },
+    {
+      "caso": "Día límite incluido",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Crear con estado predeterminado",
+      "correcto": true,
+      "detalle": "HTTP 201, esperado 201"
+    },
+    {
+      "caso": "Estado predeterminado ACTIVO",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Opcionales vacíos se guardan NULL",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Leer temporal",
+      "correcto": true,
+      "detalle": "HTTP 200, esperado 200"
+    },
+    {
+      "caso": "Fecha ISO en JSON",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Código duplicado al editar",
+      "correcto": true,
+      "detalle": "HTTP 409, esperado 409"
+    },
+    {
+      "caso": "Código duplicado al editar JSON de error",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Actualizar temporal",
+      "correcto": true,
+      "detalle": "HTTP 200, esperado 200"
+    },
+    {
+      "caso": "Actualización persistida",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Eliminar temporal",
+      "correcto": true,
+      "detalle": "HTTP 204, esperado 204"
+    },
+    {
+      "caso": "204 sin cuerpo",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Cabeceras API ",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Cabeceras API /kpis",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Cabeceras API /grafico",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Cabeceras API /catalogos",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Cabeceras API /1",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /index3.html",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /tables/data.html",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /crud.html",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /static/css/adminlte.css",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /static/js/personal.js",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /static/vendor/chart/chart.umd.min.js",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Recurso local /static/vendor/tabulator/tabulator.min.js",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Origen no disponible responde 503",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Pantalla sigue disponible sin origen",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Datos origen conservados",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Cada fila actual coincide en todos sus campos en destino",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Destino no duplica claves primarias",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "SQL Server sin IDENTITY",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "SQL Server sin claves foráneas",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Todos tienen fecha de transferencia",
+      "correcto": true,
+      "detalle": ""
+    },
+    {
+      "caso": "Llave primaria en destino",
+      "correcto": true,
+      "detalle": ""
+    }
+  ]
+}

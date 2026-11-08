@@ -1,0 +1,46 @@
+{
+  "fecha": "2026-11-06",
+  "casos": [
+    {
+      "caso": "Filtro Enfermera + ACTIVO",
+      "resultado": "4 registros",
+      "correcto": true
+    },
+    {
+      "caso": "Crear temporal UI-G3-FINAL",
+      "resultado": "Guardado correcto; ID 46",
+      "correcto": true
+    },
+    {
+      "caso": "Editar especialidad y estado",
+      "resultado": "Cambio persistido a INACTIVO",
+      "correcto": true
+    },
+    {
+      "caso": "Eliminar temporal ID 46",
+      "resultado": "Eliminado y regreso al listado",
+      "correcto": true
+    },
+    {
+      "caso": "Eliminar PER001 con referencias",
+      "resultado": "Mensaje de conflicto; registro conservado",
+      "correcto": true
+    },
+    {
+      "caso": "Dashboard del ensayo",
+      "resultado": "15 activos, 9 cargos, 2.3 años, 6.7, 3, 3",
+      "correcto": true
+    },
+    {
+      "caso": "Pestañas de distribución",
+      "resultado": "Gráfica y tabla accesibles",
+      "correcto": true
+    },
+    {
+      "caso": "Transferir desde la interfaz de ensayo",
+      "resultado": "15 leídos, 0 insertados, 15 actualizados; conteos 15/15",
+      "correcto": true
+    }
+  ],
+  "nota": "CRUD del navegador con temporal en el origen operativo, ya eliminado. Referencias y transferencia con datos de clase; transferencia final en bases de ensayo de puerto 5001."
+}

@@ -1,0 +1,783 @@
+{
+  "fecha": "2026-11-06T18:28:52.839891-05:00",
+  "entorno": "Ensayo aislado: sistema_residencia_pruebas y residencia_sqlserver_pruebas",
+  "total": 21,
+  "correctos": 21,
+  "casos": [
+    {
+      "caso": "KPIs",
+      "metodo": "GET",
+      "ruta": "/api/personal/kpis",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "actividades_por_responsable": 3.0,
+          "antiguedad_promedio": 2.3,
+          "distribucion_cargo": [
+            {
+              "cantidad": 4,
+              "cargo": "Enfermera"
+            },
+            {
+              "cantidad": 3,
+              "cargo": "Cuidador"
+            },
+            {
+              "cantidad": 2,
+              "cargo": "Fisioterapeuta"
+            },
+            {
+              "cantidad": 1,
+              "cargo": "Coordinadora"
+            },
+            {
+              "cantidad": 1,
+              "cargo": "Médico"
+            },
+            {
+              "cantidad": 1,
+              "cargo": "Nutricionista"
+            },
+            {
+              "cantidad": 1,
+              "cargo": "Psicóloga"
+            },
+            {
+              "cantidad": 1,
+              "cargo": "Psicólogo"
+            },
+            {
+              "cantidad": 1,
+              "cargo": "Trabajadora Social"
+            }
+          ],
+          "incidentes_por_persona": 3.0,
+          "personal_activo": 15,
+          "residentes_por_cuidador": 6.7,
+          "total_cargos": 9
+        },
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Gráfica",
+      "metodo": "GET",
+      "ruta": "/api/personal/grafico",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": [
+          {
+            "actividades": 0.0,
+            "cargo": "Coordinadora",
+            "incidentes": 0.0
+          },
+          {
+            "actividades": 0.0,
+            "cargo": "Cuidador",
+            "incidentes": 0.0
+          },
+          {
+            "actividades": 0.0,
+            "cargo": "Enfermera",
+            "incidentes": 10.0
+          },
+          {
+            "actividades": 4.0,
+            "cargo": "Fisioterapeuta",
+            "incidentes": 0.0
+          },
+          {
+            "actividades": 0.0,
+            "cargo": "Médico",
+            "incidentes": 0.0
+          },
+          {
+            "actividades": 3.0,
+            "cargo": "Nutricionista",
+            "incidentes": 0.0
+          },
+          {
+            "actividades": 2.0,
+            "cargo": "Psicóloga",
+            "incidentes": 0.0
+          },
+          {
+            "actividades": 3.0,
+            "cargo": "Psicólogo",
+            "incidentes": 2.0
+          },
+          {
+            "actividades": 0.0,
+            "cargo": "Trabajadora Social",
+            "incidentes": 0.0
+          }
+        ],
+        "ok": true,
+        "total": 9
+      }
+    },
+    {
+      "caso": "Listado",
+      "metodo": "GET",
+      "ruta": "/api/personal",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": [
+          {
+            "apellidos": "Campos Silva",
+            "cargo": "Fisioterapeuta",
+            "codigo_personal": "PER012",
+            "email": "diego.campos@residencia.local",
+            "especialidad": "Rehabilitación",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-05-05",
+            "id_personal": 12,
+            "nombres": "Diego",
+            "telefono": "999100012"
+          },
+          {
+            "apellidos": "Castillo Ruiz",
+            "cargo": "Psicólogo",
+            "codigo_personal": "PER006",
+            "email": "jorge.castillo@residencia.local",
+            "especialidad": "Psicología geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-03-11",
+            "id_personal": 6,
+            "nombres": "Jorge",
+            "telefono": "999100006"
+          },
+          {
+            "apellidos": "Gómez Luna",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER011",
+            "email": "patricia.gomez@residencia.local",
+            "especialidad": "Enfermería geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-04-14",
+            "id_personal": 11,
+            "nombres": "Patricia",
+            "telefono": "999100011"
+          },
+          {
+            "apellidos": "Huamán Díaz",
+            "cargo": "Cuidador",
+            "codigo_personal": "PER008",
+            "email": "pedro.huaman@residencia.local",
+            "especialidad": "Cuidados básicos",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-02-03",
+            "id_personal": 8,
+            "nombres": "Pedro",
+            "telefono": "999100008"
+          },
+          {
+            "apellidos": "Mendoza Paz",
+            "cargo": "Psicóloga",
+            "codigo_personal": "PER013",
+            "email": "lucia.mendoza@residencia.local",
+            "especialidad": "Psicología",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-09-02",
+            "id_personal": 13,
+            "nombres": "Lucía",
+            "telefono": "999100013"
+          },
+          {
+            "apellidos": "Morales Ríos",
+            "cargo": "Trabajadora Social",
+            "codigo_personal": "PER009",
+            "email": "claudia.morales@residencia.local",
+            "especialidad": "Trabajo social",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-06-17",
+            "id_personal": 9,
+            "nombres": "Claudia",
+            "telefono": "999100009"
+          },
+          {
+            "apellidos": "Paredes León",
+            "cargo": "Nutricionista",
+            "codigo_personal": "PER005",
+            "email": "rosa.paredes@residencia.local",
+            "especialidad": "Nutrición geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2023-11-06",
+            "id_personal": 5,
+            "nombres": "Rosa",
+            "telefono": "999100005"
+          },
+          {
+            "apellidos": "Quispe Flores",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER003",
+            "email": "maria.quispe@residencia.local",
+            "especialidad": "Cuidados del adulto mayor",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-04-08",
+            "id_personal": 3,
+            "nombres": "María",
+            "telefono": "999100003"
+          },
+          {
+            "apellidos": "Ramírez Soto",
+            "cargo": "Médico",
+            "codigo_personal": "PER002",
+            "email": "luis.ramirez@residencia.local",
+            "especialidad": "Geriatría",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2023-08-15",
+            "id_personal": 2,
+            "nombres": "Luis",
+            "telefono": "999100002"
+          },
+          {
+            "apellidos": "Rojas Núñez",
+            "cargo": "Cuidador",
+            "codigo_personal": "PER014",
+            "email": "fernando.rojas@residencia.local",
+            "especialidad": "Cuidados básicos",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-06-02",
+            "id_personal": 14,
+            "nombres": "Fernando",
+            "telefono": "999100014"
+          },
+          {
+            "apellidos": "Salinas Cruz",
+            "cargo": "Cuidador",
+            "codigo_personal": "PER010",
+            "email": "miguel.salinas@residencia.local",
+            "especialidad": "Cuidados básicos",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-03-10",
+            "id_personal": 10,
+            "nombres": "Miguel",
+            "telefono": "999100010"
+          },
+          {
+            "apellidos": "Torres Mendoza",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER001",
+            "email": "ana.torres@residencia.local",
+            "especialidad": "Enfermería geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-02-12",
+            "id_personal": 1,
+            "nombres": "Ana",
+            "telefono": "999100001"
+          },
+          {
+            "apellidos": "Vargas Peña",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER007",
+            "email": "elena.vargas@residencia.local",
+            "especialidad": "Enfermería",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-01-13",
+            "id_personal": 7,
+            "nombres": "Elena",
+            "telefono": "999100007"
+          },
+          {
+            "apellidos": "Vásquez Ortiz",
+            "cargo": "Coordinadora",
+            "codigo_personal": "PER015",
+            "email": "gabriela.vasquez@residencia.local",
+            "especialidad": "Gestión de residencia",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2023-07-10",
+            "id_personal": 15,
+            "nombres": "Gabriela",
+            "telefono": "999100015"
+          },
+          {
+            "apellidos": "Vega Salazar",
+            "cargo": "Fisioterapeuta",
+            "codigo_personal": "PER004",
+            "email": "carlos.vega@residencia.local",
+            "especialidad": "Rehabilitación",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-01-20",
+            "id_personal": 4,
+            "nombres": "Carlos",
+            "telefono": "999100004"
+          }
+        ],
+        "ok": true,
+        "total": 15
+      }
+    },
+    {
+      "caso": "Obtener por ID",
+      "metodo": "GET",
+      "ruta": "/api/personal/1",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "apellidos": "Torres Mendoza",
+          "cargo": "Enfermera",
+          "codigo_personal": "PER001",
+          "email": "ana.torres@residencia.local",
+          "especialidad": "Enfermería geriátrica",
+          "estado": "ACTIVO",
+          "fecha_ingreso": "2024-02-12",
+          "id_personal": 1,
+          "nombres": "Ana",
+          "telefono": "999100001"
+        },
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Catálogos",
+      "metodo": "GET",
+      "ruta": "/api/personal/catalogos",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "cargos": [
+            "Coordinadora",
+            "Cuidador",
+            "Enfermera",
+            "Fisioterapeuta",
+            "Médico",
+            "Nutricionista",
+            "Psicóloga",
+            "Psicólogo",
+            "Trabajadora Social"
+          ],
+          "especialidades": [
+            "Cuidados básicos",
+            "Cuidados del adulto mayor",
+            "Enfermería",
+            "Enfermería geriátrica",
+            "Geriatría",
+            "Gestión de residencia",
+            "Nutrición geriátrica",
+            "Psicología",
+            "Psicología geriátrica",
+            "Rehabilitación",
+            "Trabajo social"
+          ]
+        },
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Cargo y estado",
+      "metodo": "GET",
+      "ruta": "/api/personal?cargo=Enfermera&estado=ACTIVO",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": [
+          {
+            "apellidos": "Gómez Luna",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER011",
+            "email": "patricia.gomez@residencia.local",
+            "especialidad": "Enfermería geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-04-14",
+            "id_personal": 11,
+            "nombres": "Patricia",
+            "telefono": "999100011"
+          },
+          {
+            "apellidos": "Quispe Flores",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER003",
+            "email": "maria.quispe@residencia.local",
+            "especialidad": "Cuidados del adulto mayor",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-04-08",
+            "id_personal": 3,
+            "nombres": "María",
+            "telefono": "999100003"
+          },
+          {
+            "apellidos": "Torres Mendoza",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER001",
+            "email": "ana.torres@residencia.local",
+            "especialidad": "Enfermería geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-02-12",
+            "id_personal": 1,
+            "nombres": "Ana",
+            "telefono": "999100001"
+          },
+          {
+            "apellidos": "Vargas Peña",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER007",
+            "email": "elena.vargas@residencia.local",
+            "especialidad": "Enfermería",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-01-13",
+            "id_personal": 7,
+            "nombres": "Elena",
+            "telefono": "999100007"
+          }
+        ],
+        "ok": true,
+        "total": 4
+      }
+    },
+    {
+      "caso": "Especialidad",
+      "metodo": "GET",
+      "ruta": "/api/personal?especialidad=Rehabilitaci%C3%B3n",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": [
+          {
+            "apellidos": "Campos Silva",
+            "cargo": "Fisioterapeuta",
+            "codigo_personal": "PER012",
+            "email": "diego.campos@residencia.local",
+            "especialidad": "Rehabilitación",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-05-05",
+            "id_personal": 12,
+            "nombres": "Diego",
+            "telefono": "999100012"
+          },
+          {
+            "apellidos": "Vega Salazar",
+            "cargo": "Fisioterapeuta",
+            "codigo_personal": "PER004",
+            "email": "carlos.vega@residencia.local",
+            "especialidad": "Rehabilitación",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-01-20",
+            "id_personal": 4,
+            "nombres": "Carlos",
+            "telefono": "999100004"
+          }
+        ],
+        "ok": true,
+        "total": 2
+      }
+    },
+    {
+      "caso": "Fecha de ingreso",
+      "metodo": "GET",
+      "ruta": "/api/personal?fecha_desde=2025-01-01&fecha_hasta=2025-12-31",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": [
+          {
+            "apellidos": "Campos Silva",
+            "cargo": "Fisioterapeuta",
+            "codigo_personal": "PER012",
+            "email": "diego.campos@residencia.local",
+            "especialidad": "Rehabilitación",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-05-05",
+            "id_personal": 12,
+            "nombres": "Diego",
+            "telefono": "999100012"
+          },
+          {
+            "apellidos": "Gómez Luna",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER011",
+            "email": "patricia.gomez@residencia.local",
+            "especialidad": "Enfermería geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-04-14",
+            "id_personal": 11,
+            "nombres": "Patricia",
+            "telefono": "999100011"
+          },
+          {
+            "apellidos": "Huamán Díaz",
+            "cargo": "Cuidador",
+            "codigo_personal": "PER008",
+            "email": "pedro.huaman@residencia.local",
+            "especialidad": "Cuidados básicos",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-02-03",
+            "id_personal": 8,
+            "nombres": "Pedro",
+            "telefono": "999100008"
+          },
+          {
+            "apellidos": "Rojas Núñez",
+            "cargo": "Cuidador",
+            "codigo_personal": "PER014",
+            "email": "fernando.rojas@residencia.local",
+            "especialidad": "Cuidados básicos",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-06-02",
+            "id_personal": 14,
+            "nombres": "Fernando",
+            "telefono": "999100014"
+          },
+          {
+            "apellidos": "Salinas Cruz",
+            "cargo": "Cuidador",
+            "codigo_personal": "PER010",
+            "email": "miguel.salinas@residencia.local",
+            "especialidad": "Cuidados básicos",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-03-10",
+            "id_personal": 10,
+            "nombres": "Miguel",
+            "telefono": "999100010"
+          },
+          {
+            "apellidos": "Vargas Peña",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER007",
+            "email": "elena.vargas@residencia.local",
+            "especialidad": "Enfermería",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2025-01-13",
+            "id_personal": 7,
+            "nombres": "Elena",
+            "telefono": "999100007"
+          }
+        ],
+        "ok": true,
+        "total": 6
+      }
+    },
+    {
+      "caso": "Búsqueda",
+      "metodo": "GET",
+      "ruta": "/api/personal?q=PER001",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": [
+          {
+            "apellidos": "Torres Mendoza",
+            "cargo": "Enfermera",
+            "codigo_personal": "PER001",
+            "email": "ana.torres@residencia.local",
+            "especialidad": "Enfermería geriátrica",
+            "estado": "ACTIVO",
+            "fecha_ingreso": "2024-02-12",
+            "id_personal": 1,
+            "nombres": "Ana",
+            "telefono": "999100001"
+          }
+        ],
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Fecha inválida",
+      "metodo": "GET",
+      "ruta": "/api/personal?fecha_desde=2025-02-30",
+      "esperado": 400,
+      "obtenido": 400,
+      "correcto": true,
+      "respuesta": {
+        "error": "fecha_desde: fecha no válida.",
+        "ok": false
+      }
+    },
+    {
+      "caso": "Crear",
+      "metodo": "POST",
+      "ruta": "/api/personal",
+      "esperado": 201,
+      "obtenido": 201,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "apellidos": "Temporal curl",
+          "cargo": "Prueba",
+          "codigo_personal": "CURL_PRUEBA_182852",
+          "email": "prueba@example.com",
+          "especialidad": null,
+          "estado": "ACTIVO",
+          "fecha_ingreso": "2025-01-01",
+          "id_personal": 19,
+          "nombres": "Prueba",
+          "telefono": "999111222"
+        },
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Duplicado",
+      "metodo": "POST",
+      "ruta": "/api/personal",
+      "esperado": 409,
+      "obtenido": 409,
+      "correcto": true,
+      "respuesta": {
+        "error": "Ya existe un trabajador con ese código de personal.",
+        "ok": false
+      }
+    },
+    {
+      "caso": "Leer nuevo",
+      "metodo": "GET",
+      "ruta": "/api/personal/19",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "apellidos": "Temporal curl",
+          "cargo": "Prueba",
+          "codigo_personal": "CURL_PRUEBA_182852",
+          "email": "prueba@example.com",
+          "especialidad": null,
+          "estado": "ACTIVO",
+          "fecha_ingreso": "2025-01-01",
+          "id_personal": 19,
+          "nombres": "Prueba",
+          "telefono": "999111222"
+        },
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Actualizar",
+      "metodo": "PUT",
+      "ruta": "/api/personal/19",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "apellidos": "Temporal curl",
+          "cargo": "Prueba",
+          "codigo_personal": "CURL_PRUEBA_182852",
+          "email": "prueba@example.com",
+          "especialidad": null,
+          "estado": "INACTIVO",
+          "fecha_ingreso": "2025-01-01",
+          "id_personal": 19,
+          "nombres": "Prueba",
+          "telefono": "999111222"
+        },
+        "ok": true,
+        "total": 1
+      }
+    },
+    {
+      "caso": "Eliminar nuevo",
+      "metodo": "DELETE",
+      "ruta": "/api/personal/19",
+      "esperado": 204,
+      "obtenido": 204,
+      "correcto": true,
+      "respuesta": null
+    },
+    {
+      "caso": "Registro inexistente",
+      "metodo": "GET",
+      "ruta": "/api/personal/19",
+      "esperado": 404,
+      "obtenido": 404,
+      "correcto": true,
+      "respuesta": {
+        "error": "No existe ese trabajador.",
+        "ok": false
+      }
+    },
+    {
+      "caso": "Eliminar con referencias",
+      "metodo": "DELETE",
+      "ruta": "/api/personal/1",
+      "esperado": 409,
+      "obtenido": 409,
+      "correcto": true,
+      "respuesta": {
+        "error": "Tiene actividades o incidentes asociados. Cambia su estado a INACTIVO en lugar de eliminarlo.",
+        "ok": false
+      }
+    },
+    {
+      "caso": "Validar correo",
+      "metodo": "POST",
+      "ruta": "/api/personal",
+      "esperado": 400,
+      "obtenido": 400,
+      "correcto": true,
+      "respuesta": {
+        "error": "El correo no tiene un formato válido.",
+        "ok": false
+      }
+    },
+    {
+      "caso": "Transferir",
+      "metodo": "POST",
+      "ruta": "/api/personal/transferir",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "actualizados": 15,
+        "duracion_ms": 180,
+        "insertados": 0,
+        "leidos": 15,
+        "ok": true,
+        "transferido_el": "2026-11-06T18:28:52-05:00"
+      }
+    },
+    {
+      "caso": "Repetir transferencia",
+      "metodo": "POST",
+      "ruta": "/api/personal/transferir",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "actualizados": 15,
+        "duracion_ms": 30,
+        "insertados": 0,
+        "leidos": 15,
+        "ok": true,
+        "transferido_el": "2026-11-06T18:28:52-05:00"
+      }
+    },
+    {
+      "caso": "Resumen MySQL y SQL Server",
+      "metodo": "GET",
+      "ruta": "/api/personal/transferencia/resumen",
+      "esperado": 200,
+      "obtenido": 200,
+      "correcto": true,
+      "respuesta": {
+        "data": {
+          "mysql": 15,
+          "sqlserver": 15,
+          "ultima_transferencia": "2026-11-06T16:06:21.886725"
+        },
+        "ok": true,
+        "total": 1
+      }
+    }
+  ]
+}

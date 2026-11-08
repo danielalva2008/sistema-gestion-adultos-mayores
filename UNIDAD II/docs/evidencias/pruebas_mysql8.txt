@@ -1,0 +1,29 @@
+test_01_kpis_del_script (test_integracion.Integracion.test_01_kpis_del_script) ... ok
+test_02_grafico_sin_multiplicar_joins (test_integracion.Integracion.test_02_grafico_sin_multiplicar_joins) ... ok
+test_03_filtros_y_limites_inclusivos (test_integracion.Integracion.test_03_filtros_y_limites_inclusivos) ... ok
+test_04_fecha_invalida_y_cero_denominador (test_integracion.Integracion.test_04_fecha_invalida_y_cero_denominador) ... ok
+test_05_crud_y_codigo_unico (test_integracion.Integracion.test_05_crud_y_codigo_unico) ... ok
+test_06_no_eliminar_personal_con_referencias (test_integracion.Integracion.test_06_no_eliminar_personal_con_referencias) ... ok
+test_07_validaciones_formulario (test_integracion.Integracion.test_07_validaciones_formulario) ... ok
+test_08_catalogos_y_paginas (test_integracion.Integracion.test_08_catalogos_y_paginas) ... ok
+test_09_transferencia_repetida (test_integracion.Integracion.test_09_transferencia_repetida) ... ok
+test_10_rollback_ante_error_de_destino (test_integracion.Integracion.test_10_rollback_ante_error_de_destino) ... [2026-11-06 18:28:44,715] WARNING in transferencia: Transferencia cancelada: rollback aplicado.
+ok
+test_11_destino_no_disponible (test_integracion.Integracion.test_11_destino_no_disponible) ... [2026-11-06 18:28:44,729] WARNING in app: SQL Server no disponible (OperationalError).
+ok
+test_12_contrato_json (test_integracion.Integracion.test_12_contrato_json) ... ok
+test_fallo_del_destino_no_rompe_consulta_de_mysql8 (test_portabilidad.Aislamiento.test_fallo_del_destino_no_rompe_consulta_de_mysql8) ... ok
+test_ruta_de_otro_equipo_produce_error_claro (test_portabilidad.Drivers.test_ruta_de_otro_equipo_produce_error_claro) ... ok
+test_windows_acepta_driver_17 (test_portabilidad.Drivers.test_windows_acepta_driver_17) ... ok
+test_windows_no_usa_ruta_linux_si_falta_driver (test_portabilidad.Drivers.test_windows_no_usa_ruta_linux_si_falta_driver) ... ok
+test_windows_prefiere_driver_18_instalado (test_portabilidad.Drivers.test_windows_prefiere_driver_18_instalado) ... ok
+test_entorno_copiado_de_otro_sistema_se_aparta_y_reinstala (test_portabilidad.Lanzador.test_entorno_copiado_de_otro_sistema_se_aparta_y_reinstala) ... Creando el entorno de Python de esta computadora...
+Comprobando e instalando dependencias...
+ok
+test_no_cierra_ni_abre_otro_servicio (test_portabilidad.PuertoAjeno.test_no_cierra_ni_abre_otro_servicio) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 1.722s
+
+OK
+Otro servicio ocupa el puerto 5000. No se detuvo ni modificó. Cambia FLASK_PORT en .env para iniciar Personal.

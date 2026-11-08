@@ -1,0 +1,20 @@
+{% extends "base.html" %}{% block content %}
+
+{# Filtros del listado: cargo, estado, especialidad, rango de fechas y búsqueda. Se envían a la API. #}
+<div class="card card-outline card-primary shadow-sm mb-4"><div class="card-header"><h3 class="card-title"><i class="bi bi-funnel text-primary me-2" aria-hidden="true"></i>Filtros de personal</h3></div><div class="card-body">
+<form id="list-filters" class="row g-3">
+ <div class="col-md-4"><label class="form-label" for="f-cargo">Cargo</label><select id="f-cargo" name="cargo" class="form-select"><option value="">Todos</option></select></div>
+ <div class="col-md-4"><label class="form-label" for="f-estado">Estado</label><select id="f-estado" name="estado" class="form-select"><option value="">Todos</option><option>ACTIVO</option><option>INACTIVO</option></select></div>
+ <div class="col-md-4"><label class="form-label" for="f-especialidad">Especialidad</label><select id="f-especialidad" name="especialidad" class="form-select"><option value="">Todas</option></select></div>
+ <div class="col-md-3"><label class="form-label" for="f-desde">Fecha de ingreso desde</label><input id="f-desde" name="fecha_desde" type="date" class="form-control"></div>
+ <div class="col-md-3"><label class="form-label" for="f-hasta">Fecha de ingreso hasta</label><input id="f-hasta" name="fecha_hasta" type="date" class="form-control"></div>
+ <div class="col-md-6"><label class="form-label" for="f-q">Buscar por nombre, apellido o código</label><input id="f-q" name="q" type="search" maxlength="100" class="form-control" placeholder="Ejemplo: PER001"></div>
+ <div class="col-12"><button type="submit" class="btn btn-primary"><i class="bi bi-funnel me-1"></i>Filtrar</button> <button type="reset" class="btn btn-outline-secondary">Limpiar</button></div>
+</form></div></div>
+
+{# Tabla del personal con el mismo Tabulator de AdminLTE. JavaScript agrega columnas, acciones y paginación. #}
+<div class="card card-outline card-primary shadow-sm"><div class="card-header"><h3 class="card-title"><i class="bi bi-people text-primary me-2" aria-hidden="true"></i>Personal de la residencia</h3><div class="card-tools"><a href="/crud.html" class="btn btn-sm btn-primary"><i class="bi bi-plus-lg me-1"></i>Nuevo personal</a></div></div>
+<div class="card-body"><div class="d-flex flex-wrap gap-2 mb-3"><button id="export-csv" type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-filetype-csv me-1"></i>Exportar CSV</button><button id="export-json" type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-filetype-json me-1"></i>Exportar JSON</button><button id="print-table" type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-printer me-1"></i>Imprimir</button></div>
+<p class="small text-body-secondary" id="list-count" role="status">Cargando registros…</p><div id="personal-table" aria-label="Listado de personal"></div></div>
+<div class="card-footer bg-body text-body-secondary small">Equipo de la residencia · Usa los filtros para encontrar al personal y las acciones para actualizarlo.</div></div>
+{% endblock %}
