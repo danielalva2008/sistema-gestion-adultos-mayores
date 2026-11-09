@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mantenimiento · Actividades · Grupo 6</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    body { background:#f4f6f9; }
+    .sidebar { width:250px; min-height:100vh; background:#343a40; color:#c2c7d0; position:fixed; }
+    .sidebar a { color:#c2c7d0; text-decoration:none; display:block; padding:.7rem 1rem; border-radius:.3rem; }
+    .sidebar a:hover,.sidebar a.active { background:#494e53; color:#fff; }
+    .sidebar .brand { color:#fff; font-weight:600; padding:1rem; border-bottom:1px solid #4b545c; }
+    .content { margin-left:250px; }
+    @media (max-width:768px){ .sidebar{position:static;width:100%;min-height:auto} .content{margin-left:0} }
+  </style>
+</head>
+<body>
+  <nav class="sidebar p-2">
+    <div class="brand"><i class="bi bi-people-fill"></i> CIAM · Grupo 6</div>
+    <div class="mt-2">
+      <a href="/"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <a href="/listado"><i class="bi bi-table"></i> Listado de actividades</a>
+      <a href="/crud" class="active"><i class="bi bi-pencil-square"></i> Mantenimiento</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <nav class="navbar navbar-light bg-white border-bottom px-4">
+      <span class="navbar-brand mb-0 h5" id="titulo">Nueva actividad</span>
+    </nav>
+
+    <div class="container-fluid p-4">
+      <div id="alerta" class="alert d-none"></div>
+      <div class="card">
+        <div class="card-body">
+          <form id="f-crud" class="row g-3">
+            <input type="hidden" name="id_actividad">
+            <div class="col-md-8">
+              <label class="form-label">Nombre <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="nombre" maxlength="100" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Estado <span class="text-danger">*</span></label>
+              <select class="form-select" name="estado" required>
+                <option value="PROGRAMADA">PROGRAMADA</option>
+                <option value="REALIZADA">REALIZADA</option>
+                <option value="CANCELADA">CANCELADA</option>
+              </select>
+            </div>
+            <div class="col-12">
+              <label class="form-label">Descripcion</label>
+              <textarea class="form-control" name="descripcion" maxlength="255" rows="2"></textarea>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Fecha <span class="text-danger">*</span></label>
+              <input type="date" class="form-control" name="fecha" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Hora inicio <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" name="hora_inicio" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Hora fin <span class="text-danger">*</span></label>
+              <input type="time" class="form-control" name="hora_fin" required>
+            </div>
+            <div class="col-md-5">
+              <label class="form-label">Lugar <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" name="lugar" maxlength="80" required>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Cupo <span class="text-danger">*</span></label>
+              <input type="number" class="form-control" name="cupo" min="1" required>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Responsable</label>
+              <select class="form-select" name="id_personal"><option value="">— Sin asignar —</option></select>
+            </div>
+            <div class="col-12 d-flex gap-2">
+              <button class="btn btn-primary"><i class="bi bi-save"></i> Guardar</button>
+              <a href="/listado" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API = "/api/actividades";
+    const params = new URLSearchParams(location.search);
+    const id = params.get("id");
+
+    function msg(texto, tipo) {
+      const a = document.getElementById("alerta");
+      a.className = "alert alert-" + tipo;
+      a.textContent = texto;
+      a.scrollIntoView({ behavior: "smooth" });
+    }
+
+    async function cargarCatalogos() {
+      const r = await fetch(API + "/catalogos");
+      const j = await r.json();
+      if (!j.ok) return;
+      const sel = document.querySelector('[name=id_personal]');
+      j.data.personal.forEach(p => sel.insertAdjacentHTML("beforeend", `<option value="${p.id_personal}">${p.nombre}</option>`));
+    }
+
+    async function cargarActividad() {
+      if (!id) return;
+      document.getElementById("titulo").textContent = "Editar actividad #" + id;
+      const r = await fetch(API + "/" + id);
+      const j = await r.json();
+      if (!j.ok) { msg(j.error, "danger"); return; }
+      const f = document.getElementById("f-crud"); const d = j.data;
+      f.id_actividad.value = d.id_actividad;
+      f.nombre.value = d.nombre;
+      f.descripcion.value = d.descripcion || "";
+      f.fecha.value = d.fecha;
+      f.hora_inicio.value = (d.hora_inicio || "").slice(0,5);
+      f.hora_fin.value = (d.hora_fin || "").slice(0,5);
+      f.lugar.value = d.lugar;
+      f.cupo.value = d.cupo;
+      f.estado.value = d.estado;
+      f.id_personal.value = d.id_personal || "";
+    }
+
+    document.getElementById("f-crud").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const f = e.target;
+      const payload = {
+        nombre: f.nombre.value, descripcion: f.descripcion.value,
+        fecha: f.fecha.value, hora_inicio: f.hora_inicio.value,
+        hora_fin: f.hora_fin.value, lugar: f.lugar.value,
+        cupo: f.cupo.value, estado: f.estado.value,
+        id_personal: f.id_personal.value || null
+      };
+      const esEdicion = !!f.id_actividad.value;
+      const url = esEdicion ? API + "/" + f.id_actividad.value : API;
+      const metodo = esEdicion ? "PUT" : "POST";
+      const r = await fetch(url, {
+        method: metodo,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      const j = await r.json();
+      if (j.ok) {
+        msg("Guardado correctamente. Redirigiendo al listado...", "success");
+        setTimeout(() => location.href = "/listado", 900);
+      } else {
+        msg("Error: " + j.error, "danger");
+      }
+    });
+
+    cargarCatalogos().then(cargarActividad);
+  </script>
+</body>
+</html>

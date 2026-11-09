@@ -1,5 +1,11 @@
-# Presentación del Grupo 6 (se conserva local, no se versiona)
+# Presentaciones e informes (no se versionan)
 PRESENTACION_G6.pptx
+*.pptx
+*.pdf
+
+# Comprimidos locales
+SISTEMA DE GESTION.zip
+*.zip
 
 # Basura del sistema operativo
 Thumbs.db
