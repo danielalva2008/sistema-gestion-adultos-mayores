@@ -1,0 +1,146 @@
+{
+  "info": {
+    "name": "Grupo 6 - Actividades (Unidad II)",
+    "description": "Pruebas de la API Flask del modulo Actividades. Variable base_url = http://127.0.0.1:5000",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "base_url", "value": "http://127.0.0.1:5000" }
+  ],
+  "item": [
+    {
+      "name": "KPIs",
+      "item": [
+        {
+          "name": "KPIs (todos)",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades/kpis" },
+          "event": [
+            { "listen": "test", "script": { "exec": [
+              "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));",
+              "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+              "pm.test(\"trae tasa_asistencia\", () => pm.expect(pm.response.json().data).to.have.property('tasa_asistencia'));"
+            ], "type": "text/javascript" } }
+          ]
+        },
+        {
+          "name": "KPIs con rango de fechas",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades/kpis?fecha_desde=2024-06-01&fecha_hasta=2024-06-30" },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Grafica comparativa",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades/grafico" },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));",
+            "pm.test(\"trae labels\", () => pm.expect(pm.response.json().data).to.have.property('labels'));"
+          ], "type": "text/javascript" } } ]
+        }
+      ]
+    },
+    {
+      "name": "Listado con filtros",
+      "item": [
+        {
+          "name": "Listado completo",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades" },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));",
+            "pm.test(\"ok true\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Filtros combinados (estado + fecha)",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades?estado=PROGRAMADA&fecha_desde=2024-06-17&fecha_hasta=2024-06-25" }
+        },
+        {
+          "name": "Busqueda por texto",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades?q=taller" }
+        }
+      ]
+    },
+    {
+      "name": "CRUD",
+      "item": [
+        {
+          "name": "Crear actividad",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Taller de pintura\",\n  \"descripcion\": \"Actividad de prueba\",\n  \"fecha\": \"2024-07-01\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"11:00\",\n  \"lugar\": \"Sala de talleres\",\n  \"cupo\": 10,\n  \"estado\": \"PROGRAMADA\",\n  \"id_personal\": 3\n}" },
+            "url": "{{base_url}}/api/actividades"
+          },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 201\", () => pm.response.to.have.status(201));",
+            "pm.collectionVariables.set('nuevo_id', pm.response.json().data.id_actividad);"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Obtener por id",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades/{{nuevo_id}}" }
+        },
+        {
+          "name": "Actualizar actividad",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Taller de pintura (editado)\",\n  \"fecha\": \"2024-07-01\",\n  \"hora_inicio\": \"10:00\",\n  \"hora_fin\": \"12:00\",\n  \"lugar\": \"Sala de talleres\",\n  \"cupo\": 12,\n  \"estado\": \"REALIZADA\",\n  \"id_personal\": 3\n}" },
+            "url": "{{base_url}}/api/actividades/{{nuevo_id}}"
+          },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Validacion: hora_fin <= hora_inicio (400)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Error horas\",\n  \"fecha\": \"2024-07-02\",\n  \"hora_inicio\": \"11:00\",\n  \"hora_fin\": \"10:00\",\n  \"lugar\": \"Sala\",\n  \"cupo\": 5\n}" },
+            "url": "{{base_url}}/api/actividades"
+          },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 400\", () => pm.response.to.have.status(400));"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Regla de cupo < inscritos (409)",
+          "request": {
+            "method": "PUT",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "body": { "mode": "raw", "raw": "{\n  \"nombre\": \"Gimnasia matutina\",\n  \"fecha\": \"2024-06-10\",\n  \"hora_inicio\": \"08:00\",\n  \"hora_fin\": \"09:00\",\n  \"lugar\": \"Patio central\",\n  \"cupo\": 1,\n  \"estado\": \"REALIZADA\",\n  \"id_personal\": 8\n}" },
+            "url": "{{base_url}}/api/actividades/1"
+          },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 409\", () => pm.response.to.have.status(409));"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Eliminar actividad",
+          "request": { "method": "DELETE", "url": "{{base_url}}/api/actividades/{{nuevo_id}}" },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));"
+          ], "type": "text/javascript" } } ]
+        }
+      ]
+    },
+    {
+      "name": "Transferencia",
+      "item": [
+        {
+          "name": "Transferir a SQL Server",
+          "request": { "method": "POST", "url": "{{base_url}}/api/actividades/transferir" },
+          "event": [ { "listen": "test", "script": { "exec": [
+            "pm.test(\"Codigo 200\", () => pm.response.to.have.status(200));",
+            "pm.test(\"ok true\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+          ], "type": "text/javascript" } } ]
+        },
+        {
+          "name": "Resumen de transferencia",
+          "request": { "method": "GET", "url": "{{base_url}}/api/actividades/transferencia/resumen" }
+        }
+      ]
+    }
+  ]
+}

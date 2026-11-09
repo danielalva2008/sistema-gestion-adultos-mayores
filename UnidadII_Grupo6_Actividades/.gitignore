@@ -1,0 +1,13 @@
+# Entorno y credenciales
+.env
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+
+# Editores
+.vscode/
+.idea/

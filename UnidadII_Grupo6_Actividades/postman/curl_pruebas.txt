@@ -1,0 +1,44 @@
+============================================================
+ Grupo 6 - Actividades - Pruebas con curl (alternativa a Postman)
+ La API debe estar corriendo en http://127.0.0.1:5000
+============================================================
+
+# --- KPIs ---
+curl "http://127.0.0.1:5000/api/actividades/kpis"
+curl "http://127.0.0.1:5000/api/actividades/kpis?fecha_desde=2024-06-01&fecha_hasta=2024-06-30"
+
+# --- Grafica comparativa ---
+curl "http://127.0.0.1:5000/api/actividades/grafico"
+
+# --- Listado con filtros ---
+curl "http://127.0.0.1:5000/api/actividades"
+curl "http://127.0.0.1:5000/api/actividades?estado=PROGRAMADA&fecha_desde=2024-06-17&fecha_hasta=2024-06-25"
+curl "http://127.0.0.1:5000/api/actividades?q=taller"
+
+# --- Obtener un registro ---
+curl "http://127.0.0.1:5000/api/actividades/1"
+
+# --- Catalogos (personal, lugares) ---
+curl "http://127.0.0.1:5000/api/actividades/catalogos"
+
+# --- Crear (Create). Se recomienda guardar el cuerpo en un archivo nueva.json ---
+#   nueva.json:
+#   { "nombre":"Taller de pintura","fecha":"2024-07-01","hora_inicio":"10:00",
+#     "hora_fin":"11:00","lugar":"Sala de talleres","cupo":10,"estado":"PROGRAMADA","id_personal":3 }
+curl -X POST "http://127.0.0.1:5000/api/actividades" ^
+  -H "Content-Type: application/json" -d @nueva.json
+
+# --- Actualizar (Update) ---
+curl -X PUT "http://127.0.0.1:5000/api/actividades/13" ^
+  -H "Content-Type: application/json" -d @nueva.json
+
+# --- Eliminar (Delete) ---
+curl -X DELETE "http://127.0.0.1:5000/api/actividades/13"
+
+# --- Transferencia a SQL Server ---
+curl -X POST "http://127.0.0.1:5000/api/actividades/transferir"
+curl "http://127.0.0.1:5000/api/actividades/transferencia/resumen"
+
+# Nota (Windows CMD): si escribe el JSON en la misma linea, las comillas dobles
+# deben escaparse; por eso se recomienda usar -d @nueva.json con un archivo.
+# El simbolo ^ es el salto de linea en CMD (use \ en PowerShell/Linux).

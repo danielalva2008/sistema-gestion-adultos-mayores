@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Informe Unidad II - Grupo 6 - Actividades</title>
+<style>
+  @page { size: A4; margin: 18mm 16mm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Arial, sans-serif; color:#222; font-size:11.5pt; line-height:1.5; }
+  h1 { font-size:20pt; margin:0 0 4px; color:#1a3b5d; }
+  h2 { font-size:14pt; color:#1a3b5d; border-bottom:2px solid #1a3b5d; padding-bottom:3px; margin-top:22px; }
+  h3 { font-size:12pt; color:#2c5d8a; margin:14px 0 4px; }
+  p { margin:6px 0; text-align:justify; }
+  .muted { color:#666; }
+  .portada { text-align:center; padding-top:60px; }
+  .portada .sub { font-size:13pt; color:#444; margin-top:6px; }
+  .portada .modulo { display:inline-block; margin-top:26px; padding:10px 22px; background:#1a3b5d; color:#fff; border-radius:8px; font-size:13pt; }
+  table { width:100%; border-collapse:collapse; margin:8px 0; font-size:10.5pt; }
+  th, td { border:1px solid #bcc8d4; padding:6px 8px; text-align:left; vertical-align:top; }
+  th { background:#e8eef4; }
+  code { background:#eef1f4; padding:1px 5px; border-radius:4px; font-size:10pt; }
+  .cap { margin:10px 0 4px; }
+  .cap img { width:100%; border:1px solid #c4ccd4; border-radius:6px; }
+  .cap figcaption { font-size:10pt; color:#555; margin-top:4px; font-style:italic; }
+  .page-break { page-break-before: always; }
+  ul { margin:6px 0 6px 18px; } li { margin:3px 0; }
+  .ok { color:#157347; font-weight:bold; }
+  .box { background:#f1f6fb; border-left:4px solid #2c5d8a; padding:8px 12px; margin:10px 0; }
+</style>
+</head>
+<body>
+
+<!-- ============ PORTADA ============ -->
+<div class="portada">
+  <p class="muted">Desarrollo de Aplicaciones Basado en Plataformas</p>
+  <h1>Proyecto Integrador — Unidad II</h1>
+  <p class="sub">KPIs, CRUD y transferencia de datos de MySQL a SQL Server con Flask y AdminLTE</p>
+  <p class="sub">Sistema de Gestión de Residencia para Adultos Mayores (CIAM)</p>
+  <div class="modulo">GRUPO 6 · Módulo de Actividades</div>
+
+  <table style="width:70%; margin:40px auto 0; font-size:11pt;">
+    <tr><th style="width:40%">Dato</th><th>Detalle</th></tr>
+    <tr><td>Docente</td><td>Daniel Abraham Alva Segura</td></tr>
+    <tr><td>Ciclo</td><td>IV</td></tr>
+    <tr><td>Fecha de entrega</td><td>06/11/2026</td></tr>
+    <tr><td>Módulo asignado</td><td>Actividades (tablas <code>actividades</code>, <code>participaciones</code>)</td></tr>
+  </table>
+
+  <h3 style="margin-top:34px;">Integrantes del Grupo 6</h3>
+  <table style="width:80%; margin:0 auto;">
+    <tr><th>Integrante</th><th>Rol</th></tr>
+    <tr><td>Abarca Meléndez Luis Marcelo</td><td>Líder y base de datos</td></tr>
+    <tr><td>Vargas Córdova Diego Arnold</td><td>Backend de KPIs</td></tr>
+    <tr><td>López Tuesta Julio César</td><td>Backend de CRUD y transferencia</td></tr>
+    <tr><td>Farroñán Quiñonez Alex Josué</td><td>Frontend del dashboard</td></tr>
+    <tr><td>Meza Villacorta Jhohan Lizandro</td><td>Frontend de listado y pruebas</td></tr>
+  </table>
+</div>
+
+<!-- ============ 1. INTRODUCCIÓN ============ -->
+<div class="page-break"></div>
+<h2>1. Presentación y objetivos</h2>
+<p>El presente informe documenta el módulo de <b>Actividades</b> desarrollado por el Grupo 6 como parte
+del proyecto integrador. El módulo expone, mediante una API REST construida con <b>Flask (Python)</b>,
+los indicadores de gestión (KPIs), una gráfica comparativa, el mantenimiento <b>CRUD</b>, un listado con
+filtros y la <b>transferencia de datos de MySQL a SQL Server</b>. El front se construyó sobre la
+plantilla <b>AdminLTE / Bootstrap 5</b>.</p>
+<p><b>Objetivos cumplidos:</b></p>
+<ul>
+  <li>Diseñar y calcular indicadores (KPIs) a partir de datos relacionales, explicando su fórmula.</li>
+  <li>Construir una API REST con Flask que expone KPIs, CRUD y listado filtrado de la tabla.</li>
+  <li>Mostrar los resultados en un dashboard y una tabla con filtros usando AdminLTE.</li>
+  <li>Transferir los datos de MySQL a SQL Server mediante una API y un botón, sin duplicar registros.</li>
+  <li>Probar cada endpoint con Postman/curl y documentar la evidencia.</li>
+</ul>
+
+<!-- ============ 2. ARQUITECTURA ============ -->
+<h2>2. Arquitectura y tecnologías</h2>
+<table>
+  <tr><th>Capa</th><th>Tecnología</th><th>Responsabilidad</th></tr>
+  <tr><td>Presentación</td><td>AdminLTE 4 / Bootstrap 5, JavaScript (fetch), Chart.js</td><td>Dashboard, listado, formulario CRUD y botón Transferir</td></tr>
+  <tr><td>API</td><td>Flask (Python) con un Blueprint del módulo</td><td>Endpoints REST en JSON: KPIs, gráfica, CRUD, listado y transferencia</td></tr>
+  <tr><td>Origen</td><td>MySQL/MariaDB (base <code>sistema_residencia</code>), PyMySQL</td><td>Datos operativos de actividades y participaciones</td></tr>
+  <tr><td>Destino</td><td>SQL Server (base <code>residencia_sqlserver</code>), pyodbc</td><td>Copia de la tabla del módulo</td></tr>
+  <tr><td>Pruebas</td><td>Postman / curl</td><td>Evidencia de cada endpoint</td></tr>
+</table>
+<h3>Estructura del proyecto</h3>
+<p><code>app.py</code> · <code>config.py</code> · <code>db_mysql.py</code> · <code>db_sqlserver.py</code> ·
+<code>modulo/routes.py</code> · <code>modulo/transferencia.py</code> · <code>sql/sqlserver_actividades.sql</code> ·
+<code>html/</code> (index3, tables/data, crud) · <code>postman/</code> · <code>.env.example</code> ·
+<code>requirements.txt</code></p>
+
+<!-- ============ 3. COMPONENTES ============ -->
+<h2>3. Componentes construidos</h2>
+<table>
+  <tr><th>N°</th><th>Componente</th><th>Descripción</th></tr>
+  <tr><td>1</td><td>API de KPIs y dashboard</td><td>Endpoint que calcula 6 indicadores y los muestra como tarjetas; cada uno con su fórmula documentada.</td></tr>
+  <tr><td>2</td><td>Gráfica comparativa</td><td>Barras agrupadas: cupo frente a residentes inscritos, por actividad.</td></tr>
+  <tr><td>3</td><td>CRUD</td><td>Insertar, consultar, actualizar y eliminar desde un formulario, con validaciones y reglas de negocio.</td></tr>
+  <tr><td>4</td><td>Listado con filtros</td><td>Tabla con filtros por estado, lugar, responsable, búsqueda y rango de fechas.</td></tr>
+  <tr><td>5</td><td>Transferencia a SQL Server</td><td>API con MERGE idempotente y botón Transferir en el front.</td></tr>
+  <tr><td>6</td><td>Pruebas</td><td>Cada endpoint probado con Postman/curl, con evidencia.</td></tr>
+  <tr><td>7</td><td>Menú tipo AdminLTE</td><td>Barra lateral con las opciones del módulo, igual en todas las páginas.</td></tr>
+</table>
+
+<!-- ============ 4. KPIs ============ -->
+<h2>4. Indicadores (KPIs) y fórmulas</h2>
+<p>Todos los indicadores se calculan en SQL (no en JavaScript); las razones usan <code>NULLIF</code> para
+evitar la división entre cero.</p>
+<table>
+  <tr><th>N°</th><th>Indicador</th><th>Fórmula de cálculo</th></tr>
+  <tr><td>1</td><td>Actividades programadas</td><td>COUNT(*) con estado = 'PROGRAMADA' dentro del rango</td></tr>
+  <tr><td>2</td><td>Total de participaciones</td><td>COUNT(*) de participaciones de las actividades del rango</td></tr>
+  <tr><td>3</td><td>Tasa de asistencia (%)</td><td>ASISTIO ÷ (ASISTIO + NO_ASISTIO) × 100</td></tr>
+  <tr><td>4</td><td>Ocupación de cupo (%)</td><td>participaciones ÷ SUM(cupo) × 100</td></tr>
+  <tr><td>5</td><td>Cobertura de residentes (%)</td><td>residentes distintos que participan ÷ residentes ACTIVO × 100</td></tr>
+  <tr><td>6</td><td>Participantes por actividad</td><td>participaciones ÷ actividades</td></tr>
+</table>
+
+<!-- ============ 5. ENDPOINTS ============ -->
+<h2>5. Endpoints de la API</h2>
+<table>
+  <tr><th>Método</th><th>Ruta</th><th>Descripción</th><th>Códigos</th></tr>
+  <tr><td>GET</td><td>/api/actividades/kpis</td><td>KPIs del dashboard (acepta fecha_desde/fecha_hasta)</td><td>200 · 400</td></tr>
+  <tr><td>GET</td><td>/api/actividades/grafico</td><td>Series de la gráfica (cupo vs inscritos)</td><td>200</td></tr>
+  <tr><td>GET</td><td>/api/actividades</td><td>Listado con filtros</td><td>200 · 400</td></tr>
+  <tr><td>GET</td><td>/api/actividades/&lt;id&gt;</td><td>Un registro</td><td>200 · 404</td></tr>
+  <tr><td>POST</td><td>/api/actividades</td><td>Crear</td><td>201 · 400 · 409</td></tr>
+  <tr><td>PUT</td><td>/api/actividades/&lt;id&gt;</td><td>Actualizar</td><td>200 · 400 · 404 · 409</td></tr>
+  <tr><td>DELETE</td><td>/api/actividades/&lt;id&gt;</td><td>Eliminar (cascada de participaciones)</td><td>200 · 404</td></tr>
+  <tr><td>GET</td><td>/api/actividades/catalogos</td><td>Personal responsable y lugares</td><td>200</td></tr>
+  <tr><td>POST</td><td>/api/actividades/transferir</td><td>Copiar a SQL Server (MERGE)</td><td>200 · 500 · 503</td></tr>
+  <tr><td>GET</td><td>/api/actividades/transferencia/resumen</td><td>Conteos MySQL / SQL Server</td><td>200 · 503</td></tr>
+</table>
+
+<!-- ============ 6. CAPTURAS ============ -->
+<div class="page-break"></div>
+<h2>6. Capturas del sistema</h2>
+
+<h3>6.1 Dashboard — KPIs y gráfica comparativa</h3>
+<figure class="cap">
+  <img src="capturas/1_dashboard.png" alt="Dashboard">
+  <figcaption>Dashboard con las 6 tarjetas de KPIs, la gráfica comparativa cupo vs inscritos y el resumen de transferencia.</figcaption>
+</figure>
+
+<h3>6.2 Listado con filtros</h3>
+<figure class="cap">
+  <img src="capturas/2_listado.png" alt="Listado">
+  <figcaption>Listado de actividades con tarjeta de filtros (estado, lugar, responsable, búsqueda, rango de fechas) y columna de acciones.</figcaption>
+</figure>
+
+<div class="page-break"></div>
+<h3>6.3 Mantenimiento (CRUD)</h3>
+<figure class="cap">
+  <img src="capturas/3_crud.png" alt="CRUD">
+  <figcaption>Formulario de mantenimiento editando una actividad, con validaciones de campos obligatorios.</figcaption>
+</figure>
+
+<h3>6.4 Transferencia a SQL Server</h3>
+<figure class="cap">
+  <img src="capturas/4_transferencia.png" alt="Transferencia">
+  <figcaption>Resultado de la transferencia ejecutada: operación idempotente (16 actualizados, 0 insertados en la segunda corrida).</figcaption>
+</figure>
+
+<!-- ============ 7. TRANSFERENCIA ============ -->
+<h2>7. Transferencia MySQL → SQL Server</h2>
+<p>El endpoint <code>POST /api/actividades/transferir</code> lee todas las actividades de MySQL, abre una
+transacción en SQL Server y aplica un <b>MERGE</b> por <code>id_actividad</code> (actualiza si existe,
+inserta si no). La operación es <b>idempotente</b>: ejecutarla varias veces no duplica datos.</p>
+<div class="box">
+  <b>Prueba de idempotencia (verificada):</b><br>
+  1.ª ejecución → leídos 16, <b>insertados 16</b>, actualizados 0.<br>
+  2.ª ejecución → leídos 16, insertados 0, <b>actualizados 16</b>.<br>
+  Resumen final: MySQL = 16 registros, SQL Server = 16 registros (sin duplicados).
+</div>
+
+<!-- ============ 8. PRUEBAS ============ -->
+<h2>8. Pruebas realizadas</h2>
+<table>
+  <tr><th>Caso</th><th>Petición</th><th>Resultado</th></tr>
+  <tr><td>KPIs</td><td>GET /api/actividades/kpis</td><td class="ok">200 — tasa_asistencia 83.3, participaciones 33</td></tr>
+  <tr><td>Filtros</td><td>GET /api/actividades?estado=PROGRAMADA</td><td class="ok">200 — 10 registros</td></tr>
+  <tr><td>Crear</td><td>POST /api/actividades</td><td class="ok">201 creado</td></tr>
+  <tr><td>Validación horas</td><td>POST con hora_fin ≤ hora_inicio</td><td class="ok">400 error</td></tr>
+  <tr><td>Regla de cupo</td><td>PUT con cupo &lt; inscritos</td><td class="ok">409 conflicto</td></tr>
+  <tr><td>No existe</td><td>GET /api/actividades/99999</td><td class="ok">404</td></tr>
+  <tr><td>Transferencia</td><td>POST /api/actividades/transferir</td><td class="ok">200 — idempotente</td></tr>
+</table>
+<p class="muted">La evidencia detallada está en <code>postman/evidencia_pruebas.txt</code> y la colección en
+<code>postman/coleccion.json</code>.</p>
+
+<!-- ============ 9. SEGURIDAD ============ -->
+<h2>9. Seguridad y buenas prácticas</h2>
+<ul>
+  <li>Credenciales en <code>.env</code> (no versionado); se entrega solo <code>.env.example</code>.</li>
+  <li>Usuario de MySQL <code>residencia_app</code> (solo SELECT/INSERT/UPDATE/DELETE), no root.</li>
+  <li>Consultas parametrizadas (<code>%s</code> en MySQL, <code>?</code> en pyodbc); sin concatenar valores.</li>
+  <li>No se registran datos personales ni contraseñas en logs (Ley N.° 29733).</li>
+</ul>
+
+<!-- ============ 10. CONCLUSIONES ============ -->
+<h2>10. Conclusiones</h2>
+<p>El módulo de Actividades cumple con los siete componentes exigidos: API de KPIs con fórmulas
+documentadas, gráfica comparativa, CRUD con validaciones y reglas de negocio, listado con múltiples
+filtros, transferencia idempotente a SQL Server, pruebas documentadas y una interfaz coherente con la
+plantilla AdminLTE. El sistema fue verificado de extremo a extremo con datos reales, confirmando el
+correcto cálculo de indicadores y la integridad de la transferencia entre ambos motores de base de datos.</p>
+
+</body>
+</html>

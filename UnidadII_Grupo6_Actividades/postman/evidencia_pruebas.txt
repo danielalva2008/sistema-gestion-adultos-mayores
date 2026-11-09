@@ -1,0 +1,35 @@
+EVIDENCIA DE PRUEBAS - Grupo 6 - Modulo Actividades (Unidad II)
+Generado: 2026-11-06 17:00
+Servidor: http://127.0.0.1:5000  |  MySQL 10.4 (sistema_residencia)  |  SQL Server 2025 (residencia_sqlserver)
+======================================================================
+
+[1] KPIs  GET /api/actividades/kpis
+    actividades_programadas         = 10
+    cobertura_residentes            = 100.0
+    ocupacion_cupo                  = 13.1
+    participantes_por_actividad     = 2.1
+    tasa_asistencia                 = 83.3
+    total_participaciones           = 33
+
+[2] GRAFICA  GET /api/actividades/grafico  (actividades=16)
+    labels   = ['Gimnasia matutina', 'Taller de manualidades', 'Musicoterapia', 'Lectura compartida', 'Bingo recreativo', 'Yoga en silla', 'Taller de memoria', 'Baile de salón', 'Jardinería', 'Cine tarde', 'Charla nutricional', 'Paseo al parque', 'Gimnasia matutina', 'Gimnasia matutina', 'Yoga', 'Yoga']
+    cupo     = [15, 12, 20, 10, 25, 15, 12, 20, 8, 30, 20, 10, 15, 15, 10, 15]
+    inscritos= [4, 3, 5, 3, 4, 2, 3, 2, 2, 1, 1, 0, 0, 1, 2, 0]
+
+[3] LISTADO  GET /api/actividades
+    total sin filtro        = 16
+    estado=PROGRAMADA       = 10
+    q=taller                = 2
+    fecha 2024-06-17..06-25 = 7
+
+[4] TRANSFERENCIA  (verificada en vivo)
+    1a ejecucion: leidos 16, insertados 16, actualizados 0
+    2a ejecucion: leidos 16, insertados 0,  actualizados 16  (idempotente, sin duplicados)
+    resumen: MySQL=16  SQLServer=16  ultima=2026-11-06T16:59:32
+
+[5] VALIDACIONES / REGLAS DE NEGOCIO (codigos HTTP verificados)
+    POST hora_fin<=hora_inicio -> 400
+    POST cupo<=0               -> 400
+    PUT  cupo<inscritos        -> 409
+    GET  id inexistente        -> 404
+    POST/PUT/DELETE validos    -> 201/200/200

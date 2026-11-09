@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard · Actividades · Grupo 6</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    body { background:#f4f6f9; }
+    .sidebar { width:250px; min-height:100vh; background:#343a40; color:#c2c7d0; position:fixed; }
+    .sidebar a { color:#c2c7d0; text-decoration:none; display:block; padding:.7rem 1rem; border-radius:.3rem; }
+    .sidebar a:hover,.sidebar a.active { background:#494e53; color:#fff; }
+    .sidebar .brand { color:#fff; font-weight:600; padding:1rem; border-bottom:1px solid #4b545c; }
+    .content { margin-left:250px; }
+    .kpi-card { border:0; border-radius:.5rem; color:#fff; }
+    .kpi-card .icon { font-size:2.2rem; opacity:.35; }
+    .kpi-value { font-size:1.9rem; font-weight:700; }
+    @media (max-width:768px){ .sidebar{position:static;width:100%;min-height:auto} .content{margin-left:0} }
+  </style>
+</head>
+<body>
+  <!-- Menu lateral (igual en todas las paginas) -->
+  <nav class="sidebar p-2">
+    <div class="brand"><i class="bi bi-people-fill"></i> CIAM · Grupo 6</div>
+    <div class="mt-2">
+      <a href="/" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+      <a href="/listado"><i class="bi bi-table"></i> Listado de actividades</a>
+      <a href="/crud"><i class="bi bi-pencil-square"></i> Mantenimiento</a>
+      <a href="#transferencia"><i class="bi bi-arrow-left-right"></i> Transferencia a SQL Server</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <nav class="navbar navbar-light bg-white border-bottom px-4">
+      <span class="navbar-brand mb-0 h5">Participacion y asistencia a las actividades</span>
+    </nav>
+
+    <div class="container-fluid p-4">
+      <!-- Filtro de fechas de los KPIs -->
+      <div class="card mb-4">
+        <div class="card-body">
+          <form id="f-rango" class="row g-2 align-items-end">
+            <div class="col-md-3">
+              <label class="form-label">Fecha desde</label>
+              <input type="date" class="form-control" name="fecha_desde">
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Fecha hasta</label>
+              <input type="date" class="form-control" name="fecha_hasta">
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary"><i class="bi bi-funnel"></i> Aplicar</button>
+              <button type="button" id="btn-limpiar" class="btn btn-outline-secondary">Limpiar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tarjetas de KPIs -->
+      <div class="row g-3" id="kpis">
+        <div class="col-md-4"><div class="card kpi-card bg-primary"><div class="card-body d-flex justify-content-between"><div><div class="kpi-value" id="k1">—</div><div>Actividades programadas</div></div><i class="bi bi-calendar-check icon"></i></div></div></div>
+        <div class="col-md-4"><div class="card kpi-card bg-success"><div class="card-body d-flex justify-content-between"><div><div class="kpi-value" id="k2">—</div><div>Total de participaciones</div></div><i class="bi bi-people icon"></i></div></div></div>
+        <div class="col-md-4"><div class="card kpi-card bg-info"><div class="card-body d-flex justify-content-between"><div><div class="kpi-value" id="k3">—</div><div>Tasa de asistencia (%)</div></div><i class="bi bi-check2-circle icon"></i></div></div></div>
+        <div class="col-md-4"><div class="card kpi-card bg-warning"><div class="card-body d-flex justify-content-between"><div><div class="kpi-value" id="k4">—</div><div>Ocupacion de cupo (%)</div></div><i class="bi bi-pie-chart icon"></i></div></div></div>
+        <div class="col-md-4"><div class="card kpi-card bg-secondary"><div class="card-body d-flex justify-content-between"><div><div class="kpi-value" id="k5">—</div><div>Cobertura de residentes (%)</div></div><i class="bi bi-person-check icon"></i></div></div></div>
+        <div class="col-md-4"><div class="card kpi-card bg-dark"><div class="card-body d-flex justify-content-between"><div><div class="kpi-value" id="k6">—</div><div>Participantes por actividad</div></div><i class="bi bi-bar-chart icon"></i></div></div></div>
+      </div>
+
+      <!-- Grafica comparativa -->
+      <div class="card mt-4">
+        <div class="card-header"><i class="bi bi-bar-chart-line"></i> Cupo frente a inscritos, por actividad</div>
+        <div class="card-body"><canvas id="grafico" height="110"></canvas></div>
+      </div>
+
+      <!-- Transferencia a SQL Server -->
+      <div class="card mt-4" id="transferencia">
+        <div class="card-header"><i class="bi bi-arrow-left-right"></i> Transferencia a SQL Server</div>
+        <div class="card-body">
+          <div class="row align-items-center">
+            <div class="col-md-8">
+              <p class="mb-1">MySQL: <b id="r-mysql">—</b> registros &nbsp;|&nbsp; SQL Server: <b id="r-sql">—</b> registros</p>
+              <p class="text-muted mb-0">Ultima transferencia: <span id="r-fecha">—</span></p>
+            </div>
+            <div class="col-md-4 text-md-end">
+              <button id="btn-transferir" class="btn btn-success"><i class="bi bi-cloud-upload"></i> Transferir</button>
+            </div>
+          </div>
+          <div id="t-resultado" class="alert mt-3 d-none"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const API = "/api/actividades";
+    let chart;
+
+    function qs() {
+      const f = document.getElementById("f-rango");
+      const p = new URLSearchParams();
+      if (f.fecha_desde.value) p.set("fecha_desde", f.fecha_desde.value);
+      if (f.fecha_hasta.value) p.set("fecha_hasta", f.fecha_hasta.value);
+      return p.toString() ? "?" + p.toString() : "";
+    }
+
+    async function cargarKpis() {
+      const r = await fetch(API + "/kpis" + qs());
+      const j = await r.json();
+      if (!j.ok) return;
+      const d = j.data;
+      k1.textContent = d.actividades_programadas;
+      k2.textContent = d.total_participaciones;
+      k3.textContent = d.tasa_asistencia;
+      k4.textContent = d.ocupacion_cupo;
+      k5.textContent = d.cobertura_residentes;
+      k6.textContent = d.participantes_por_actividad;
+    }
+
+    async function cargarGrafico() {
+      const r = await fetch(API + "/grafico" + qs());
+      const j = await r.json();
+      if (!j.ok) return;
+      const ctx = document.getElementById("grafico");
+      if (chart) chart.destroy();
+      chart = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: j.data.labels,
+          datasets: [
+            { label: "Cupo", data: j.data.cupo, backgroundColor: "#0d6efd" },
+            { label: "Inscritos", data: j.data.inscritos, backgroundColor: "#198754" }
+          ]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true } } }
+      });
+    }
+
+    async function cargarResumen() {
+      try {
+        const r = await fetch(API + "/transferencia/resumen");
+        const j = await r.json();
+        if (j.ok) {
+          document.getElementById("r-mysql").textContent = j.mysql;
+          document.getElementById("r-sql").textContent = j.sqlserver;
+          document.getElementById("r-fecha").textContent = j.ultima_transferencia || "sin transferir";
+        } else {
+          document.getElementById("r-sql").textContent = "no disponible";
+        }
+      } catch (e) {
+        document.getElementById("r-sql").textContent = "no disponible";
+      }
+    }
+
+    document.getElementById("f-rango").addEventListener("submit", (e) => {
+      e.preventDefault(); cargarKpis(); cargarGrafico();
+    });
+    document.getElementById("btn-limpiar").addEventListener("click", () => {
+      document.getElementById("f-rango").reset(); cargarKpis(); cargarGrafico();
+    });
+
+    document.getElementById("btn-transferir").addEventListener("click", async () => {
+      if (!confirm("Se copiaran todas las actividades a SQL Server. Continuar?")) return;
+      const btn = document.getElementById("btn-transferir");
+      const out = document.getElementById("t-resultado");
+      btn.disabled = true; btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Transfiriendo...';
+      try {
+        const r = await fetch(API + "/transferir", { method: "POST" });
+        const j = await r.json();
+        out.classList.remove("d-none", "alert-success", "alert-danger");
+        if (j.ok) {
+          out.classList.add("alert-success");
+          out.innerHTML = `Transferencia correcta: leidos <b>${j.leidos}</b>, insertados <b>${j.insertados}</b>, actualizados <b>${j.actualizados}</b> (${j.duracion_ms} ms).`;
+          cargarResumen();
+        } else {
+          out.classList.add("alert-danger");
+          out.textContent = "Error: " + j.error;
+        }
+      } catch (e) {
+        out.classList.remove("d-none"); out.classList.add("alert-danger");
+        out.textContent = "No se pudo conectar con la API.";
+      } finally {
+        btn.disabled = false; btn.innerHTML = '<i class="bi bi-cloud-upload"></i> Transferir';
+      }
+    });
+
+    cargarKpis(); cargarGrafico(); cargarResumen();
+  </script>
+</body>
+</html>
