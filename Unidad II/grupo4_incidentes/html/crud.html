@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Incidentes | Mantenimiento de incidentes</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.3.0/index.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.16.0/styles/overlayscrollbars.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/static/css/adminlte.css" />
+</head>
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+<div class="app-wrapper">
+  <nav class="app-header navbar navbar-expand bg-body">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button" aria-label="Mostrar u ocultar menú"><i class="bi bi-list"></i></a>
+        </li>
+        <li class="nav-item d-none d-md-block"><span class="nav-link fw-semibold">Residencia de adultos mayores · Módulo de incidentes</span></li>
+      </ul>
+    </div>
+  </nav>
+
+  <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
+    <div class="sidebar-brand">
+      <a href="/index.html" class="brand-link"><span class="brand-text fw-light"><i class="bi bi-shield-plus me-1"></i> Grupo 4 · Incidentes</span></a>
+    </div>
+    <div class="sidebar-wrapper">
+      <nav class="mt-2">
+        <ul class="nav sidebar-menu flex-column" role="menu">
+<li class="nav-item"><a href="/index.html" class="nav-link"><i class="nav-icon bi bi-speedometer2"></i><p>Dashboard</p></a></li>
+<li class="nav-item"><a href="/listado.html" class="nav-link"><i class="nav-icon bi bi-table"></i><p>Listado</p></a></li>
+<li class="nav-item"><a href="/crud.html" class="nav-link active"><i class="nav-icon bi bi-pencil-square"></i><p>Mantenimiento</p></a></li>
+<li class="nav-item"><a href="/index.html#transferencia" class="nav-link"><i class="nav-icon bi bi-cloud-arrow-up"></i><p>Transferencia</p></a></li>
+        </ul>
+      </nav>
+    </div>
+  </aside>
+
+  <main class="app-main">
+    <div class="app-content-header">
+      <div class="container-fluid">
+        <div class="row"><div class="col-sm-6"><h3 class="mb-0">Mantenimiento de incidentes</h3></div></div>
+      </div>
+    </div>
+    <div class="app-content">
+      <div class="container-fluid">
+        <div id="avisos"></div>
+
+        <div class="card mb-3">
+          <div class="card-header"><h3 class="card-title" id="titulo-form">Nuevo incidente</h3></div>
+          <form id="form-incidente" novalidate>
+            <div class="card-body">
+              <div id="errores"></div>
+              <input type="hidden" id="id_incidente">
+              <div class="row g-3">
+                <div class="col-md-6"><label class="form-label" for="id_residente">Residente *</label><select class="form-select" id="id_residente" required><option value="">Seleccione…</option></select></div>
+                <div class="col-md-6"><label class="form-label" for="id_tipo_incidente">Tipo de incidente *</label><select class="form-select" id="id_tipo_incidente" required><option value="">Seleccione…</option></select></div>
+                <div class="col-md-6"><label class="form-label" for="id_personal_reporta">Personal que reporta</label><select class="form-select" id="id_personal_reporta"><option value="">(sin indicar)</option></select></div>
+                <div class="col-md-6"><label class="form-label" for="fecha_hora">Fecha y hora del incidente *</label><input type="datetime-local" class="form-control" id="fecha_hora" required></div>
+                <div class="col-md-6"><label class="form-label" for="lugar">Lugar *</label><input type="text" class="form-control" id="lugar" maxlength="150" required></div>
+                <div class="col-md-3"><label class="form-label" for="estado">Estado *</label>
+                  <select class="form-select" id="estado"><option value="REGISTRADO">Registrado</option><option value="EN_SEGUIMIENTO">En seguimiento</option><option value="CERRADO">Cerrado</option></select></div>
+                <div class="col-md-3 d-flex align-items-end"><div class="form-check"><input class="form-check-input" type="checkbox" id="requiere_seguimiento"><label class="form-check-label" for="requiere_seguimiento">Requiere seguimiento</label></div></div>
+                <div class="col-12"><label class="form-label" for="descripcion">Descripción *</label><textarea class="form-control" id="descripcion" rows="3" required></textarea></div>
+                <div class="col-md-8"><label class="form-label" for="accion_realizada">Acción realizada</label><textarea class="form-control" id="accion_realizada" rows="2"></textarea></div>
+                <div class="col-md-4"><label class="form-label" for="fecha_cierre">Fecha y hora de cierre</label><input type="datetime-local" class="form-control" id="fecha_cierre" disabled><div class="form-text">Obligatoria solo si el estado es Cerrado.</div></div>
+              </div>
+            </div>
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary" id="btn-guardar"><i class="bi bi-save"></i> Guardar</button>
+              <button type="button" class="btn btn-outline-secondary" id="btn-cancelar">Cancelar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><h3 class="card-title">Incidentes registrados</h3></div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-striped table-hover mb-0">
+              <thead><tr><th>ID</th><th>Fecha</th><th>Residente</th><th>Tipo</th><th>Riesgo</th><th>Lugar</th><th>Estado</th><th>Seguimiento</th><th></th></tr></thead>
+              <tbody id="tabla"><tr><td colspan="9" class="text-center text-secondary py-4">Cargando…</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="modal fade" id="modal-eliminar" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog"><div class="modal-content">
+            <div class="modal-header"><h5 class="modal-title">Eliminar incidente</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button></div>
+            <div class="modal-body">¿Seguro que desea eliminar el incidente <strong id="eliminar-id"></strong>? Esta acción no se puede deshacer.</div>
+            <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-danger" id="btn-eliminar-ok">Eliminar</button></div>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer"><strong>Plataformas · Unidad II</strong> — MySQL → SQL Server</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.16.0/browser/overlayscrollbars.browser.es6.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.min.js"></script>
+<script src="/static/js/adminlte.js"></script>
+<script src="/static/js/incidentes.js"></script>
+<script src="/static/js/crud.js"></script>
+</body>
+</html>
