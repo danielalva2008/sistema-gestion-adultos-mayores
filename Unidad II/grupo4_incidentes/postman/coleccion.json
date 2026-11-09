@@ -1,0 +1,867 @@
+{
+  "info": {
+    "name": "Grupo 4 · Incidentes",
+    "description": "Pruebas de la API del módulo de incidentes (Residencia de adultos mayores). Ejecutar con Flask corriendo en base_url.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:5000"
+    },
+    {
+      "key": "id_creado",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. KPIs",
+      "item": [
+        {
+          "name": "KPIs con fecha (septiembre 2026)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "const d = pm.response.json().data;",
+                  "pm.test(\"total_incidentes = 12\", () => pm.expect(d.total_incidentes).to.eql(12));",
+                  "pm.test(\"pct_requiere_seguimiento = 58,3\", () => pm.expect(d.pct_requiere_seguimiento).to.eql(58.3));",
+                  "pm.test(\"horas_cierre_promedio ≈ 1,68\", () => pm.expect(d.horas_cierre_promedio).to.be.closeTo(1.68, 0.05));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/kpis?fecha_desde=2026-09-01&fecha_hasta=2026-09-30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "kpis"
+              ],
+              "query": [
+                {
+                  "key": "fecha_desde",
+                  "value": "2026-09-01"
+                },
+                {
+                  "key": "fecha_hasta",
+                  "value": "2026-09-30"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "KPIs sin filtro de fecha",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/kpis",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "kpis"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Gráfica por tipo (2 series)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"Hay 2 series\", () => pm.expect(pm.response.json().data.series.length).to.eql(2));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/grafico?fecha_desde=2026-09-01&fecha_hasta=2026-09-30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "grafico"
+              ],
+              "query": [
+                {
+                  "key": "fecha_desde",
+                  "value": "2026-09-01"
+                },
+                {
+                  "key": "fecha_hasta",
+                  "value": "2026-09-30"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "KPIs con fecha mal escrita → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Trae mensaje de error\", () => pm.expect(pm.response.json().error).to.be.a(\"string\").and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/kpis?fecha_desde=2026-9-01",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "kpis"
+              ],
+              "query": [
+                {
+                  "key": "fecha_desde",
+                  "value": "2026-9-01"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. CRUD",
+      "item": [
+        {
+          "name": "Catálogos",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "const d = pm.response.json().data;",
+                  "pm.test(\"Trae residentes, tipos y personal\", () => { pm.expect(d.residentes).to.be.an(\"array\"); pm.expect(d.tipos).to.be.an(\"array\"); pm.expect(d.personal).to.be.an(\"array\"); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/catalogos",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "catalogos"
+              ]
+            }
+          }
+        },
+        {
+          "name": "1. Crear incidente (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 201\", () => pm.response.to.have.status(201));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.collectionVariables.set(\"id_creado\", pm.response.json().data.id_incidente);",
+                  "pm.test(\"Devuelve id_incidente\", () => pm.expect(pm.collectionVariables.get(\"id_creado\")).to.be.a(\"number\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_residente\": 1,\n  \"id_tipo_incidente\": 1,\n  \"fecha_hora\": \"2026-09-10 10:00\",\n  \"lugar\": \"PRUEBA Postman\",\n  \"descripcion\": \"Prueba CRUD desde Postman\",\n  \"estado\": \"REGISTRADO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "2. Consultar el creado (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/{{id_creado}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "{{id_creado}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "3. Editar incidente (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"Lugar actualizado\", () => pm.expect(pm.response.json().data.lugar).to.eql(\"PRUEBA Postman editado\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/{{id_creado}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "{{id_creado}}"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_residente\": 1,\n  \"id_tipo_incidente\": 1,\n  \"fecha_hora\": \"2026-09-10 10:00\",\n  \"lugar\": \"PRUEBA Postman editado\",\n  \"descripcion\": \"Prueba CRUD editada\",\n  \"estado\": \"EN_SEGUIMIENTO\",\n  \"requiere_seguimiento\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "4. Eliminar incidente (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 204\", () => pm.response.to.have.status(204));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/{{id_creado}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "{{id_creado}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "5. Consultar el eliminado → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"Trae mensaje de error\", () => pm.expect(pm.response.json().error).to.be.a(\"string\").and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/{{id_creado}}",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "{{id_creado}}"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Validación: CERRADO sin fecha_cierre → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Trae mensaje de error\", () => pm.expect(pm.response.json().error).to.be.a(\"string\").and.not.empty);",
+                  "pm.test(\"Menciona fecha_cierre\", () => pm.expect(pm.response.json().error.toLowerCase()).to.include(\"fecha_cierre\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_residente\": 1,\n  \"id_tipo_incidente\": 1,\n  \"fecha_hora\": \"2026-09-10 10:00\",\n  \"lugar\": \"PRUEBA Postman\",\n  \"descripcion\": \"Prueba CRUD desde Postman\",\n  \"estado\": \"CERRADO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Validación: cierre anterior al incidente → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Trae mensaje de error\", () => pm.expect(pm.response.json().error).to.be.a(\"string\").and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id_residente\": 1,\n  \"id_tipo_incidente\": 1,\n  \"fecha_hora\": \"2026-09-10 10:00\",\n  \"lugar\": \"PRUEBA Postman\",\n  \"descripcion\": \"Prueba CRUD desde Postman\",\n  \"estado\": \"CERRADO\",\n  \"fecha_cierre\": \"2026-09-09 10:00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Incidente inexistente → 404",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 404\", () => pm.response.to.have.status(404));",
+                  "pm.test(\"Trae mensaje de error\", () => pm.expect(pm.response.json().error).to.be.a(\"string\").and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/99999",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "99999"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Listado con filtros",
+      "item": [
+        {
+          "name": "Listado completo",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"total = 12\", () => pm.expect(pm.response.json().total).to.eql(12));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtros combinados: tipo=1 y EN_SEGUIMIENTO",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"3 registros (todas las caídas)\", () => pm.expect(pm.response.json().total).to.eql(3));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes?tipo=1&estado=EN_SEGUIMIENTO",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ],
+              "query": [
+                {
+                  "key": "tipo",
+                  "value": "1"
+                },
+                {
+                  "key": "estado",
+                  "value": "EN_SEGUIMIENTO"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtro por estado CERRADO",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"Todos CERRADO\", () => pm.response.json().data.forEach(i => pm.expect(i.estado).to.eql(\"CERRADO\")));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes?estado=CERRADO",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "CERRADO"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtro por nivel de riesgo ALTO",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"Todos ALTO\", () => pm.response.json().data.forEach(i => pm.expect(i.nivel_riesgo).to.eql(\"ALTO\")));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes?nivel_riesgo=ALTO",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ],
+              "query": [
+                {
+                  "key": "nivel_riesgo",
+                  "value": "ALTO"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtro por seguimiento=1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"7 con seguimiento\", () => pm.expect(pm.response.json().total).to.eql(7));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes?seguimiento=1",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ],
+              "query": [
+                {
+                  "key": "seguimiento",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtro por rango de fechas",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes?fecha_desde=2026-09-01&fecha_hasta=2026-09-30",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ],
+              "query": [
+                {
+                  "key": "fecha_desde",
+                  "value": "2026-09-01"
+                },
+                {
+                  "key": "fecha_hasta",
+                  "value": "2026-09-30"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filtro con estado inválido → 400",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 400\", () => pm.response.to.have.status(400));",
+                  "pm.test(\"Trae mensaje de error\", () => pm.expect(pm.response.json().error).to.be.a(\"string\").and.not.empty);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes?estado=XYZ",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes"
+              ],
+              "query": [
+                {
+                  "key": "estado",
+                  "value": "XYZ"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. Transferencia",
+      "item": [
+        {
+          "name": "Transferir MySQL → SQL Server",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "const r = pm.response.json();",
+                  "pm.test(\"leidos = 12\", () => pm.expect(r.leidos).to.eql(12));",
+                  "pm.test(\"insertados + actualizados = 12 (sin duplicar)\", () => pm.expect(r.insertados + r.actualizados).to.eql(12));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/transferir",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "transferir"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Transferir de nuevo (idempotente)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "pm.test(\"0 insertados y 12 actualizados\", () => { const r = pm.response.json(); pm.expect(r.insertados).to.eql(0); pm.expect(r.actualizados).to.eql(12); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/transferir",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "transferir"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Resumen de transferencia",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Código 200\", () => pm.response.to.have.status(200));",
+                  "pm.test(\"ok es true\", () => pm.expect(pm.response.json().ok).to.eql(true));",
+                  "const r = pm.response.json();",
+                  "pm.test(\"MySQL y SQL Server con el mismo total\", () => pm.expect(r.sqlserver_total).to.eql(r.mysql_total));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/api/incidentes/transferencia/resumen",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "api",
+                "incidentes",
+                "transferencia",
+                "resumen"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
